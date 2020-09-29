@@ -5,7 +5,7 @@ import textdistance
 import statistics as stats
 from SQAM.autograder.my_utils import round_half_up, sort_list_of_tuples_as_strings
 
-class Partial_Marking_Grader(Grader):
+class Binary_Marking_Grader(Grader):
     """
     Class for marking student submissions with partial marking.
     """
@@ -40,7 +40,7 @@ class Partial_Marking_Grader(Grader):
         # marks = round_half_up(maxMarksForQuestion * ratio)
         marks = round(maxMarksForQuestion * ratio)
         marks = maxMarksForQuestion if marks > maxMarksForQuestion else marks
-        marks = maxMarksForQuestion if ratio > 0.90 else marks
+        marks = maxMarksForQuestion if ratio > 0.95 else 0
         return marks, ratio
 
     def apply_distance_metric_on_tuples(self, tup1, tup2, func):
@@ -61,8 +61,7 @@ class Partial_Marking_Grader(Grader):
                 score = score / 100 if score > 1 else score
                 max_score = score if score > max_score else max_score
                 all_scores.append(score)
-        # return stats.mean(all_scores)
-        return max_score
+        return stats.mean(all_scores)
 
     def getDistance(self, student_results, solution_results):
         student_results_lst = sort_list_of_tuples_as_strings(student_results[1:])

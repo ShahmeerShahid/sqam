@@ -6,7 +6,10 @@ from SQAM.config import SUBMISSIONS
 
 def sort_list_of_tuples_as_strings(lst):
     ret = []
-    lst.sort(key=itemgetter(0))
+    try:
+        lst.sort(key=itemgetter(0))
+    except Exception as e:
+        pass
     for tup in lst:
         tup = map_function_to_tuple(str, tup)
         tup = sorted(tup)
@@ -17,7 +20,10 @@ def sort_list_of_tuples_as_strings(lst):
 
 def sort_list_of_tuples(lst):
     ret = []
-    lst.sort(key=itemgetter(0))
+    try:
+        lst.sort(key=itemgetter(0))
+    except Exception as e:
+        pass
     for tup in lst:
         tup = map_function_to_tuple(str, tup)
         tup = sorted(tup)

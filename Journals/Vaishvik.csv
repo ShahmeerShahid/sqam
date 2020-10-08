@@ -1,0 +1,10 @@
+Date,Duration,Task(s),Goal(s),Work Done,Details/Explanation
+2020-09-16,"1 hours, 30 minutes",Initial meeting,Talk about project,"Talked about project, Introduced everyone",
+2020-09-20,"2 hours, 30 minutes",Read Through the code,Understand the previous work done ,Understood the code of the project,
+2020-09-23,"1 hours, 30 minutes",Planning the next steps ,Create a architecture for the app,understanding the future of the project,
+2020-09-26,"2 hours, 30 minutes",code review ny Sandy,understand architecture for the app,understanding the future of the project,
+2020-09-28,"1 hours, 30 minutes",Planning the next steps ,Create a architecture for the app,understanding the future of the project,
+,,,,,
+,,,,,
+,,,,,
+2020-10-06,"1 hours,",Creating the Flask kserver on AM,Finish Server to present to group,Flask Completed,On startup flask should rescieve a response from the frontend to receive file

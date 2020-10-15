@@ -1,0 +1,33 @@
+{% extends "SQAM_App/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4">All Markus Jobs</h1>
+    <a href="{% url 'markusjob-create' %}"> Create New Job </a>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Total Marks</th>
+            <th scope="col">Create Tables File</th>
+            <th scope="col">Markus Setting</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in object_list %}
+          <tr>
+            <th scope="row">{{ job.id }}</th>
+            <td>{{job.Assignment_Name }}</td>
+            <td>{{job.Max_Marks }}</td>
+            <td>{{job.Create_Tables }}</td>
+            <td>{{job.MarkusSetting1 }}</td>
+          </tr>
+          {% empty %}
+          <tr><th>No Jobs yet</th></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+{% endblock content %}

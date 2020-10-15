@@ -25,7 +25,7 @@ SECRET_KEY = 'c9e(g3ta7pxa@ekl@hb45-rakix&od11049pgnua3nffxr8&g4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'SQAM_App',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT =  BASE_DIR / 'media'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

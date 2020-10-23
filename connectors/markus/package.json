@@ -1,0 +1,30 @@
+{
+  "name": "markus-connector",
+  "version": "1.0.0",
+  "description": "Service to download Markus submissions",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Shahmeer Shahid",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.5"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "helmet": "^4.1.1",
+    "joi": "^17.2.1",
+    "morgan": "^1.10.0",
+    "mv": "^2.1.1",
+    "node-fetch": "^2.6.1",
+    "unzipper": "^0.10.11"
+  },
+  "type": "module"
+}

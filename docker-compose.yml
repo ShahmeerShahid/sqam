@@ -1,5 +1,12 @@
 version: "3.8"
 
+x-downloads-volume:
+  &downloads-volume
+  type: bind
+  source: ./downloads # downloads folder in local filesystem
+  target: /var/downloads # downloads folder in container
+
+
 services:
   db:
     image: postgres
@@ -7,12 +14,25 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  
   web:
     build: ./admin/
-    command: python ./manage.py runserver 0.0.0.0:8000
+    command: python ./manage.py runserver 0.0.0.0:80
     volumes:
       - ./admin:/code
     ports:
-      - "8000:8000"
+      - "8000:80"
     depends_on:
       - db
+
+  markus-connector:
+    build: ./connectors/markus
+    volumes:
+      - ./connectors/markus:/app
+      - *downloads-volume
+    environment: 
+      - PORT=80
+    ports:
+      - "8001:80"
+    restart: on-failure
+

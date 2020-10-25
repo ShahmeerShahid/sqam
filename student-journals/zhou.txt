@@ -1,0 +1,42 @@
+2020-09-16:
+- First meeting     reviewed the project 1.25 hrs
+
+
+2020-09-23:
+- Meeting     split members into two teams  1hr
+- Admin team voted to go with Django instead of NodeJS 0.5hr
+
+2020-09-29:
+- review two papers assigned to read  commented on where I think unclear or ambiguous  2.5 hrs
+
+2020-09-30:
+- Third meeting   discussed our reviews of the papers 2 hrs
+
+2020-10-02:
+- learning Django basics  1 hr
+
+2020-10-03:
+- meeting with teammates  1 hr
+
+2020-10-07:
+- Meeting 1.5 hrs
+
+2020-10-12:
+- tried to set up the Docker for my desktop
+- googling the issues of why the docker installaton unsuccessful and tried to fix that     6 hrs
+
+2020-10-14:
+- meeting  1 hr
+- assigned work of git lab CI/CD and yml file
+
+2020-10-15:
+- got everything(programs, enviroment, operating system) needed for the project set up   4 hrs
+
+2020-10-20:
+- set up the runner and the runners working(but just locally, using my PC as the server)  3 hrs
+- need to hook that up with docker services
+
+2020-10-21:
+- Meeting 1.5 hr
+- Admin and automarker team members discussed what we have so far
+- Set up some deadlines of our project work

@@ -5,8 +5,8 @@ import mysql.connector
 import time
 
 class MySQLQuerier(QueryLanguage):
-    def __init__(self, username, password, database_name, autocommit=True):
-        super().__init__(username, password, database_name, autocommit)
+    def __init__(self, username, password, database_name, host, port,autocommit=True):
+        super().__init__(username, password, database_name, host, port,autocommit)
         self.refreshDB()
 
     def refreshDB(self):
@@ -21,7 +21,7 @@ class MySQLQuerier(QueryLanguage):
         """
         cnx = mysql.connector.connect(
             user=self.username, password=self.password, database=self.database_name,
-                                      autocommit=self.autocommit)
+                                      host=self.host,port=self.port,autocommit=self.autocommit)
         cursor = cnx.cursor(buffered=True)
         return cursor, cnx
 

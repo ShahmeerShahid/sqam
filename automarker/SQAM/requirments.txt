@@ -1,4 +1,0 @@
-python-Levenshtein
-fuzzywuzzy
-textdistance
-statistics

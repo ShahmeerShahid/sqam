@@ -20,7 +20,7 @@ if __name__ == "__main__":
     assignment.extract_queries()
     if DB_TYPE == "mysql":
         query_language = MySQLQuerier(*LOGIN_DETAILS)
-    elif DB_TYPE = "postgresql":
+    elif DB_TYPE == "postgresql":
         query_language = PostGreSQLQuerier(*LOGIN_DETAILS)
     else:
         print("Database type not supported.")

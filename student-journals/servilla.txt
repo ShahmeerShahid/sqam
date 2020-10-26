@@ -1,0 +1,60 @@
+ROP Log
+Jarrod Servilla
+
+Sept 16:
+First meeting 845-10pm 			        1.25 hrs
+
+Sept 17:
+Read the two papers			            1.5 hrs
+
+Sept 18:
+Reviewed code base			            1 hr
+Codebase review meeting 7pm		        1 hr
+
+Sept 23:
+Team meeting 845-1020pm			        1.5 hrs
+
+Sept 24:
+Re-reviewed paper 2			            0.5 hrs
+
+Sept 26:
+Reviewed code base			            1 hr
+
+Sept 28:
+Reviewed & critiqued code base		    2 hrs
+Meeting					                1.5 hrs
+
+Sept 29:
+Read paper				                1 hr
+
+Sept 30:
+Read paper				                2 hrs
+Meeting					                2 hrs
+
+Oct 1:
+Meeting					                2 hrs
+
+Oct 2:
+Set up Docker/Django			        0.5 hrs
+
+Oct 3:
+Meeting					                1 hr
+
+Oct 12:
+Makefile/Docker setup			        1 hr
+
+Oct 14:
+Meeting					                1 hr
+
+Oct 18:
+Makefile/Docker setup using
+Erik's branch				            1 hr
+
+Oct 21:
+Meeting					                1.5 hrs
+
+Oct 22:
+React/API Docker Setup			        4 hrs
+
+Oct 23:
+React/Mongo Docker Setup		        3 hrs 

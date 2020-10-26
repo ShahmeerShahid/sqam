@@ -3,4 +3,4 @@ fuzzywuzzy
 textdistance
 statistics
 py-postgresql
-MySQL-python
+# MySQL-python  ** Not Working

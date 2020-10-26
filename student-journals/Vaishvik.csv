@@ -1,0 +1,14 @@
+Date,Duration,Task(s),Goal(s),Work Done,Details/Explanation
+2020-09-16,"1 hours, 30 minutes",Initial meeting,Talk about project,"Talked about project, Introduced everyone",
+2020-09-20,"2 hours, 30 minutes",Read Through the code,Understand the previous work done ,Understood the code of the project,
+2020-09-23,"1 hours, 30 minutes",Planning the next steps ,Create a architecture for the app,understanding the future of the project,
+2020-09-26,"2 hours, 30 minutes",code review with Sandy,understand architecture for the app,understanding the future of the project,
+2020-09-28,"1 hours, 30 minutes",Planning the next steps ,Create a architecture for the app,understanding the future of the project,
+2020-09-30,"8 hours, 00 minutes",Paper related ,"Read the paper ""Building a Better Automarker II: Automarking DML/SQL Assignments at Post Secondary Institution""",Wrote a review for this paper and submitted it to supervisors,Met with peers and supervisors to discuss our reviews of the papers
+2020-10-06,"1 hours, 00 minutes",Creating the Flask kserver on AM,Finish Server to present to group,Flask Completed,On startup flask should rescieve a response from the frontend to receive file
+2020-10-07,"1 hours, 30 minutes",Meeting with group and profs,updated the profs on the two different teams and the task that were made ,the future of the project ,
+2020-10-13,"3 hours, 30 minutes",Worked on the API so ,Finish api to update the variable in config.py,I finished the get and post method for each variable in the config file,
+2020-10-14,"1 hours, 30 minutes",Meeting with group,Catch up team mates on everything that is cmpleted and stuff need to be done,Everyone knows what to do and what everyone else is doing ,
+2020-10-21,"1 hours, 30 minutes",Meeting with group and profs,"Catch up Ilir Dema on the progress, create new goals like create journals",I updated the prof that I finished all my work for the api and was waiting for the other member to finish jsonification and startup script,"Stuck until further progress, possible to help other team so I could get more work "
+2020-10-24,"1 hours, 30 minutes",catch up about the Meeting with group and research how to make automarker stateless,Get code ready for stateless automaker,"I got caught up on the meeting jarod and shahmeer made new task, I got two ideas to make automarker stateless","I can use a bash script to run a instance of the python program from post, or inline run python command "
+2020-10-25,"2 hours, 30 minutes",Code the idea for making the automarker stateless ,Post method will be able to start a new automarking job,works seperatly with a post request I need to combine the request and make it secure,

@@ -1,0 +1,34 @@
+=== Alberto Gateno CSC499Y5 Journal ===
+
+2020-09-16:
+- First meeting with peers and supervisors
+- Had an overview of the project and the progress previous members had made so far
+
+2020-09-23:
+- Meeting with peers and Professor Ilir about design decisions
+- Admin team decided to go with Django over Node
+
+2020-09-30:
+- Read the paper "Building a Better Automarker II: Automarking DML/SQL Assignments at Post Secondary Institution"
+- Wrote a review for this paper and submitted it to supervisors
+- Met with peers and supervisors to discuss our reviews of the papers
+
+2020-10-04:
+- Automarker subteam meeting with Vaishvik and Sandy to discuss subteam requirements and distribute work
+
+2020-10-07:
+- Meeting with peers and supervisors
+- Discussed Moss
+
+2020-10-14:
+- Did a second code read-through to understand what areas required config.py
+- Started refactoring old code that used config.py to use the singleton design pattern
+- Converted config.py to a json format to have a sample of what the configurations to read from will look like
+
+2020-10-15:
+- Automarker subteam meeting with Vaishvik to discuss how the Flask server with talk to the new config object
+
+2020-10-21:
+- Meeting with peers and supervisors
+- Admin and automarker team members discussed what we have so far
+- Established definitions of "done" and deadlines for the rest of October and the beginning of November

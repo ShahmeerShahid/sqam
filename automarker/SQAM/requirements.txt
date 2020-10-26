@@ -1,0 +1,6 @@
+python-Levenshtein
+fuzzywuzzy
+textdistance
+statistics
+py-postgresql
+MySQL-python

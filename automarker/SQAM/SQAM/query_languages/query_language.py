@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 class QueryLanguage(ABC):
-    def __init__(self, username, password, database_name, autocommit=True):
+    def __init__(self, username, password, database_name, host, port,autocommit=True):
         self.username = username
         self.password = password
         self.database_name = database_name
         self.autocommit = autocommit
+        self.host = host
+        self.port = int(port)
 
     @abstractmethod
     def run_single_query(self, query, verbose=None):

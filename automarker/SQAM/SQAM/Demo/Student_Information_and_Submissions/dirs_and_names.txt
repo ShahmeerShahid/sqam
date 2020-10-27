@@ -1,5 +1,0 @@
-Submissions/group_0000,group_0000
-Submissions/group_0001,group_0001
-Submissions/group_0002,group_0002
-Submissions/group_0003,group_0003
-Submissions/group_0004,group_0004

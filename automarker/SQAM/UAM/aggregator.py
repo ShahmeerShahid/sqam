@@ -16,9 +16,9 @@ import json
 import os
 import sys
 
-from UAM.utils.defaults import DEFAULT_IN_JSON_FILE, DEFAULT_OUT_JSON_FILE
-from UAM.utils.uam_utils import Groups
-from UAM.utils.uam_utils import Students
+from utils.defaults import DEFAULT_IN_JSON_FILE, DEFAULT_OUT_JSON_FILE
+from utils.uam_utils import Groups
+from utils.uam_utils import Students
 
 
 class TestReport:

@@ -6,7 +6,7 @@ import time
 
 class MySQLQuerier(QueryLanguage):
     def __init__(self, username, password, database_name, host, port,autocommit=True):
-        super().__init__(username, password, database_name, host, port,autocommit)
+        super().__init__(username, password, database_name, host, port, autocommit)
         self.refreshDB()
 
     def refreshDB(self):

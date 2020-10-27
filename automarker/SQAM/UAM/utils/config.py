@@ -4,16 +4,6 @@ ASSIGNMENT_NAME = 'A2'
 USING_WINDOWS_SYSTEM = False
 
 # CHANGE sqamv3_path
-<<<<<<< HEAD
-sqamv3_path = '/Users/sandywang/SQAM'
-
-CREATE_TABLES = './Fall_2018/createTables.sql'
-CREATE_TRIGGER = './Fall_2017/createTrigger.sql'
-CREATE_FUNCTION = './Fall_2017/createFunction.sql'
-LOAD_DATA = './Fall_2018/loadData.sql'
-SOLUTIONS = './Fall_2018/solutions.sql'
-SUBMISSIONS = "./Fall_2018/Submissions/"
-=======
 sqamv3_path = '/Users/sandywang/sqam_old2/automarker/SQAM'
 
 CREATE_TABLES = './Demo/Winter 2020/createTable.sql'
@@ -22,7 +12,6 @@ CREATE_FUNCTION = './Demo/Winter 2020/createFunction.sql'
 LOAD_DATA = './Demo/Winter 2020/loadData.sql'
 SOLUTIONS = './Demo/Winter 2020/solutions_winter_2020.sql'
 SUBMISSIONS = "./Demo/Submissions/"
->>>>>>> automarker
 SUBMISSION_FILE_NAME = "queries.sql"
 JSON_OUTPUT_FILENAME = "result.json"
 LECTURE_SECTION = "LEC101"
@@ -54,17 +43,10 @@ max_marks_per_question = [3,4,4,4,4,5,4,4,4,4,4,5,6,6,4,4,4,7]
 # QUESTION NAMES IN ASSIGNMENT TEMPLATE
 # question_names = ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
 #                   'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
-<<<<<<< HEAD
-question_names = ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4','Q5.A','Q5.B','Q5.C','Q6.A',
-                  'Q6.B','Q7','Q8','Q9','Q10.A','Q10.B','Q10.C','Q11']
-# question_names = ['Q1','Q2','Q3a','Q3b','Q3c','Q4a','Q4b','Q4c','Q5a','Q5b','Q6a',
-#                   'Q6b','Q6c','Q7a','Q7b','Q8','Q9','Q10']
-=======
 #question_names = ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4','Q5.A','Q5.B','Q5.C','Q6.A',
 #                  'Q6.B','Q7','Q8','Q9','Q10.A','Q10.B','Q10.C','Q11']
 question_names = ['Q1','Q2','Q3a','Q3b','Q3c','Q4a','Q4b','Q4c','Q5a','Q5b','Q6a',
                    'Q6b','Q6c','Q7a','Q7b','Q8','Q9','Q10']
->>>>>>> automarker
 # question_names = ['Q1','Q2','Q3','Q4','Q5','Q6','Q7','Q8','Q9','Q10']
 # question_names = ['Query 1','Query 2','Query 3','Query 4','Query 5','Query 6','Query 7','Query 8','Query 9','Query 10']
 
@@ -78,16 +60,8 @@ DB_USER_NAME = 'root'
 DB_PASSWORD = 'admin'
 # DB_NAME = 'SaihielBakshi'
 DB_NAME = 't343'
-<<<<<<< HEAD
-DB_HOST = "localhost"
-DB_PORT = 3306
-LOGIN_DETAILS = (DB_USER_NAME,DB_PASSWORD,DB_NAME,DB_HOST,DB_PORT,DB_AUTOCOMMIT)
-DB_TYPE = 'postgresql'
-MARKING_TYPE='partial'
-=======
 DB_HOST = "192.168.0.84"
 DB_PORT = int(3306)
 LOGIN_DETAILS = (DB_USER_NAME,DB_PASSWORD,DB_NAME,DB_HOST,DB_PORT,DB_AUTOCOMMIT)
 DB_TYPE = 'mysql'
 MARKING_TYPE = 'partial'
->>>>>>> automarker

@@ -26,8 +26,8 @@ class Assignment:
         self.questions = assignment_structure['questions']
         self.extractor = assignment_structure['extractor']
 
-    def __setattr__(self, key, value):
-        self.key=value
+    # def __setattr__(self, key, value):
+    #     self.key=value
 
     def extract_queries(self):
         for group in self.class_list:

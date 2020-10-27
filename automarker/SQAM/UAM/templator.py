@@ -16,10 +16,10 @@ import sys
 
 import jinja2
 
-from UAM.utils.defaults import (DEFAULT_TEMPLATE_TYPE, DEFAULT_AGGREGATE_TEMPLATE,
+from utils.defaults import (DEFAULT_TEMPLATE_TYPE, DEFAULT_AGGREGATE_TEMPLATE,
                        DEFAULT_INDIVIDUAL_TEMPLATE, DEFAULT_JINJA_EXTENSIONS,
                        DEFAULT_TEMPLATE_DIR, DEFAULT_REPORT_NAME)
-from UAM.utils.plugins import (student_list, get_all_counts, get_counts, ljust,
+from utils.plugins import (student_list, get_all_counts, get_counts, ljust,
                                to_gf_names, exclude, passed, get_balanced_weight)
 
 

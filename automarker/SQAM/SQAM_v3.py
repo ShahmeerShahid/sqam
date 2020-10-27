@@ -1,13 +1,17 @@
 from SQAM.assignment.assignment import Assignment
 from SQAM.autograder.partial_marking_grader import Partial_Marking_Grader
 from SQAM.autograder.binary_grader import Binary_Marking_Grader
-from SQAM.query_languages.MySQL import MySQLQuerier
-from SQAM.query_languages.PostGreSQL import PostGreSQLQuerier
 from SQAM.query_languages.query_runner import QueryRunner
 from SQAM.config import SUBMISSIONS, STUDENTS_CSV_FILE, STUDENT_GROUPS_FILE, \
-    ASSIGNMENT_STRUCTURE, SOLUTIONS, LOGIN_DETAILS, JSON_OUTPUT_FILENAME, ASSIGNMENT_NAME,\
+    ASSIGNMENT_STRUCTURE, SOLUTIONS, LOGIN_DETAILS, JSON_OUTPUT_FILENAME, ASSIGNMENT_NAME, \
         DB_TYPE,MARKING_TYPE
-
+if DB_TYPE == "mysql":
+    from SQAM.query_languages.MySQL import MySQLQuerier
+elif DB_TYPE == "postgresql":
+    from SQAM.query_languages.PostGreSQL import PostGreSQLQuerier
+else:
+    print("Database type not supported.")
+    exit(0)
 if __name__ == "__main__":
     assignment = Assignment()
     setattr(assignment, 'assignment_name', ASSIGNMENT_NAME)

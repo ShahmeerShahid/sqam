@@ -1,4 +1,4 @@
-from SQAM.config import PATH_TO_UAM
+from utils.config import PATH_TO_UAM
 import os
 
 DEFAULT_TEMPLATE_TYPE = 'txt'

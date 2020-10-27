@@ -34,7 +34,7 @@
 - Established definitions of "done" and deadlines for the rest of October and the beginning of November
 
 2020-10-26:
-- Meeting with peers (2h)
+- Meeting with peers (3.5h)
 	- discussed needs for short term milestone
 	- discussed requirement for locally running the automarker
 	- distributed more short-term tasks

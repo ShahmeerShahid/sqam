@@ -1,38 +1,55 @@
 version: "3.8"
 
-x-downloads-volume:
-  &downloads-volume
+x-downloads-volume: &downloads-volume
   type: bind
   source: ./downloads # downloads folder in local filesystem
   target: /var/downloads # downloads folder in container
 
-
 services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-  
-  web:
-    build: ./admin/
-    command: python ./manage.py runserver 0.0.0.0:80
-    volumes:
-      - ./admin:/code
+  admin:
+    build: ./admin
     ports:
-      - "8000:80"
+      - "3000:80"
+    stdin_open: true
+    tty: true
+    environment:
+      - PORT=80
+
+  admindb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - admindb:/admindb/db
+      - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+
+  admin_api:
+    build: ./admin_api
     depends_on:
-      - db
+      - admindb
+    ports:
+      - "9000:80"
+    environment:
+      - PORT=80
+      - PROD_DB_URL=sqam_admindb_1
+    volumes:
+      - ./admin_api:/admin_api
 
   markus-connector:
     build: ./connectors/markus
     volumes:
       - ./connectors/markus:/app
       - *downloads-volume
-    environment: 
+    environment:
       - PORT=80
     ports:
       - "8001:80"
     restart: on-failure
 
+volumes:
+  admindb:
+    driver: local

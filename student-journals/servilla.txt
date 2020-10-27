@@ -58,3 +58,13 @@ React/API Docker Setup			        4 hrs
 
 Oct 23:
 React/Mongo Docker Setup		        3 hrs 
+
+Oct 24:
+Connect API to DB                       2.5 hrs
+
+Oct 25:
+Connect front end to API                5 hrs
+Create tests                            
+
+Oct 26:
+Fix up Docker                           2.5 hrs

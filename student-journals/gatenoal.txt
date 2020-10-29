@@ -38,3 +38,13 @@
 	- discussed needs for short term milestone
 	- discussed requirement for locally running the automarker
 	- distributed more short-term tasks
+	- Started setting up to be able to run automarker
+
+2020-10-27
+- Continued setup and debugging MySQL.py segfault (1h)
+	- Consulted with Vaishvik and Sandy
+
+2020-10-28
+- Meeting with peers and supervisors (2h)
+	- Discussed milestones
+

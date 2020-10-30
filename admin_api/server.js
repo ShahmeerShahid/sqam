@@ -11,8 +11,8 @@ const serverUrl = process.env.PROD_DB_URL || "localhost";
 
 mongoose.connect(`mongodb://${serverUrl}:27017/sqamadmin`, {
   useNewUrlParser: true,
-  user: process.env.API_USERNAME,
-  pass: process.env.API_PWD,
+  user: "api",
+  pass: "Y^I8s67tF2ur",
 });
 
 const connection = mongoose.connection;

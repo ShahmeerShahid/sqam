@@ -16,6 +16,6 @@ Start the docker image so you can use the SQL server inside the image
 >> make run
 Open a new terminal
 Setup the Database inside the docker image and installs all the 
->> make start
+>> make test_automarker
 
 ### Admin

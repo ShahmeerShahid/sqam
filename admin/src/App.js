@@ -1,18 +1,24 @@
 import React from "react";
-import { ConnectedRouter } from "connected-react-router";
-import { Provider as ReduxProvider } from "react-redux";
-import { Switch, Redirect, Route, withRouter } from "react-router-dom";
-import configureStore, { history } from "./stores/rootStore";
+import { ThemeProvider, ColorModeProvider, CSSReset } from "@chakra-ui/core";
+import {
+  Switch,
+  Redirect,
+  Route,
+  withRouter,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import Homepage from "./pages/Home";
+import Classes from "./pages/Classes";
+import Tasks from "./pages/Tasks";
 import "./App.css";
-
-const store = configureStore();
 
 function UnconnectedApp() {
   return (
     <div className="App">
       <Switch>
         <Route exact path="/" component={withRouter(Homepage)} />
+        <Route exact path="/classes" component={withRouter(Classes)} />
+        <Route exact path="/tasks" component={withRouter(Tasks)} />
         <Route
           exact
           path="/not-found"
@@ -31,11 +37,14 @@ function UnconnectedApp() {
 
 function ConnectedApp() {
   return (
-    <ReduxProvider store={store}>
-      <ConnectedRouter history={history}>
-        <UnconnectedApp />
-      </ConnectedRouter>
-    </ReduxProvider>
+    <ThemeProvider>
+      <ColorModeProvider>
+        <CSSReset />
+        <Router>
+          <UnconnectedApp />
+        </Router>
+      </ColorModeProvider>
+    </ThemeProvider>
   );
 }
 

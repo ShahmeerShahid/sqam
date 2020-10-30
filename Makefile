@@ -1,6 +1,12 @@
 build :
-	docker build -t "admin_api" ./admin_api
-	docker build -t "admin" ./admin
+	docker-compose up --build
 
 run : 
 	docker-compose up
+
+prettier :
+	cd admin && npx prettier --write .
+
+test_frontend :
+	cd admin && npm test
+

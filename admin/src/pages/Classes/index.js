@@ -1,12 +1,13 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
 
-export function HomePage() {
+export function Classes() {
   return (
     <div>
       <NavBar />
-      Home
+      Classes
     </div>
   );
 }
-export default HomePage;
+
+export default Classes;

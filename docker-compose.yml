@@ -6,49 +6,64 @@ x-downloads-volume: &downloads-volume
   target: /var/downloads # downloads folder in container
 
 services:
-  admin:
-    build: ./admin
-    ports:
-      - "3000:80"
-    stdin_open: true
-    tty: true
-    environment:
-      - PORT=80
-
-  admindb:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
-      MONGO_INITDB_DATABASE: admin
-    ports:
-      - "27017:27017"
+  mysql:
+    image: mysql:5.7
+    restart: always
     volumes:
-      - admindb:/admindb/db
-      - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
-
-  admin_api:
-    build: ./admin_api
-    depends_on:
-      - admindb
-    ports:
-      - "9000:80"
+      - ./automarker/SQAM/start.sql:/var/lib/mysql-files/start.sql
     environment:
-      - PORT=80
-      - PROD_DB_URL=sqam_admindb_1
-    volumes:
-      - ./admin_api:/admin_api
-
-  markus-connector:
-    build: ./connectors/markus
-    volumes:
-      - ./connectors/markus:/app
-      - *downloads-volume
-    environment:
-      - PORT=80
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    expose:
+      - '3306'
     ports:
-      - "8001:80"
-    restart: on-failure
+      - "3306:3306"
+      
+  # admin:
+  #   build: ./admin
+  #   ports:
+  #     - "3000:80"
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - PORT=80
+
+  # admindb:
+  #   image: mongo
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
+  #     MONGO_INITDB_DATABASE: admin
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - admindb:/admindb/db
+  #     - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+
+  # admin_api:
+  #   build: ./admin_api
+  #   depends_on:
+  #     - admindb
+  #   ports:
+  #     - "9000:80"
+  #   environment:
+  #     - PORT=80
+  #     - PROD_DB_URL=sqam_admindb_1
+  #   volumes:
+  #     - ./admin_api:/admin_api
+
+  # markus-connector:
+  #   build: ./connectors/markus
+  #   volumes:
+  #     - ./connectors/markus:/app
+  #     - *downloads-volume
+  #   environment:
+  #     - PORT=80
+  #   ports:
+  #     - "8001:80"
+  #   restart: on-failure
 
 volumes:
   admindb:

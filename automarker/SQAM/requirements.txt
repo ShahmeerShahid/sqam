@@ -2,5 +2,10 @@ python-Levenshtein
 fuzzywuzzy
 textdistance
 statistics
+mysql-connector-python
 py-postgresql
-# MySQL-python  ** Not Working
+jinja2
+# MySQL-python
+
+
+

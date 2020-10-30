@@ -1,7 +1,7 @@
 Autotested Results for A2 submitted by student2 Not Given (student2), student3 Not Given (student3)
-Generated at 2020-10-27T00:32:26
+Generated at 2020-10-29T23:41:26
 
-Summary of Results: 7 out of 80 tests successfully passed
+Summary of Results: 10 out of 80 tests successfully passed
 --
 
 Tests for Q1 (3/3 passed)
@@ -48,7 +48,7 @@ Tests for Q3a (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('1', '447', 'Chevrolet'), ('3', '482', 'Chevrolet'), ('375', '6', 'Toyota'), ('2', '314', 'Toyota'), ('3', '412', 'Toyota'), ('3', '481', 'Benz'), ('319', '5', 'Chevrolet'), ('451', '7', 'Toyota'), ('1', '458', 'Honda'), ('3', '527', 'Volvo'), ('3', '404', 'Chevrolet'), ('250', '5', 'Chevrolet'), ('1', '351', 'Volkswagen'), ('377', '4', 'Volvo'), ('3', '480', 'Honda'), ('1', '402', 'Benz')}
     Extra rows in student results:
     	None
 
@@ -81,7 +81,7 @@ Tests for Q3b (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('4', '482', 'Geneseo', 'Herschel'), ('480', '7', 'Harnish', 'Luisa'), ('480', '6', 'Dianne', 'Tomasic'), ('482', '6', 'Lortz', 'Stacey'), ('12', '482', 'Alaibilla', 'Kaycee'), ('10', '480', 'Joye', 'Nedman'), ('314', '5', 'Kettelle', 'Ronnie'), ('10', '314', 'Joye', 'Nedman'), ('480', '6', 'Vandeberg', 'Veta'), ('314', '6', 'Vandeberg', 'Veta'), ('314', '4', 'Fower', 'Mabel'), ('480', '6', 'Lortz', 'Stacey'), ('314', '7', 'Shenika', 'Tapian'), ('4', '480', 'Geneseo', 'Herschel'), ('314', '4', 'Harley', 'Works'), ('482', '6', 'Gerten', 'Micah'), ('12', '482', 'Mesmer', 'Reyes'), ('482', '7', 'Harnish', 'Luisa'), ('482', '6', 'Dianne', 'Tomasic'), ('480', '6', 'Gerten', 'Micah')}
     Extra rows in student results:
     	None
 
@@ -114,7 +114,7 @@ Tests for Q3c (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('5', '85900'), ('6', '66400'), ('10', '65200'), ('1', '85000'), ('49900', '7'), ('121200', '4')}
     Extra rows in student results:
     	None
 
@@ -152,7 +152,7 @@ Tests for Q4a (0/5 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('150.00', 'CH'), ('828.00', 'GE'), ('252.50', 'ST'), ('42.00', 'SE')}
     Extra rows in student results:
     	None
 
@@ -185,7 +185,7 @@ Tests for Q4b (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('828.00', 'GE')}
     Extra rows in student results:
     	None
 
@@ -218,7 +218,7 @@ Tests for Q4c (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('60.00', 'GE')}
     Extra rows in student results:
     	None
 
@@ -251,7 +251,7 @@ Tests for Q5a (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('41', '99641125', 'Lortz', 'Stacey'), ('36', '99616605', 'Joye', 'Nedman'), ('39', '99660420', 'Avery', 'Demus'), ('38', '99611229', 'Harnish', 'Luisa'), ('31', '99625249', 'Harley', 'Works'), ('36', '99664875', 'Mesmer', 'Reyes')}
     Extra rows in student results:
     	None
 
@@ -284,7 +284,7 @@ Tests for Q5b (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('2', '60', '99641125'), ('430', '7', '99636745'), ('10', '530', '99627956'), ('2', '70', '99611229'), ('250', '9', '99642131'), ('14', '1400', '99645320'), ('170', '5', '99660420'), ('8', '800', '99616605'), ('170', '8', '99659833'), ('12', '930', '99665378'), ('11', '600', '99654603'), ('10', '620', '99630173'), ('3', '50', '99664875'), ('400', '9', '99633690'), ('600', '8', '99625249'), ('1650', '18', '99630025'), ('250', '9', '99664103'), ('180', '7', '99613410'), ('11', '770', '99611222')}
     Extra rows in student results:
     	None
 
@@ -317,7 +317,7 @@ Tests for Q6a (0/4 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('331', 'Ford'), ('351', 'Volkswagen')}
     Extra rows in student results:
     	None
 
@@ -355,7 +355,7 @@ Tests for Q6b (0/5 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('26', '4')}
     Extra rows in student results:
     	None
 
@@ -398,7 +398,7 @@ Tests for Q6c (0/6 passed)
     	None
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('2019-09-07', '93')}
     Extra rows in student results:
     	None
 
@@ -480,34 +480,22 @@ Tests for Q7b (0/4 passed)
 
 
 
-Tests for Q8 (0/4 passed)
+Tests for Q8 (3/4 passed)
 --
 
-1) Query: Q8 -- Answer is not 25.00% correct.                                         .. failed
-.. because Results produced by query Q8 are 100.00% different from correct solutions. (details below):
-
-    Details below...
-
-2) Query: Q8 -- Answer is not 50.00% correct.                                         .. failed
-.. because Results produced by query Q8 are 100.00% different from correct solutions. (details below):
-
-    Details below...
-
-3) Query: Q8 -- Answer is not 75.00% correct.                                         .. failed
-.. because Results produced by query Q8 are 100.00% different from correct solutions. (details below):
-
-    Details below...
-
+1) Query: Q8 -- Answer is 25.00% correct.                                             .. ok!
+2) Query: Q8 -- Answer is 50.00% correct.                                             .. ok!
+3) Query: Q8 -- Answer is 75.00% correct.                                             .. ok!
 4) Query: Q8 -- Answer is not 100.00% correct.                                        .. failed
-.. because Results produced by query Q8 are 100.00% different from correct solutions. (details below):
+.. because Results produced by query Q8 are 34.54% different from correct solutions. (details below):
 
     Columns Required:
     	('FirstName', 'LastName', 'SIN')
     Columns Provided:
-    	None
+    	('FirstName', 'LastName', 'SIN')
     Note: If provided columns are correct but named differently, marks were not deducted.
     Rows missing from student results:
-    	None
+    	{('99613410', 'Chhour', 'Marya'), ('99616605', 'Joye', 'Nedman')}
     Extra rows in student results:
     	None
 

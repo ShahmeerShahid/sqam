@@ -1,11 +1,11 @@
 Autotested Results for A2
-Generated at 2020-10-27T00:32:26
+Generated at 2020-10-29T23:41:26
 --
 
 Summary of Results: 5 assignments graded
 
-student0, student1  : 7/80 passed
-student2, student3  : 7/80 passed
-student4, student5  : 7/80 passed
-student6            : 7/80 passed
-student7, student8  : 7/80 passed
+student0, student1  : 10/80 passed
+student2, student3  : 10/80 passed
+student4, student5  : 11/80 passed
+student6            : 11/80 passed
+student7, student8  : 11/80 passed

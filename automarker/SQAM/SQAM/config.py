@@ -4,11 +4,15 @@ ASSIGNMENT_NAME = 'A2'
 USING_WINDOWS_SYSTEM = False
 
 # CHANGE sqamv3_path
-sqamv3_path = '/Users/sandywang/sqam_old2/automarker/SQAM'
+# sqamv3_path = os.path.abspath(os.getcwd()) + "/automarker/SQAM"
+# print(sqamv3_path)
+sqamv3_path = '/Users/vaishvik/Desktop/Research-SQL-databases/sqam/automarker/SQAM'
+
 
 CREATE_TABLES = './Demo/Winter 2020/createTable.sql'
 CREATE_TRIGGER = './Demo/Winter 2020/createTrigger.sql'
 CREATE_FUNCTION = './Demo/Winter 2020/createFunction.sql'
+# DROP_EVERYTHING = './Demo/Winter 2020/DROP_EVERYTHING.SQL'
 LOAD_DATA = './Demo/Winter 2020/loadData.sql'
 SOLUTIONS = './Demo/Winter 2020/solutions_winter_2020.sql'
 SUBMISSIONS = "./Demo/Submissions/"
@@ -57,10 +61,10 @@ ASSIGNMENT_STRUCTURE = {'file_name':SUBMISSION_FILE_NAME, 'questions': questions
 DB_AUTOCOMMIT = True
 DB_USER_NAME = 'root'
 # DB_USER_NAME = 'SaihielBakshi'
-DB_PASSWORD = 'admin'
+DB_PASSWORD = 'somewordpress'
 # DB_NAME = 'SaihielBakshi'
-DB_NAME = 't343'
-DB_HOST = "192.168.0.84"
+DB_NAME = 'wordpress'
+DB_HOST = "localhost"
 DB_PORT = int(3306)
 LOGIN_DETAILS = (DB_USER_NAME,DB_PASSWORD,DB_NAME,DB_HOST,DB_PORT,DB_AUTOCOMMIT)
 DB_TYPE = 'mysql'

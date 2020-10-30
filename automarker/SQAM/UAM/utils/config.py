@@ -4,12 +4,15 @@ ASSIGNMENT_NAME = 'A2'
 USING_WINDOWS_SYSTEM = False
 
 # CHANGE sqamv3_path
-sqamv3_path = '/Users/sandywang/sqam_old2/automarker/SQAM'
+sqamv3_path = '/Users/vaishvik/Desktop/Research-SQL-databases/sqam/automarker/SQAM'
+# '/Users/vaishvik/sqam_old2/automarker/SQAM'
+# '/Users/sandywang/sqam_old2/automarker/SQAM'
 
 CREATE_TABLES = './Demo/Winter 2020/createTable.sql'
 CREATE_TRIGGER = './Demo/Winter 2020/createTrigger.sql'
 CREATE_FUNCTION = './Demo/Winter 2020/createFunction.sql'
 LOAD_DATA = './Demo/Winter 2020/loadData.sql'
+# DROP_EVERYTHING = './Demo/Winter 2020/DROP_EVERYTHING.SQL'
 SOLUTIONS = './Demo/Winter 2020/solutions_winter_2020.sql'
 SUBMISSIONS = "./Demo/Submissions/"
 SUBMISSION_FILE_NAME = "queries.sql"

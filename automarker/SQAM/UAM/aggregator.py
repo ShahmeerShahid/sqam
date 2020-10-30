@@ -20,7 +20,6 @@ from utils.defaults import DEFAULT_IN_JSON_FILE, DEFAULT_OUT_JSON_FILE
 from utils.uam_utils import Groups
 from utils.uam_utils import Students
 
-
 class TestReport:
     '''An aggregated report.
 

@@ -48,3 +48,12 @@
 - Meeting with peers and supervisors (2h)
 	- Discussed milestones
 
+2020-10-29
+- Work on task: Issue 10, jsonify config.py (6h)
+	- Decided that my wsl setup was the immediate cause of not being able to run the automarker
+	- Set up virtual machine with ubuntu server to run the automarker
+	- Created a singleton object to carry configurations around the program
+	- Made a json version of config.py to load into the singleton
+	- Changed existing uses of config.py to now use config singleton
+	- Tested and made sure the automarker ran properly after changes were made
+	- Will create merge request tomorrow

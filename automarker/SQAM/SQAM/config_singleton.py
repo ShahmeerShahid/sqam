@@ -1,4 +1,3 @@
-from SQAM.config import *
 import os
 import json
 

@@ -1,0 +1,78 @@
+import os
+from flask import Flask, render_template, request, jsonify
+from SQAM.SQAM.config_singleton import Config
+import subprocess
+import json
+app = Flask(__name__)
+
+config = Config.get_instance()
+
+@app.route("/", methods=['GET'])
+def root():
+    # 👷‍♂️ resolver for "/" route
+    return """
+    {
+        {
+            route: /,
+            request: GET,
+            purpose: 'To get this message'
+        },
+        {
+            route: /config/,
+            request: POST,
+            example: 
+            {
+                "ASSIGNMENT_NAME": 'A2',
+                "USING_WINDOWS_SYSTEM": False,
+                "SUBMISSION_FILE_NAME": 'a2.sql',
+                "JSON_OUTPUT_FILENAME": 'result.json',
+                "LECTURE_SECTION": 'LEC101',
+                "STUDENTS_CSV_FILE": 'SQAM/Student_Information_and_Submissions/students.csv',
+                "STUDENT_GROUPS_FILE": 'SQAM/Student_Information_and_Submissions/groups.txt',
+                "DIR_AND_NAME_FILE" : 'SQAM/Student_Information_and_Submissions/dirs_and_names.txt',
+                "TIMEOUT": 100,
+                "MAX_MARKS": 70,
+                "maxMarksPerQuestion": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
+                "questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
+                  'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
+            }
+            purpose: 'update all variables in the config at the same time'
+        },
+    }
+    
+    """
+
+
+
+@app.route('/config', methods=['POST'])
+def ChangeAll():
+    file_status = request.get_json()
+    print(type(file_status))
+    h = json.dumps(file_status)  
+    # Change the config.json 
+    config.load_config(h) 
+
+    if len(file_status) == 24:
+        # os.system("cd .. && make test_automarker")
+        test = subprocess.Popen(["python3","/Users/vaishvik/Desktop/sqam/automarker/SQAM/SQAM_v3.py", ">", "result.txt"], stdout=subprocess.PIPE)
+        output = test.communicate()[0]
+        print(output)
+        return jsonify({'Status' : "Success", "Job ID": 1234567})
+    else:
+        return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
+
+@app.route('/config/start', methods=['POST'])
+def startAll():
+    file_status = request.get_json()
+    print(file_status)
+    
+    if file_status["name"] == "CSC343":
+        return jsonify({'Status' : "Success"})
+    else:
+        return jsonify({'Status' : "Failure"})
+
+if __name__ == '__main__':
+  app.run(debug=True, port=5050)
+
+
+

@@ -7,11 +7,12 @@ from SQAM.config_singleton import Config
 #     ASSIGNMENT_STRUCTURE, SOLUTIONS, LOGIN_DETAILS, JSON_OUTPUT_FILENAME, ASSIGNMENT_NAME, \
 #         DB_TYPE,MARKING_TYPE
 config = Config.get_instance()
-
+print("Fuck")
+print(config.vars)
 # TODO: remove this when flask server is properly using config_singleton
-with open("./SQAM/config.json","r") as config_file:
-    content = config_file.read()
-    config.load_config(content)
+# with open("./SQAM/config.json","r") as config_file:
+#     content = config_file.read()
+#     config.load_config(content)
 
 if config.vars["db_type"] == "mysql":
     from SQAM.query_languages.MySQL import MySQLQuerier

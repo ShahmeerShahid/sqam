@@ -1,7 +1,7 @@
 {
     "assignment_name": "A2",
     "using_windows_system": false,
-    "sqamv3_path": "/home/ajgat/sqam/automarker/SQAM",
+    "sqamv3_path": "/home/fuck/sqam/automarker/SQAM",
     "create_tables": "./Demo/Winter 2020/createTable.sql",
     "create_trigger": "./Demo/Winter 2020/createTrigger.sql",
     "create_function": "./Demo/Winter 2020/createFunction.sql",

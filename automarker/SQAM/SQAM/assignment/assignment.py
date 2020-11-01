@@ -1,6 +1,7 @@
 from SQAM.students_and_groups.class_list import ClassList
-from SQAM.config import TIMEOUT, TIMEOUT_OPERATION, MAX_MARKS,USING_WINDOWS_SYSTEM, \
-                        PATH_TO_UAM, DIR_AND_NAME_FILE, STUDENTS_CSV_FILE, STUDENT_GROUPS_FILE
+from SQAM.config_singleton import Config
+# from SQAM.config import TIMEOUT, TIMEOUT_OPERATION, MAX_MARKS,USING_WINDOWS_SYSTEM, \
+#                         PATH_TO_UAM, DIR_AND_NAME_FILE, STUDENTS_CSV_FILE, STUDENT_GROUPS_FILE
 import subprocess
 import signal
 import os
@@ -38,32 +39,36 @@ class Assignment:
             group.dump_json_output_to_student_folder(json_name)
 
     def get_class_average(self):
+        config = Config.get_instance()
         all_totals = []
         for group in self.class_list:
             all_totals.append(group.total_grade)
-        return (sum(all_totals)/len(all_totals))/MAX_MARKS if len(all_totals)>0 else 0
+        return (sum(all_totals)/len(all_totals))/config.vars["max_marks"] if len(all_totals)>0 else 0
 
     # def create_to_grades_csv(self):
 
 
     def run_templator(self):
-        temp_py = PATH_TO_UAM + "templator.py "
+        config = Config.get_instance()
+        temp_py = config.vars["path_to_uam"] + "templator.py "
         run_templator_cmd = "python3 "+ temp_py+"aggregated.json txt"
         cmd = run_templator_cmd
         self.run_as_subprocess(cmd)
 
     def run_aggregator(self):
-        agg_py = PATH_TO_UAM + "aggregator.py "
-        python_type = "python3 " if not USING_WINDOWS_SYSTEM else "python"
+        config = Config.get_instance()
+        agg_py = config.vars["path_to_uam"] + "aggregator.py "
+        python_type = "python3 " if not config.vars["using_windows_system"] else "python"
         run_aggregator_cmd = python_type + agg_py + self.assignment_name+" "
-        paths = DIR_AND_NAME_FILE+" "+STUDENTS_CSV_FILE+" "+STUDENT_GROUPS_FILE
+        paths = config.vars["dir_and_name_file"]+" "+config.vars["students_csv_file"]+" "+config.vars["student_groups_file"]
         cmd = run_aggregator_cmd + paths
         self.run_as_subprocess(cmd)
 
     def run_as_subprocess(self, cmd):
+        config = Config.get_instance()
         proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
         try:
-            stdout_data, stderr_data = proc.communicate(timeout=TIMEOUT)
+            stdout_data, stderr_data = proc.communicate(timeout=config.vars["timeout"])
         except subprocess.TimeoutExpired:
             TIMEOUT_OPERATION()
             try:

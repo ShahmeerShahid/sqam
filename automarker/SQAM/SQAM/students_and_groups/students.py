@@ -1,4 +1,5 @@
-from SQAM.config import MAX_MARKS
+from SQAM.config_singleton import Config
+# from SQAM.config import MAX_MARKS
 import csv
 import io
 import sys
@@ -63,8 +64,9 @@ class Student:
 
     @grade.setter
     def grade(self, student_grade):
+        config = Config.get_instance()
         self.__grade = 0 if student_grade<0 else student_grade
-        self.__grade = MAX_MARKS if student_grade>MAX_MARKS else student_grade
+        self.__grade = config.vars["max_marks"] if student_grade>config.vars["max_marks"] else student_grade
 
 class StudentList:
     @staticmethod

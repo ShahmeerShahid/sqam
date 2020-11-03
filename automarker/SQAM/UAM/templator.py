@@ -17,8 +17,7 @@ import sys
 import jinja2
 
 from utils.defaults import (DEFAULT_TEMPLATE_TYPE, DEFAULT_AGGREGATE_TEMPLATE,
-                       DEFAULT_INDIVIDUAL_TEMPLATE, DEFAULT_JINJA_EXTENSIONS,
-                       DEFAULT_TEMPLATE_DIR, DEFAULT_REPORT_NAME)
+                       DEFAULT_INDIVIDUAL_TEMPLATE, DEFAULT_JINJA_EXTENSIONS, DEFAULT_REPORT_NAME)
 from utils.plugins import (student_list, get_all_counts, get_counts, ljust,
                                to_gf_names, exclude, passed, get_balanced_weight)
 
@@ -29,7 +28,7 @@ class TemplatedReport:
     def __init__(self,
                  report,
                  template_file,
-                 template_dir=DEFAULT_TEMPLATE_DIR,
+                 template_dir,
                  env=None,
                  plugins=None,
                  jinja_extns=None,
@@ -80,7 +79,7 @@ class IndividualReport(TemplatedReport):
     def __init__(self,
                  report,
                  template_file,
-                 template_dir=DEFAULT_TEMPLATE_DIR,
+                 template_dir,
                  env=None,
                  plugins=None,
                  jinja_extns=None,
@@ -103,7 +102,7 @@ class IndividualReport(TemplatedReport):
     @staticmethod
     def from_json(source_json,
                   template_file,
-                  template_dir=DEFAULT_TEMPLATE_DIR,
+                  template_dir,
                   plugins=None,
                   jinja_extns=None,
                   origin=None):
@@ -138,7 +137,7 @@ class AggregateReport(TemplatedReport):
     def __init__(self,
                  report_dict,
                  template_file,
-                 template_dir=DEFAULT_TEMPLATE_DIR,
+                 template_dir,
                  plugins=None,
                  jinja_extns=None):
         '''
@@ -152,7 +151,7 @@ class AggregateReport(TemplatedReport):
     @staticmethod
     def from_json(source_json,
                   template_file,
-                  template_dir=DEFAULT_TEMPLATE_DIR,
+                  template_dir,
                   plugins=None,
                   jinja_extns=None):
         '''Produces an AggregatelReport from the given aggregate JSON file at
@@ -183,7 +182,7 @@ class IndividualReports:
     def __init__(self,
                  report_dict,
                  template_file,
-                 template_dir=DEFAULT_TEMPLATE_DIR,
+                 template_dir,
                  plugins=None,
                  jinja_extns=None):
         '''
@@ -211,7 +210,7 @@ class IndividualReports:
     @staticmethod
     def from_json(source_json,
                   template_file,
-                  template_dir=DEFAULT_TEMPLATE_DIR,
+                  template_dir,
                   plugins=None,
                   jinja_extns=None):
         '''Produces IndividualReports from the given aggregate JSON file at
@@ -317,8 +316,7 @@ def arguments():
                         default=DEFAULT_REPORT_NAME)
     parser.add_argument('--template_dir',
                         help=('Directory that contains the templates.' +
-                              help_all),
-                        default=DEFAULT_TEMPLATE_DIR)
+                              help_all))
     parser.add_argument('--template_individual',
                         help=('Filepath for template file to use for ' +
                               'templating individual reports.' + help_all),

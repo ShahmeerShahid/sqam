@@ -2,7 +2,7 @@
 
 # Use an official Python runtime as a parent image
 # See https://hub.docker.com/ and search for python:2.7-slim
-FROM python:2.7-slim
+FROM python:3
 
 # Set the working directory to /app
 # The WORKDIR instruction sets the working directory (inside the container) 

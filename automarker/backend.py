@@ -7,6 +7,15 @@ app = Flask(__name__)
 
 config = Config.get_instance()
 
+def createArgs(configDict):
+    DELIMITER = chr(255)
+    resultKey = ""
+    resultValue = ""
+    for key in configDict:
+        resultKey +=  str(key) + DELIMITER 
+        resultValue += str(configDict[key]) + DELIMITER
+    return resultKey, resultValue
+
 @app.route("/", methods=['GET'])
 def root():
     # 👷‍♂️ resolver for "/" route
@@ -47,16 +56,15 @@ def root():
 @app.route('/config', methods=['POST'])
 def ChangeAll():
     file_status = request.get_json()
-    print(type(file_status))
-    h = json.dumps(file_status)  
+    # h = json.dumps(file_status)  
     # Change the config.json 
-    config.load_config(h) 
-
+    # config.load_config(h) 
+    resultKey, resultValue = createArgs(file_status)
     if len(file_status) == 24:
-        # os.system("cd .. && make test_automarker")
-        test = subprocess.Popen(["python3","/Users/vaishvik/Desktop/sqam/automarker/SQAM/SQAM_v3.py", ">", "result.txt"], stdout=subprocess.PIPE)
-        output = test.communicate()[0]
-        print(output)
+        os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultKey + " " + resultValue)
+        # test = subprocess.Popen(["cd", "/Users/vaishvik/Desktop/sqam/automarker/SQAM/", "&&","python3","SQAM_v3.py", h], stdout=subprocess.PIPE)
+        # output = test.communicate()[0]
+        # print(output)
         return jsonify({'Status' : "Success", "Job ID": 1234567})
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})

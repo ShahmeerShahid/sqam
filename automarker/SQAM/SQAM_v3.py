@@ -22,8 +22,8 @@ if __name__ == "__main__":
         ConfigDict["max_marks"] = float(ConfigDict["max_marks"])
         ConfigDict["db_port"] = int(ConfigDict["db_port"])
         ConfigDict["timeout"] = int(ConfigDict["timeout"])
-        ConfigDict["using_windows_system"] = ConfigDict["using_windows_system"] == "true"
-        ConfigDict["db_autocommit"] = ConfigDict["db_autocommit"] == "true"
+        ConfigDict["using_windows_system"] = ConfigDict["using_windows_system"] == "True"
+        ConfigDict["db_autocommit"] = ConfigDict["db_autocommit"] == "True"
         h = json.dumps(ConfigDict) 
         config.load_config(h)
     else: 

@@ -50,7 +50,7 @@ class Assignment:
 
     def run_templator(self):
         config = Config.get_instance()
-        temp_py = config.vars["path_to_uam"] + "templator.py "
+        temp_py = config.vars["path_to_uam"] + "templator.py " + "--template_dir " + os.path.join(config.vars["path_to_uam"], "templates") + " "
         run_templator_cmd = "python3 "+ temp_py+"aggregated.json txt"
         cmd = run_templator_cmd
         self.run_as_subprocess(cmd)

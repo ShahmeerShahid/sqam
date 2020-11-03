@@ -12,19 +12,25 @@ if __name__ == "__main__":
     #     ASSIGNMENT_STRUCTURE, SOLUTIONS, LOGIN_DETAILS, JSON_OUTPUT_FILENAME, ASSIGNMENT_NAME, \
     #         DB_TYPE,MARKING_TYPE
     config = Config.get_instance()
-    # print(sys.argv)
-    DELIMITER = chr(255)
-    newConfigListkey = sys.argv[1].split(DELIMITER)
-    print(len(newConfigListkey))
-    newConfigListvalues = sys.argv[2].split(DELIMITER)
-    print(len(newConfigListvalues))
-    ConfigDict = dict(zip(newConfigListkey, newConfigListvalues))
-    h = json.dumps(ConfigDict) 
-    config.load_config(h) 
-    # TODO: remove this when flask server is properly using config_singleton
-    # with open("./SQAM/config.json","r") as config_file:
-    #     content = config_file.read()
-    #     config.load_config(content)
+    if (len(sys.argv) > 2):
+        DELIMITER = chr(255)
+        newConfigListkey = sys.argv[1].split(DELIMITER)
+        newConfigListvalues = sys.argv[2].split(DELIMITER)
+        ConfigDict = dict(zip(newConfigListkey, newConfigListvalues))
+        ConfigDict["max_marks_per_question"] = list(map(int, ConfigDict["max_marks_per_question"].split(",")))
+        ConfigDict["question_names"] = ConfigDict["question_names"].split(",")
+        ConfigDict["max_marks"] = float(ConfigDict["max_marks"])
+        ConfigDict["db_port"] = int(ConfigDict["db_port"])
+        ConfigDict["timeout"] = int(ConfigDict["timeout"])
+        ConfigDict["using_windows_system"] = ConfigDict["using_windows_system"] == "true"
+        ConfigDict["db_autocommit"] = ConfigDict["db_autocommit"] == "true"
+        h = json.dumps(ConfigDict) 
+        config.load_config(h)
+    else: 
+        # TODO: remove this when flask server is properly using config_singleton
+        with open("./SQAM/config.json","r") as config_file:
+            content = config_file.read()
+            config.load_config(content)
 
     if config.vars["db_type"] == "mysql":
         from SQAM.query_languages.MySQL import MySQLQuerier

@@ -1,7 +1,7 @@
 {
     "assignment_name": "A2",
     "using_windows_system": false,
-    "sqamv3_path": "/home/fuck/sqam/automarker/SQAM",
+    "sqamv3_path": "/Users/vaishvik/Desktop/sqam/automarker/SQAM",
     "create_tables": "./Demo/Winter_2020/createTable.sql",
     "create_trigger": "./Demo/Winte_2020/createTrigger.sql",
     "create_function": "./Demo/Winter_2020/createFunction.sql",
@@ -17,9 +17,9 @@
     "question_names": ["Q1","Q2","Q3a","Q3b","Q3c","Q4a","Q4b","Q4c","Q5a","Q5b","Q6a","Q6b","Q6c","Q7a","Q7b","Q8","Q9","Q10"],
     "db_autocommit": true,
     "db_user_name": "root",
-    "db_password": "csc499",
-    "db_name": "c499",
-    "db_host": "127.0.0.1",
+    "db_password": "somewordpress",
+    "db_name": "wordpress",
+    "db_host": "localhost",
     "db_port": 3306,
     "db_type": "mysql",
     "marking_type": "partial"

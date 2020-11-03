@@ -12,8 +12,17 @@ def createArgs(configDict):
     resultKey = ""
     resultValue = ""
     for key in configDict:
-        resultKey +=  str(key) + DELIMITER 
-        resultValue += str(configDict[key]) + DELIMITER
+        if key == "max_marks_per_question":
+            resultKey += str(key) +  DELIMITER 
+            resultValue += ','.join(str(num) for num in configDict[key])  + DELIMITER
+
+        elif key == "question_names":
+            resultKey += str(key) +  DELIMITER
+            resultValue +=  ','.join(configDict[key])  + DELIMITER
+        else:
+            resultKey +=  str(key) + DELIMITER 
+            resultValue += str(configDict[key]) + DELIMITER
+
     return resultKey, resultValue
 
 @app.route("/", methods=['GET'])
@@ -60,12 +69,13 @@ def ChangeAll():
     # Change the config.json 
     # config.load_config(h) 
     resultKey, resultValue = createArgs(file_status)
+    # resultKey = createArgs(file_status)
+    # print(resultKey)
+    print("working ..")
     if len(file_status) == 24:
+        os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -psomewordpress wordpress < /var/lib/mysql-files/start.sql'")
         os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultKey + " " + resultValue)
-        # test = subprocess.Popen(["cd", "/Users/vaishvik/Desktop/sqam/automarker/SQAM/", "&&","python3","SQAM_v3.py", h], stdout=subprocess.PIPE)
-        # output = test.communicate()[0]
-        # print(output)
-        return jsonify({'Status' : "Success", "Job ID": 1234567})
+        return jsonify({'Status' : "Success", "Results": file_status["submissions"]})
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
 

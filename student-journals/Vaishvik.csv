@@ -17,3 +17,4 @@ Date,Duration,Task(s),Goal(s),Work Done,Details/Explanation
 2020-10-28,"1 hours, 00 minutes",Meeting with PI,Catch PI up on individual goals and work completed ,PI understood the work being completed and future goals,
 2020-10-29,"3 hours, 30 minutes",simiplify startup of automarker and add it to the develop branch,Working on simplifing the automerker so it runs with the make file,merged to develop and its is easier to start,I have to still fix the file pathing so we don’t have two config files
 2020-10-31,"2 hours, 00 minutes","Working with alberto to merge, and understand what he did and connect the api stuff ",get started on connecting api to factory Design pattern. ,,
+2020-11-03,"5 hours, 45 minutes","Complete flask, make automarker stateless, connect to factory pattern ",automarker should start with a post request ,"flask Completed, post request loads config and starts a automarker job",

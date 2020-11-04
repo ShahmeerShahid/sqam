@@ -75,11 +75,7 @@ def ChangeAll():
     if len(file_status) == 24:
         os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -psomewordpress wordpress < /var/lib/mysql-files/start.sql'")
         os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultKey + " " + resultValue + "&")
-<<<<<<< HEAD
-        return jsonify({'Status' : "Starting your Job", "Results": file_status["submissions"]})
-=======
         return jsonify({'Status' : "Success", "Results": file_status["submissions"]})
->>>>>>> 1f63b67111b0780a246385e0eb47efcb0fa568e8
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
 

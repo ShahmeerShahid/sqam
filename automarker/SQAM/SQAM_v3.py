@@ -27,7 +27,7 @@ if __name__ == "__main__":
         h = json.dumps(ConfigDict) 
         config.load_config(h)
     else: 
-        # TODO: remove this when flask server is properly using config_singleton
+        # if json values are not provided will run from config.json
         with open("./SQAM/config.json","r") as config_file:
             content = config_file.read()
             config.load_config(content)

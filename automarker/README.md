@@ -21,7 +21,7 @@ You can use virtualenv to avoid installing the packages system-wide
 
 ## Usage
 
-### Create database and user
+### Create database and user if not using docker
 Before running the autograder, we need to create a SQL database and user.
 
 1. Log in to MySQL as the root user.
@@ -36,7 +36,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
 
 CREATE DATABASE a1_db;
 
-### Create drop_all_tables procedure (TEMPORARY)
+### Create drop_all_tables procedure (TEMPORARY) if not using docker
 
 
 ### Adjust config.py
@@ -66,8 +66,88 @@ submission_dir
 __Note:__ SQAM assumes that the submission belongs to a group, not a student.
 
 
-### Run SQAM
+# Run SQAM automarker (NEW)
+### Run automarker with config.json without backend flask server 
+> cd ./sqam
+start the sql server inside docker
+> make run 
+run the automarker to mark assignment
+> test_automarker 
 
-run SQAM_v3
+### running the Flask Server and sql server from docker to run automarker from POST request
+> cd ./sqam
+> make run 
+> cd ./sqam/automarker
+> python3 backend.py 
 
-TODO
+### flask server endpoints
+
+**Definition**
+route: /,
+request: GET,
+purpose: 'get message about instructions about enpoints'
+
+**Response**
+- `200 OK` on success 
+- Response Body: 
+{
+{
+route: /,
+request: GET,
+purpose: 'To get this message'
+},
+{
+route: /config/,
+request: POST,
+example:
+{
+"ASSIGNMENT_NAME": 'A2',
+"USING_WINDOWS_SYSTEM": False,
+"SUBMISSION_FILE_NAME": 'a2.sql',
+"JSON_OUTPUT_FILENAME": 'result.json',
+"LECTURE_SECTION": 'LEC101',
+"STUDENTS_CSV_FILE": 'SQAM/Student_Information_and_Submissions/students.csv',
+"STUDENT_GROUPS_FILE": 'SQAM/Student_Information_and_Submissions/groups.txt',
+"DIR_AND_NAME_FILE" : 'SQAM/Student_Information_and_Submissions/dirs_and_names.txt',
+"TIMEOUT": 100,
+"MAX_MARKS": 70,
+"maxMarksPerQuestion": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
+"questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
+'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
+}
+purpose: 'update all variables in the config at the same time it runs the program'
+},
+}
+
+**Definition**
+route: /config/,
+request: POST,
+purpose: 'update all variables in the config at the same time it runs the program'
+body_example: 
+{
+    "ASSIGNMENT_NAME": 'A2',
+    "USING_WINDOWS_SYSTEM": False,
+    "SUBMISSION_FILE_NAME": 'a2.sql',
+    "JSON_OUTPUT_FILENAME": 'result.json',
+    "LECTURE_SECTION": 'LEC101',
+    "STUDENTS_CSV_FILE": 'SQAM/Student_Information_and_Submissions/students.csv',
+    "STUDENT_GROUPS_FILE": 'SQAM/Student_Information_and_Submissions/groups.txt',
+    "DIR_AND_NAME_FILE" : 'SQAM/Student_Information_and_Submissions/dirs_and_names.txt',
+    "TIMEOUT": 100,
+    "MAX_MARKS": 70,
+    "maxMarksPerQuestion": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
+    "questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
+        'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
+}
+
+**Response**
+- `200 OK` on success: 
+- Response Body: 
+{'Status' : "Success", "Results": file_status["submissions"]}
+
+**Response**
+- `200 OK` on success. To be returned once the connector is sure it is able to start downloading submissions
+- `400 Bad Request` if missing information in body.
+- `401 Unauthorized` if unable to authorize with given information
+- `404 Not Found` if unable to download specified assignment submissions
+- `500 Internal Server Error` on other error

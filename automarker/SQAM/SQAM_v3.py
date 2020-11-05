@@ -8,9 +8,6 @@ import sys, json
 
 if __name__ == "__main__":
     
-    # from SQAM.config import SUBMISSIONS, STUDENTS_CSV_FILE, STUDENT_GROUPS_FILE, \
-    #     ASSIGNMENT_STRUCTURE, SOLUTIONS, LOGIN_DETAILS, JSON_OUTPUT_FILENAME, ASSIGNMENT_NAME, \
-    #         DB_TYPE,MARKING_TYPE
     config = Config.get_instance()
     if (len(sys.argv) > 2):
         DELIMITER = chr(255)

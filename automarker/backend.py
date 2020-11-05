@@ -54,24 +54,17 @@ def root():
                 "questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
                   'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
             }
-            purpose: 'update all variables in the config at the same time'
+            purpose: 'update all variables in the config at the same time it runs the program'
         },
     }
     
     """
 
-
-
+# Pass config arguments and start automarker
 @app.route('/config', methods=['POST'])
 def ChangeAll():
     file_status = request.get_json()
-    # h = json.dumps(file_status)  
-    # Change the config.json 
-    # config.load_config(h) 
     resultKey, resultValue = createArgs(file_status)
-    # resultKey = createArgs(file_status)
-    # print(resultKey)
-    print("working ..")
     if len(file_status) == 24:
         os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -psomewordpress wordpress < /var/lib/mysql-files/start.sql'")
         os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultKey + " " + resultValue + "&")
@@ -79,15 +72,6 @@ def ChangeAll():
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
 
-@app.route('/config/start', methods=['POST'])
-def startAll():
-    file_status = request.get_json()
-    print(file_status)
-    
-    if file_status["name"] == "CSC343":
-        return jsonify({'Status' : "Success"})
-    else:
-        return jsonify({'Status' : "Failure"})
 
 if __name__ == '__main__':
   app.run(debug=True, port=5050)

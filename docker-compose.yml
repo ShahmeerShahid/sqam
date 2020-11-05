@@ -21,50 +21,50 @@ services:
     ports:
       - "3306:3306"
       
-  admin:
-    build: ./admin
-    ports:
-      - "3000:80"
-    stdin_open: true
-    tty: true
-    environment:
-      - PORT=80
+  # admin:
+  #   build: ./admin
+  #   ports:
+  #     - "3000:80"
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - PORT=80
 
-  admindb:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
-      MONGO_INITDB_DATABASE: admin
-    ports:
-      - "27017:27017"
-    volumes:
-      - admindb:/admindb/db
-      - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+  # admindb:
+  #   image: mongo
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
+  #     MONGO_INITDB_DATABASE: admin
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - admindb:/admindb/db
+  #     - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
-  admin_api:
-    build: ./admin_api
-    depends_on:
-      - admindb
-    ports:
-      - "9000:80"
-    environment:
-      - PORT=80
-      - PROD_DB_URL=sqam_admindb_1
-    volumes:
-      - ./admin_api:/admin_api
+  # admin_api:
+  #   build: ./admin_api
+  #   depends_on:
+  #     - admindb
+  #   ports:
+  #     - "9000:80"
+  #   environment:
+  #     - PORT=80
+  #     - PROD_DB_URL=sqam_admindb_1
+  #   volumes:
+  #     - ./admin_api:/admin_api
 
-  markus-connector:
-    build: ./connectors/markus
-    volumes:
-      - ./connectors/markus:/app
-      - *downloads-volume
-      - /app/node_modules
-    environment:
-      - PORT=80
-    ports:
-      - "8001:80"
-    restart: on-failure
+  # markus-connector:
+  #   build: ./connectors/markus
+  #   volumes:
+  #     - ./connectors/markus:/app
+  #     - *downloads-volume
+  #     - /app/node_modules
+  #   environment:
+  #     - PORT=80
+  #   ports:
+  #     - "8001:80"
+  #   restart: on-failure
 
 volumes:
   admindb:

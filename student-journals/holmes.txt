@@ -1,0 +1,80 @@
+=== Erik Holmes CSC499Y5 Journal ===
+
+2020-09-16 (1 Hour):
+	- First Meeting 9-10PM
+	- Overview of project, Introductions
+
+2020-09-18 (2.5 Hour):
+	- Review Code Base
+	- Code Base Review Meeting
+
+2020-09-20 (2 Hour):
+	- Read the Two Research Papers
+
+2020-09-23 (2 Hour):
+	- Weekly Meeting
+	- Planning, discuss architecture
+
+2020-09-26 (2 Hour):
+	- Code Review lead by Sandy
+	
+2020-09-28 (1.5 Hour):
+	- Meeting 28th 9-10:30pm
+	- Critiqued code base. Created issues to fix with the automarker.
+	
+2020-09-30 (4 Hour):
+	- Completed a Review of Paper 10
+	- Weekly Meeting
+	- Meeting covered everyone's reviews
+
+2020-10-01 (3.5 Hour):
+	- Setup Development Environment and Prepare Django Demo
+	- Meeting to show Demos
+
+2020-10-07 (1.5 Hour):
+	- Weekly Meeting
+	- Should add Moss to admin.
+	
+2020-10-11 (4 Hour):
+	- Setup Docker and familiarized myself with how to work with docker
+	- Created a model schema, a job creation form, and a job list web view
+
+2020-10-14 (1.5 Hour):
+	- Weekly Meeting
+	- Displayed my work and explained my Pull Request. Talked more about database structure. 
+
+2020-10-15  (2 Hour):
+	- Put all environment variables into a .env file. Remove hardcoded Values.
+
+2020-10-21 (1 Hour):
+	- Weekly Meeting
+	- Set clear milestones for the future  
+
+2020-10-23 (3 Hour):
+	- Review React, Nodejs
+	
+2020-10-26 (2 Hour):
+	- Meeting 9:30-11PM
+	- Talked through problem where the automarker always uses the same DB
+	- Will fix by creating a new DB for each job. 
+	- Im going to help fix the automarker and make sure we get this working soon
+	
+2020-10-27 (4 Hour):
+	- Work on seperating student data out of the automarker. The automarker should just mark submissions.
+	- The goal is to simplify the automarker as much as possible.
+
+2020-10-28 (3 Hour): 
+    - continue work from yesterday
+	- Weekly Meeting
+
+2020-11-01 (5 Hour):
+	- Code review each step of running the automarker.
+	- Note fixes and improvements on automarker. 
+	- Specifically removing the idea of a student.
+
+2020-11-03 (4 Hour):
+	- Continue work from the 1st. 
+	- Create list of the steps of the automarker.
+
+2020-11-04 (1.5 Hour):
+	- Weekly Meeting.

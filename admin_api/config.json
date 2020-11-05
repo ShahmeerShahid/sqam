@@ -1,0 +1,8 @@
+{
+    "connectors": [
+        {
+            "name": "Markus",
+            "url": "http://markus-connector"
+        }
+    ]
+}

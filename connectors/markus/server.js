@@ -18,22 +18,26 @@ app.use(express.json()); // All requests must be JSON
 app.get("/extra_fields", async (req, res) => {
     res.json(
         {
-            "info": "Groups names MUST NOT have white space. Empty submissions will be ignored",
+            "info": "Any extra general information to be displayed on the submission page/form e.g. group names must not have whitespace characters. Field specific should be provided as shown below.",
             "extra_fields": {
                 "markus_URL": {
                     "type": "string",
                     "required": true,
-                    "info": "Information specific to this field e.g. Example: http://www.test-markus.com, NOT www.test-markus.com or http://www.test-markus.com/en/main"
+                    "info": "Information specific to this field e.g. Example: http://www.test-markus.com, NOT www.test-markus.com or http://www.test-markus.com/en/main",
+                    "placeholder": "http://www.test-markus.com"
                 },
                 "assignment_id": {
                     "type": "number",
                     "required": true,
-                    "info": "Found in the URL when editing the assignment. E.g. http://www.test-markus.com/en/assignments/1/edit would have ID 1."
+                    "info": "Found in the URL when editing the assignment. E.g. http://www.test-markus.com/en/assignments/1/edit would have ID 1.",
+                    "placeholder": "1"
+
                 },
                 "api_key": {
                     "type": "string",
                     "required": true,
-                    "info": "Found on the homepage of your Markus instance."
+                    "info": "Found on the homepage of your Markus instance.",
+                    "placeholder": "hasf08etJSkf="
                 }
             }
         }

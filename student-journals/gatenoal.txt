@@ -34,7 +34,45 @@
 - Established definitions of "done" and deadlines for the rest of October and the beginning of November
 
 2020-10-26:
-- Meeting with peers (2h)
+- Meeting with peers (3.5h)
 	- discussed needs for short term milestone
 	- discussed requirement for locally running the automarker
 	- distributed more short-term tasks
+	- Started setting up to be able to run automarker
+
+2020-10-27
+- Continued setup and debugging MySQL.py segfault (1h)
+	- Consulted with Vaishvik and Sandy
+
+2020-10-28
+- Meeting with peers and supervisors (2h)
+	- Discussed milestones
+
+2020-10-29
+- Work on task: Issue 10, jsonify config.py (6h)
+	- Decided that my wsl setup was the immediate cause of not being able to run the automarker
+	- Set up virtual machine with ubuntu server to run the automarker
+	- Created a singleton object to carry configurations around the program
+	- Made a json version of config.py to load into the singleton
+	- Changed existing uses of config.py to now use config singleton
+	- Tested and made sure the automarker ran properly after changes were made
+	- Will create merge request tomorrow
+
+2020-10-30
+- Tested and committed initial modifications for the jsonification task (3h)
+	- Ran into a few hiccups along the way
+	- Namely, UAM is not playing nicely with config singleton for some reason
+- Met with Sandy to talk about research goals for this project (1h)
+
+2020-10-31
+- Spent some time trying to get UAM to work with config singleton (4h)
+- Rolled back changes to UAM and submitted a merge request with initial config singleton edits (15m)
+- Subteam meeting with Vaishvik and Sandy to work out detailed reuqirements for how the endpoint interacts with the singleton (2h)
+
+2020-11-01
+- Met with Vaishvik to talk through how to the config singleton should work with the endpoint (30m)
+	- We talked about how we each understood how we were going to recieve the info and pass it to the singleton
+	- We both agreed the best way was for the server to spawn a process running the automarker with the config passed as an argument
+
+2020-11-02
+- Got UAM to work nicely with config singleton. Submitted merge request (2h)

@@ -1,0 +1,39 @@
+Shahmeer Shahid
+
+Week of 2020-09-14:
+
+- Initial meeting with team/profs
+- Introduction to current papers/project implementation
+- Overview of long term goals/targets
+- Independent examination of code
+
+
+2020-09-21:
+- Weekly team meeting
+- Chose first research paper to review
+- Read and reviewed research paper, creating critical analysis
+- Admin team decided to go with Django over Node
+
+2020-09-28:
+- Had meeting with team/profs discussing analysis of selected research paper
+- Setup project structure (docker-compose), created PR
+
+2020-10-05:
+- Had meeting with team to discuss architectural design decisions
+- Debated over Django/Node/Flask with team, ultimately deciding on Django + Docker
+- Started work on Markus Connector
+
+2020-10-12:
+- Reading week, put ~30 hours into Markus Connector, including research and development using REST API
+- Completed markus connector 
+- Meeting with peers and supervisors
+- Discussed Moss
+
+2020-10-19:
+- Created PR for Markus connector and continued refining/bug testing of code.
+- Declared monthly milestones after talking with Prof Illir
+- Met with Prof Illir, Prof Michael, Sandy to discuss research/development splits of the project
+- Spent 4 hours (Sunday night) helping Vaishvik and Sandy fix issues in codebase.
+
+2020-10-26:
+- Helped Jarrod setup React/Node backend in docker-compose (3 hours)

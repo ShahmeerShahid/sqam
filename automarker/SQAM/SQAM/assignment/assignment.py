@@ -58,10 +58,11 @@ class Assignment:
     def run_aggregator(self):
         config = Config.get_instance()
         agg_py = config.vars["path_to_uam"] + "aggregator.py "
-        python_type = "python3 " if not config.vars["using_windows_system"] else "python"
+        python_type = "python3 " if not config.vars["using_windows_system"] else "python "
         run_aggregator_cmd = python_type + agg_py + self.assignment_name+" "
         paths = config.vars["dir_and_name_file"]+" "+config.vars["students_csv_file"]+" "+config.vars["student_groups_file"]
         cmd = run_aggregator_cmd + paths
+        
         self.run_as_subprocess(cmd)
 
     def run_as_subprocess(self, cmd):

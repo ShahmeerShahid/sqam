@@ -12,10 +12,10 @@ services:
     volumes:
       - ./automarker/SQAM/start.sql:/var/lib/mysql-files/start.sql
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: csc499
+      MYSQL_DATABASE: c499
+      MYSQL_USER: automarkercsc499
+      MYSQL_PASSWORD: csc499
     expose:
       - '3306'
     ports:

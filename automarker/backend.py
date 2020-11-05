@@ -23,11 +23,10 @@ def createArgs(configDict):
             resultKey +=  str(key) + DELIMITER 
             resultValue += str(configDict[key]) + DELIMITER
 
-    return resultKey, resultValue
+    return (resultKey + " " +resultValue)
 
 @app.route("/", methods=['GET'])
 def root():
-    # 👷‍♂️ resolver for "/" route
     return """
     {
         {
@@ -64,10 +63,11 @@ def root():
 @app.route('/config', methods=['POST'])
 def ChangeAll():
     file_status = request.get_json()
-    resultKey, resultValue = createArgs(file_status)
+    resultArgs = createArgs(file_status)
     if len(file_status) == 24:
-        os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -psomewordpress wordpress < /var/lib/mysql-files/start.sql'")
-        os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultKey + " " + resultValue + "&")
+        os.system("cd /Users/vaishvik/Desktop/sqam && make setup_sql")
+        # os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql'")
+        os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultArgs + "&")
         return jsonify({'Status' : "Success", "Results": file_status["submissions"]})
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})

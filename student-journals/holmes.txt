@@ -63,5 +63,18 @@
 	- Work on seperating student data out of the automarker. The automarker should just mark submissions.
 	- The goal is to simplify the automarker as much as possible.
 
-2020-10-28 (2 Hour): 
+2020-10-28 (3 Hour): 
     - continue work from yesterday
+	- Weekly Meeting
+
+2020-11-01 (5 Hour):
+	- Code review each step of running the automarker.
+	- Note fixes and improvements on automarker. 
+	- Specifically removing the idea of a student.
+
+2020-11-03 (4 Hour):
+	- Continue work from the 1st. 
+	- Create list of the steps of the automarker.
+
+2020-11-04 (1.5 Hour):
+	- Weekly Meeting.

@@ -42,17 +42,19 @@ services:
   #     - admindb:/admindb/db
   #     - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
-  # admin_api:
-  #   build: ./admin_api
-  #   depends_on:
-  #     - admindb
-  #   ports:
-  #     - "9000:80"
-  #   environment:
-  #     - PORT=80
-  #     - PROD_DB_URL=sqam_admindb_1
-  #   volumes:
-  #     - ./admin_api:/admin_api
+  admin_api:
+    build: ./admin_api
+    depends_on:
+      - admindb
+    ports:
+      - "9000:80"
+    environment:
+      - PORT=80
+      - PROD_DB_URL=sqam_admindb_1
+      - DB_USERNAME=api
+      - DB_PASSWD=Y^I8s67tF2ur
+    volumes:
+      - ./admin_api:/admin_api
 
   # markus-connector:
   #   build: ./connectors/markus

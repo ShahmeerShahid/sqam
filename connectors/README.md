@@ -19,22 +19,26 @@ Fields APART FROM `task_id` and `download_directory` that this connector require
         "markus_URL": {
             "type": "string",
             "required": true,
-            "info": "Information specific to this field e.g. Example: http://www.test-markus.com, NOT www.test-markus.com or http://www.test-markus.com/en/main"
+            "info": "Information specific to this field e.g. Example: http://www.test-markus.com, NOT www.test-markus.com or http://www.test-markus.com/en/main",
+            "placeholder": "http://www.test-markus.com"
         },
         "assignment_id": {
             "type": "number",
             "required": true,
-            "info": "Found in the URL when editing the assignment. E.g. http://www.test-markus.com/en/assignments/1/edit would have ID 1."
+            "info": "Found in the URL when editing the assignment. E.g. http://www.test-markus.com/en/assignments/1/edit would have ID 1.",
+            "placeholder": "1"
+
         },
         "api_key": {
             "type": "string",
             "required": true,
-            "info": "Found on the homepage of your Markus instance."
+            "info": "Found on the homepage of your Markus instance.",
+            "placeholder": "hasf08etJSkf="
         }
     }
 }
 ```
-For each field, `type` and `required` MUST be provided. `info` is optional. JSON types can be found at https://json-schema.org/understanding-json-schema/reference/type.html
+For each field, `type`, `required` and `placeholder` MUST be provided. `info` is optional. JSON types can be found at https://json-schema.org/understanding-json-schema/reference/type.html
 
 ***
 

@@ -30,31 +30,31 @@ services:
   #   environment:
   #     - PORT=80
 
-  # admindb:
-  #   image: mongo
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
-  #     MONGO_INITDB_DATABASE: admin
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - admindb:/admindb/db
-  #     - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
-
-  admin_api:
-    build: ./admin_api
-    depends_on:
-      - admindb
-    ports:
-      - "9000:80"
+  admindb:
+    image: mongo
     environment:
-      - PORT=80
-      - PROD_DB_URL=sqam_admindb_1
-      - DB_USERNAME=api
-      - DB_PASSWD=Y^I8s67tF2ur
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - "27017:27017"
     volumes:
-      - ./admin_api:/admin_api
+      - admindb:/admindb/db
+      - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+
+  # admin_api:
+  #   build: ./admin_api
+  #   depends_on:
+  #     - admindb
+  #   ports:
+  #     - "9000:80"
+  #   environment:
+  #     - PORT=80
+  #     - PROD_DB_URL=sqam_admindb_1
+  #     - DB_USERNAME=api
+  #     - DB_PASSWD=Y^I8s67tF2ur
+  #   volumes:
+  #     - ./admin_api:/admin_api
 
   # markus-connector:
   #   build: ./connectors/markus
@@ -68,6 +68,16 @@ services:
   #     - "8001:80"
   #   restart: on-failure
 
+  automarker:
+    build: ./automarker
+    ports:
+      - "9005:80"
+    volumes:
+      - ./automarker:/automarker
+    environment:
+      - PORT=80
+    expose:
+      - '80'
 volumes:
   admindb:
     driver: local

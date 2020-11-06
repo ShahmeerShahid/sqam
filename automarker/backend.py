@@ -65,16 +65,18 @@ def ChangeAll():
     file_status = request.get_json()
     resultArgs = createArgs(file_status)
     if len(file_status) == 24:
-        os.system("cd /Users/vaishvik/Desktop/sqam && make setup_sql")
+        os.system("cd ./automarker && make setup_sql")
         # os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql'")
-        os.system("cd /Users/vaishvik/Desktop/sqam/automarker/SQAM/ && python3 SQAM_v3.py " + resultArgs + "&")
+        os.system("cd ./automarker/SQAM/ && python3 SQAM_v3.py " + resultArgs + "&")
         return jsonify({'Status' : "Success", "Results": file_status["submissions"]})
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
 
 
 if __name__ == '__main__':
-  app.run(debug=True, port=5050)
+    #Setting ports by reading the environment variable that set by docker compose file.
+  listen = os.getenv('PORT', '9005')
+  app.run(debug=True, port=listen,host='0.0.0.0')
 
 
 

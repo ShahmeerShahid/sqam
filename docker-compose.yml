@@ -21,26 +21,26 @@ services:
     ports:
       - "3306:3306"
       
-  # admin:
-  #   build: ./admin
-  #   ports:
-  #     - "3000:80"
-  #   stdin_open: true
-  #   tty: true
-  #   environment:
-  #     - PORT=80
+  admin:
+    build: ./admin
+    ports:
+      - "3000:80"
+    stdin_open: true
+    tty: true
+    environment:
+      - PORT=80
 
-  # admindb:
-  #   image: mongo
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
-  #     MONGO_INITDB_DATABASE: admin
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - admindb:/admindb/db
-  #     - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+  admindb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: uofdQ8Z3C&kR
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - admindb:/admindb/db
+      - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
   admin_api:
     build: ./admin_api
@@ -56,18 +56,24 @@ services:
     volumes:
       - ./admin_api:/admin_api
 
-  # markus-connector:
-  #   build: ./connectors/markus
-  #   volumes:
-  #     - ./connectors/markus:/app
-  #     - *downloads-volume
-  #     - /app/node_modules
-  #   environment:
-  #     - PORT=80
-  #   ports:
-  #     - "8001:80"
-  #   restart: on-failure
+  markus-connector:
+    build: ./connectors/markus
+    volumes:
+      - ./connectors/markus:/app
+      - *downloads-volume
+      - /app/node_modules
+    environment:
+      - PORT=80
+    ports:
+      - "8001:80"
+    restart: on-failure
 
+  automarker:
+    build: ./automarker
+    ports:
+      - "9005:5050"
+    volumes:
+      - ./automarker:/automarker
 volumes:
   admindb:
     driver: local

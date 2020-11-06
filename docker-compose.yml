@@ -71,9 +71,11 @@ services:
   automarker:
     build: ./automarker
     ports:
-      - "9005:5050"
+      - "9005:80"
     volumes:
       - ./automarker:/automarker
+    expose:
+      - '80'
 volumes:
   admindb:
     driver: local

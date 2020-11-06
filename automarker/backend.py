@@ -74,7 +74,8 @@ def ChangeAll():
 
 
 if __name__ == '__main__':
-  app.run(debug=True, port=5050,host='0.0.0.0')
+    #port changes to 80 due to the requirement
+  app.run(debug=True, port=80,host='0.0.0.0')
 
 
 

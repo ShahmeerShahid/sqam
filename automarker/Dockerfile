@@ -10,7 +10,5 @@ RUN apk add --no-cache gcc musl-dev
 RUN pip3 install --upgrade pip
 # Install the requirements to run flask endpoint and SQAM.
 RUN pip3 install -r ./requirements.txt
-#Expose the flask port
-EXPOSE 5050
 #Run the flask backend
 CMD ["python3","backend.py"]

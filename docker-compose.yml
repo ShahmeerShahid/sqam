@@ -21,14 +21,14 @@ services:
     ports:
       - "3306:3306"
       
-  admin:
-    build: ./admin
-    ports:
-      - "3000:80"
-    stdin_open: true
-    tty: true
-    environment:
-      - PORT=80
+  # admin:
+  #   build: ./admin
+  #   ports:
+  #     - "3000:80"
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - PORT=80
 
   admindb:
     image: mongo
@@ -42,31 +42,31 @@ services:
       - admindb:/admindb/db
       - ./admindb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
-  admin_api:
-    build: ./admin_api
-    depends_on:
-      - admindb
-    ports:
-      - "9000:80"
-    environment:
-      - PORT=80
-      - PROD_DB_URL=sqam_admindb_1
-      - DB_USERNAME=api
-      - DB_PASSWD=Y^I8s67tF2ur
-    volumes:
-      - ./admin_api:/admin_api
+  # admin_api:
+  #   build: ./admin_api
+  #   depends_on:
+  #     - admindb
+  #   ports:
+  #     - "9000:80"
+  #   environment:
+  #     - PORT=80
+  #     - PROD_DB_URL=sqam_admindb_1
+  #     - DB_USERNAME=api
+  #     - DB_PASSWD=Y^I8s67tF2ur
+  #   volumes:
+  #     - ./admin_api:/admin_api
 
-  markus-connector:
-    build: ./connectors/markus
-    volumes:
-      - ./connectors/markus:/app
-      - *downloads-volume
-      - /app/node_modules
-    environment:
-      - PORT=80
-    ports:
-      - "8001:80"
-    restart: on-failure
+  # markus-connector:
+  #   build: ./connectors/markus
+  #   volumes:
+  #     - ./connectors/markus:/app
+  #     - *downloads-volume
+  #     - /app/node_modules
+  #   environment:
+  #     - PORT=80
+  #   ports:
+  #     - "8001:80"
+  #   restart: on-failure
 
   automarker:
     build: ./automarker
@@ -74,6 +74,8 @@ services:
       - "9005:80"
     volumes:
       - ./automarker:/automarker
+    environment:
+      - PORT=80
     expose:
       - '80'
 volumes:

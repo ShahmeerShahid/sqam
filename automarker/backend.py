@@ -74,8 +74,9 @@ def ChangeAll():
 
 
 if __name__ == '__main__':
-    #port changes to 80 due to the requirement
-  app.run(debug=True, port=80,host='0.0.0.0')
+    #Setting ports by reading the environment variable that set by docker compose file.
+  listen = os.getenv('PORT', '9005')
+  app.run(debug=True, port=listen,host='0.0.0.0')
 
 
 

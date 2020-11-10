@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
 
 export function HomePage() {
   return (
     <div>
-      <NavBar />
+      <Header />
       Home
     </div>
   );

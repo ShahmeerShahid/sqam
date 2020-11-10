@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider, ColorModeProvider } from "@chakra-ui/core";
+import { SnackbarProvider } from "notistack";
 import { BrowserRouter as Router } from "react-router-dom";
 
 export const wrapInTheme = (component) => {
@@ -11,4 +12,8 @@ export const wrapInTheme = (component) => {
 };
 export const wrapComponentInRouter = (component) => (
   <Router>{component}</Router>
+);
+
+export const wrapComponentInSnackBarProvider = (component) => (
+  <SnackbarProvider>{component}</SnackbarProvider>
 );

@@ -68,3 +68,24 @@ Create tests
 
 Oct 26:
 Fix up Docker                           2.5 hrs
+
+Oct 28:
+Weekly Meeting                          1.25 hrs
+DEV-027 TasksList                       3 hrs
+
+Oct 29:
+Remove Redux                            2 hrs
+
+Oct 30:
+
+Nov 1:
+Add Task Dynamic Form                   4 hrs
+
+Nov 2:
+POST Task                               2 hrs
+
+Nov 4:
+Meeting                                 1.75 hrs
+
+Nov 5:
+Sync with develop and quality assurance 4 hrs

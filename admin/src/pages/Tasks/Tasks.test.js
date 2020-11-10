@@ -15,24 +15,3 @@ describe("Task", () => {
     expect(getByText(mockTasks[0].status)).toBeInTheDocument();
   });
 });
-
-describe("Tasks", () => {
-  const renderTasks = () => {
-    return render(wrapInTheme(wrapComponentInRouter(<Tasks />)));
-  };
-
-  it("Renders fetched tasks upon mount", async () => {
-    fetchTasks.mockResolvedValueOnce(mockTasks);
-    const { getByText } = renderTasks();
-
-    await wait(() => {
-      mockTasks.forEach((task) => {
-        expect(getByText(task.name)).toBeInTheDocument();
-        expect(getByText(task.status)).toBeInTheDocument();
-      });
-    });
-
-    expect(fetchTasks).toHaveBeenCalledTimes(1);
-    expect(fetchTasks).toHaveBeenCalledWith();
-  });
-});

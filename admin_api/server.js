@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+var autoIncrement = require("mongoose-auto-increment");
 const morgan = require("morgan");
 
 app.use(cors());
@@ -22,17 +23,15 @@ const connection = mongoose.connection;
 connection.once("open", function () {
   console.log("MongoDB database connection established successfully");
 });
+autoIncrement.initialize(connection);
+
+exports.autoIncrement = autoIncrement;
 
 const tasksRouter = require("./routes/tasks.router");
 app.use("/api/tasks", tasksRouter);
 
 const connectorsRouter = require("./routes/connectors.router");
 app.use("/api/connectors", connectorsRouter);
-
-
-
-
-
 
 const port = process.env.PORT || 9000; // Port 80 if started by docker-compose
 

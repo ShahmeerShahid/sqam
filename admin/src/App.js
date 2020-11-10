@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider, ColorModeProvider, CSSReset } from "@chakra-ui/core";
+import { SnackbarProvider } from "notistack";
 import {
   Switch,
   Redirect,
@@ -8,8 +9,9 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import Homepage from "./pages/Home";
-import Classes from "./pages/Classes";
 import Tasks from "./pages/Tasks";
+import AddTask from "./pages/AddTask";
+
 import "./App.css";
 
 function UnconnectedApp() {
@@ -17,8 +19,8 @@ function UnconnectedApp() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={withRouter(Homepage)} />
-        <Route exact path="/classes" component={withRouter(Classes)} />
         <Route exact path="/tasks" component={withRouter(Tasks)} />
+        <Route exact path="/tasks/add" component={withRouter(AddTask)} />
         <Route
           exact
           path="/not-found"
@@ -38,12 +40,14 @@ function UnconnectedApp() {
 function ConnectedApp() {
   return (
     <ThemeProvider>
-      <ColorModeProvider>
-        <CSSReset />
-        <Router>
-          <UnconnectedApp />
-        </Router>
-      </ColorModeProvider>
+      <SnackbarProvider maxSnack={3}>
+        <ColorModeProvider>
+          <CSSReset />
+          <Router>
+            <UnconnectedApp />
+          </Router>
+        </ColorModeProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

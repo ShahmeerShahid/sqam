@@ -19,34 +19,29 @@ These instructions will get you a copy of the project up and running on your loc
 	- ExampleComponent/
 		- index.js
 		- ExampleComponent.test.js
-- network/
-	- ExamplePage/
-		- index.js
-		- ExamplePage.test.js
 - pages/
-- stores/
-	- examples/
-		- exampleSlice.js
-		- exampleSlice.test.js
-	- rootStore
+- network/
+- requests/
+	- connectors/
+	- tasks/
+- helpers/
+- testing/
 
-Each component/page/slice is contained within a folder accompanied with a test file.
-Components/pages connect to the backend by dispatching actions (defined as async thunks), which modify the state, whose values are then retrieved using selectors.
+Each component/page/request is contained within a folder accompanied with a test file.
+Components/pages connect to the backend by calling requests, with either useAsync or within a useEffect.
 
 ## Built Using <a name = "built_using"></a>
 
 - React!
 - Chakra-UI
 - Axios
-- Redux
-- Redux-Toolkit
-- Connected-React-Router
+- React-hook-form
+- useAsyncHook
 - React-Testing-Library
 
 ## DevTools <a name = "dev_tools"></a>
 Here are some extensions that you may find useful:
 - React Developer Tools (viewing the component tree)
-- Redux DevTools (provides a detailed look at the store)
 - Testing Playground (generating queries for testing)
 - Robo 3T (access the MongoDB database)
 
@@ -79,17 +74,9 @@ LOCAL_URL=localhost
 PROD_ADMIN_URL=admindb
 ​```
 
-Then, in admindb/docker-entrypoint-initdb.d,
-replace the "--------" with the API_PWD.
-
-## Current Issues <a name="issues"></a>
-Sometimes the API needs to be restarted once the admindb container is up.
-Run 'docker restart admin_api'
-
 ## Authors
 
 - Shahmeer Shahid
-- Erik Holmes
 - Jarrod Servilla
 - Terry Zhou
 ````

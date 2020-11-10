@@ -59,9 +59,6 @@ const Header = () => {
         flexGrow={1}
       >
         <MenuItems>
-          <Link to="/classes">Classes</Link>
-        </MenuItems>
-        <MenuItems>
           <Link to="/tasks">Tasks</Link>
         </MenuItems>
       </Box>

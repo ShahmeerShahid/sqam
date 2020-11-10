@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Badge, Button, Box, Heading, Skeleton, Stack } from "@chakra-ui/core";
+import { withSnackbar } from "notistack";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import { useAsync } from "react-use";
+import Header from "../../components/Header";
 import { fetchTasks } from "../../requests/tasks";
-import NavBar from "../../components/NavBar";
 import "./Tasks.css";
 
 export function Task({ task }) {
@@ -32,17 +34,29 @@ export function Task({ task }) {
   );
 }
 
-export function Tasks() {
+export function Tasks({ enqueueSnackbar }) {
   const tasks = useAsync(fetchTasks, []);
+  useEffect(() => {
+    if (tasks.error) {
+      enqueueSnackbar("Failed fetching tasks", { variant: "error" });
+    }
+  }, [tasks, enqueueSnackbar]);
 
   return (
     <div>
-      <NavBar />
+      <Header />
       <Box mt={4}>
         <Stack isInline justify="center">
           <h1 className="title">Tasks</h1>
-          <Button mt={2} ml={2} bg="transparent">
-            <AiOutlinePlusCircle style={{ size: "2em", color: "green" }} />
+          <Button m={2} ml={4} variantColor="green">
+            <Link to="/tasks/add">
+              <Box d="flex" justify="center">
+                <AiOutlinePlusCircle
+                  style={{ size: "2em", marginTop: "2px" }}
+                />{" "}
+                Add Task
+              </Box>
+            </Link>
           </Button>
         </Stack>
         <Box justify="center" w="50%" m="auto">
@@ -63,4 +77,4 @@ export function Tasks() {
   );
 }
 
-export default Tasks;
+export default withSnackbar(Tasks);

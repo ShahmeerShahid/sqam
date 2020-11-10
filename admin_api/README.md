@@ -12,34 +12,32 @@ Defined schemas for User/Tasks
 
 TODO
 
-
 ### Connectors
+
 **Definition**
 `GET /api/connectors`
 
 **Response**
+
 - `200 OK` on success
-List of connectors (name and url) that can be used to download submissions
+  List of connectors (name and url) that can be used to download submissions
+
 ```json
 [
-    {
-        "name": "Markus",
-        "url": "http://markus-connector"
-    },
-    {
-        "name": "Example",
-        "url": "http://example"
-    }
+  {
+    "name": "Markus",
+    "url": "http://markus-connector",
+    "port": 8001
+  },
+  {
+    "name": "Example",
+    "url": "http://example",
+    "port": 3000
+  }
 ]
 ```
-***
 
-
-## Known Issues
-
-Sometimes the admin_api must be started after admindb is accepting connections
-
-
+---
 
 ## `config.json`
 

@@ -8,6 +8,51 @@ templates.
 
 We welcome collaboration and contributions!
 
+
+## Steps For Running With Docker
+
+Database setup is not currently automatic you must do the following
+to start running the automarker.
+
+1. docker-compose up --build
+2. docker exec -it sqam_mysql_1 bash -c "mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql"
+
+After the setup you just need to do docker-compose up --build 
+
+### How to Test if its working?
+Put the following in the body of a POST request to /config:
+{
+    "assignment_name": "A2",
+    "using_windows_system": false,
+    "sqamv3_path": "/automarker/SQAM",
+    "create_tables":"./Demo/Winter_2020/createTable.sql",
+    "create_trigger":"./Demo/Winter_2020/createTrigger.sql",
+    "create_function":"./Demo/Winter_2020/createFunction.sql",
+    "load_data":"./Demo/Winter_2020/loadData.sql",
+    "solutions":"./Demo/Winter_2020/solutions_winter_2020.sql",
+    "submissions": "./Demo/Submissions/",
+    "submission_file_name": "queries.sql",
+    "json_output_filename": "result.json",
+    "lecture_section": "LEC101",
+    "timeout": 100,
+    "max_marks": 80,
+    "max_marks_per_question": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
+    "question_names": ["Q1","Q2","Q3.A","Q3.B","Q3.C","Q4.A","Q4.B","Q4.C","Q5.A","Q5.B","Q6.A", "Q6.B","Q6.C","Q7.A","Q7.B","Q8","Q9","Q10"],
+    "db_autocommit": true,
+    "db_user_name": "automarkercsc499",
+    "db_password": "csc499",
+    "db_name": "c499",
+    "db_host": "mysql",
+    "db_port": 3306,
+    "db_type": "mysql",
+    "marking_type": "partial"
+}
+
+The POST Request should return a status of "Success"
+The job running thread will create an am aggregated.json and report.txt inside the SQAM folder
+There should also be a result.json and report.txt inside each submission folder. 
+Ex SQAM/SQAM/Demo/Submissions/group_0000
+
 ## Requirements:
 
 You need Python >= 3.3 installed on your system. Then, install the

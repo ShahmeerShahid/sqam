@@ -7,28 +7,18 @@ import signal
 import os
 
 class Assignment:
-    def __init__(self):
-        self.assignment_name = ""
+    def __init__(self, name, path_to_submissions , groups_list_file, student_list_file,
+                 path_to_solutions, assignment_structure):
+        self.assignment_name = name
         self.solution_results = {}
-        self.path_to_solutions = None
-        self.file_name = None
-        self.questions = None
-        self.extractor = None
-        self.class_list = None
-        self.path_to_submissions = None
-        self.groups_list_file = None
-        self.student_list_file = None
-
-    def generate_class_list(self):
-        self.class_list = ClassList(self.path_to_submissions,self.groups_list_file,self.student_list_file)
-
-    def set_assignment_structure(self, assignment_structure):
+        self.path_to_solutions = path_to_solutions
         self.file_name = assignment_structure['file_name']
         self.questions = assignment_structure['questions']
         self.extractor = assignment_structure['extractor']
-
-    # def __setattr__(self, key, value):
-    #     self.key=value
+        self.class_list = ClassList(path_to_submissions,groups_list_file,student_list_file)
+        self.path_to_submissions = path_to_submissions
+        self.groups_list_file = groups_list_file
+        self.student_list_file = student_list_file
 
     def extract_queries(self):
         for group in self.class_list:

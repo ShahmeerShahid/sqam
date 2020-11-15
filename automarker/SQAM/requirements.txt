@@ -5,7 +5,4 @@ statistics
 mysql-connector-python
 py-postgresql
 jinja2
-# MySQL-python
-
-
-
+flask

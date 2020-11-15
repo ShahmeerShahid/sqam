@@ -1,5 +1,4 @@
 import os
-import json
 
 class Config:
     _instance = None
@@ -9,9 +8,13 @@ class Config:
             self.vars = dict()
             Config._instance = self
     
-    def load_config(self, json_string):
-        h = json.loads(json_string)
-        self.vars = h
+    def load_config(self, json_config):
+        json_config["max_marks"] = float(json_config["max_marks"])
+        json_config["db_port"] = int(json_config["db_port"])
+        json_config["timeout"] = int(json_config["timeout"])
+        json_config["using_windows_system"] = json_config["using_windows_system"] == "True"
+        json_config["db_autocommit"] = json_config["db_autocommit"] == "True"
+        self.vars = json_config
         self.synthesize_composite_vars()
     
     def synthesize_composite_vars(self):

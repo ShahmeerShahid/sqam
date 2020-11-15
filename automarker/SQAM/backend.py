@@ -1,29 +1,9 @@
 import os
 from flask import Flask, render_template, request, jsonify
-from SQAM.SQAM.config_singleton import Config
-import subprocess
+from SQAM.job import Job
 import json
+from threading import Thread
 app = Flask(__name__)
-
-config = Config.get_instance()
-
-def createArgs(configDict):
-    DELIMITER = chr(255)
-    resultKey = ""
-    resultValue = ""
-    for key in configDict:
-        if key == "max_marks_per_question":
-            resultKey += str(key) +  DELIMITER 
-            resultValue += ','.join(str(num) for num in configDict[key])  + DELIMITER
-
-        elif key == "question_names":
-            resultKey += str(key) +  DELIMITER
-            resultValue +=  ','.join(configDict[key])  + DELIMITER
-        else:
-            resultKey +=  str(key) + DELIMITER 
-            resultValue += str(configDict[key]) + DELIMITER
-
-    return (resultKey + " " +resultValue)
 
 @app.route("/", methods=['GET'])
 def root():
@@ -59,16 +39,20 @@ def root():
     
     """
 
+def run_job(config_json):
+    job = Job(config_json)
+    job.run()
+    # TODO Use Config Info to Send Back Response that Job is Done Marking
+
 # Pass config arguments and start automarker
 @app.route('/config', methods=['POST'])
 def ChangeAll():
-    file_status = request.get_json()
-    resultArgs = createArgs(file_status)
-    if len(file_status) == 24:
-        os.system("cd ./automarker && make setup_sql")
-        # os.system("docker exec -it sqam_mysql_1 bash -c 'mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql'")
-        os.system("cd ./automarker/SQAM/ && python3 SQAM_v3.py " + resultArgs + "&")
-        return jsonify({'Status' : "Success", "Results": file_status["submissions"]})
+    config_json = request.get_json()
+    # We Should Add Validation that All Required Feilds are correct and have Correct Values
+    if len(config_json) == 24:
+        job_thread = Thread(target=run_job, args=(config_json,))
+        job_thread.start()
+        return jsonify({'Status' : "Success", "Results": config_json["submissions"]})
     else:
         return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
 

@@ -69,11 +69,11 @@ services:
     restart: on-failure
 
   automarker:
-    build: ./automarker
+    build: ./automarker/SQAM
     ports:
       - "9005:80"
     volumes:
-      - ./automarker:/automarker
+      - ./automarker/SQAM:/automarker/SQAM
     environment:
       - PORT=80
     expose:

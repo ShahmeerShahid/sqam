@@ -1,43 +1,45 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 const server = require("../server");
+const Schema = mongoose.Schema;
+const constants = require("../constants");
 
-const taskSchema = new Schema(
+const Submission = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: constants.statuses,
+    required: true,
+    default: "Pending",
+  },
+});
+
+const Task = new Schema(
   {
-    id: {
+    tid: {
       type: Number,
+      unique: true,
       default: 0,
     },
     name: {
       type: String,
+      required: true,
     },
     status: {
       type: String,
-      enum: ["Pending", "Error", "Marking", "Complete"],
+      enum: constants.statuses,
+      required: true,
       default: "Pending",
     },
-    extra_fields: [
-      new Schema(
-        {
-          markus_URL: {
-            type: String,
-          },
-          assignment_id: {
-            type: Number,
-          },
-          api_key: {
-            type: String,
-          },
-        },
-        { strict: false }
-      ),
-    ],
+    submissions: [Submission],
+    extra_fields: [],
   },
   {
     timestamps: true,
   }
 );
 
-taskSchema.plugin(server.autoIncrement.plugin, { model: "Task", field: "id" });
-const Task = mongoose.model("Task", taskSchema);
-module.exports = Task;
+Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
+module.exports = mongoose.model("Task", Task);

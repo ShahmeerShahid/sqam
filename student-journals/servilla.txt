@@ -89,3 +89,26 @@ Meeting                                 1.75 hrs
 
 Nov 5:
 Sync with develop and quality assurance 4 hrs
+
+Nov 9:
+Meeting with Vaishvik for architecture  1 hr
+
+Nov 10:
+POST /tasks/status/:tid                 1 hr
+
+Nov 11:
+Weekly meeting + AM team meeting        2.75 hrs
+
+Nov 14:
+Submissions model                       5 hrs
+GET /submissions/:tid
+POST /submissions/
+POST /submissions/status/:sid
+POST /logs/
+Documentation
+
+Nov 17:
+Meeting w Vaishvik, Sandy, & Shahmeer   6 hrs
+Put submissions within tasks
+Adjust endpoints
+Write tests

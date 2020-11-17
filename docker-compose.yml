@@ -26,6 +26,8 @@ services:
     ports:
       - "3000:80"
     stdin_open: true
+    volume:
+      - /admin/node_modules
     tty: true
     environment:
       - PORT=80
@@ -43,8 +45,8 @@ services:
       - DB_PASSWD=Y^I8s67tF2ur
     volumes:
       - ./admin_api:/admin_api
+      - /admin_api/node_modules
       - *downloads-volume
-
 
   admindb:
     image: mongo

@@ -14,6 +14,10 @@ endif
 test :
 ifeq ($(app), frontend)
 	cd admin && npm test
+else ifeq ($(app), backend)
+	docker-compose up -d
+	docker-compose run admin_api npm test
+	docker-compose down
 endif
 
 setup :
@@ -23,3 +27,4 @@ endif
 
 prettier :
 	cd admin && npx prettier --write .
+	cd admin_api && npx prettier --write .

@@ -1,9 +1,9 @@
 {
-    "connectors": [
-        {
-            "name": "Markus",
-            "url": "http://markus-connector",
-            "port": 8001
-        }
-    ]
+  "connectors": [
+    {
+      "name": "Markus",
+      "url": "http://markus-connector",
+      "port": 8001
+    }
+  ]
 }

@@ -43,6 +43,8 @@ services:
       - DB_PASSWD=Y^I8s67tF2ur
     volumes:
       - ./admin_api:/admin_api
+      - *downloads-volume
+
 
   admindb:
     image: mongo
@@ -74,10 +76,12 @@ services:
       - "9005:80"
     volumes:
       - ./automarker/SQAM:/automarker/SQAM
+      - *downloads-volume
     environment:
       - PORT=80
     expose:
       - "80"
+
 volumes:
   admindb:
     driver: local

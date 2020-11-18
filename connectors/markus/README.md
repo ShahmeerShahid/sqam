@@ -10,7 +10,7 @@ This service is used to download Markus submissions
 
 **Response**
 - `200 OK` on success
-Fields APART FROM `task_id` and `download_directory` that this connector requires when `POST`ing download tasks.
+Fields APART FROM `tid` and `download_directory` that this connector requires when `POST`ing download tasks.
 ```json
 {
     "info": "Any extra general information to be displayed on the submission page/form e.g. group names must not have whitespace characters. Field specific should be provided as shown below.",
@@ -39,7 +39,7 @@ Fields APART FROM `task_id` and `download_directory` that this connector require
 `POST /tasks`
 ```json
 {
-    "task_id": 4,
+    "tid": 4,
     "download_directory": "/downloads/4/submissions/",
     "markus_URL": "www.example.com",
     "assignment_id": 4,
@@ -49,7 +49,7 @@ Fields APART FROM `task_id` and `download_directory` that this connector require
 
 **Response**
 - `200 OK` on success
-- `400 Bad Request` if `task_id`, `download_directory`, `markus_URL`, `assignment_id` and/or `api_key` not provided
+- `400 Bad Request` if `tid`, `download_directory`, `markus_URL`, `assignment_id` and/or `api_key` not provided
 - `401 Unauthorized` if unable to authorize with given information
 - `404 Not Found` if no assignment with `assignment_id` exists.
 - `500 Internal Server Error` on internal error

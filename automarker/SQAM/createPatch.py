@@ -7,7 +7,6 @@ PATHOUTPUT = "./Demo/Student_Information_and_Submissions/"
 PATHSUBMISSION = "./Demo/Submissions/"
 
 def createFiles(path):
-    print("Start")
     fd = open(path + "dirs_and_names.txt", "w")
     fg = open(path + "groups.txt", "w")
     fs = open(path + "students.csv", "w")
@@ -17,11 +16,9 @@ if __name__ == "__main__":
     submissions, outputPath, inputPath = "", "", ""
     fd, fg, fs = None, None, None
     if len(sys.argv) == 1:
-        print("Start NO INPUT")
         outputPath = PATHOUTPUT
         inputPath = PATHSUBMISSION
     elif len(sys.argv) == 3:
-        print("Start INPUT")
         outputPath = sys.argv[1]
         inputPath = sys.argv[2]
         

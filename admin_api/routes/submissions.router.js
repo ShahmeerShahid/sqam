@@ -70,11 +70,7 @@ router
 router
   .route("/status/:sid")
   .patch(
-    [
-      param("sid").notEmpty(),
-      body("tid").isInt(),
-      body("status").isIn(constants.statuses),
-    ],
+    [param("sid").notEmpty(), body("status").isIn(constants.statuses)],
     (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -84,7 +80,7 @@ router
       const tid = req.body.tid;
       const status = req.body.status;
 
-      Task.updateOne(
+      Task.findOneAndUpdate(
         { tid: tid, submissions: { $elemMatch: { _id: sid } } },
         { $set: { "submissions.$.status": status } },
         function (err, task) {

@@ -61,7 +61,7 @@ router
   );
 
 /*	PATCH /tasks/status/:tid
-	  @params: status, [num_groups]
+	  @params: status, [num_submissions]
     @return:
       ON SUCCESS: 200
       ON FAILURE: 404
@@ -73,7 +73,7 @@ router
     [
       param("tid").isInt(),
       body("status").isIn(constants.statuses),
-      body("num_groups").optional(),
+      body("num_submissions").optional(),
     ],
     (req, res) => {
       const errors = validationResult(req);
@@ -89,8 +89,8 @@ router
 
       if (status === "Downloaded") {
         //do stuff relevant to that
-        const num_groups = req.body.num_groups;
-        if (num_groups) update.num_groups = num_groups;
+        const num_submissions = req.body.num_submissions;
+        if (num_submissions) update.num_submissions = num_submissions;
       }
 
       if (req.body.num_groups)

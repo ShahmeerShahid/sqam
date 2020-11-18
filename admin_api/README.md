@@ -22,33 +22,52 @@ Defined schemas for User/Tasks
 [
   {
     "status": "Pending",
-    "submissions": [],
-    "tid": 1,
-    "name": "CSC343 Fall Test 1",
+    "num_submissions": 0,
     "extra_fields": [
       {
         "markus_URL": "http://markus.com"
       }
-    ]
-  },
-  {
-    "status": "Error",
+    ],
+    "_id": "5fb47041ad3adeea41e2e105",
+    "tid": 1,
+    "name": "CSC343 Fall Test 1",
     "submissions": [
       {
         "status": "Pending",
-        "_id": 0,
-        "name": "servilla",
-        "__v": 0
+        "_id": "5fb4713645f940001851ea56",
+        "name": "servilla"
+      },
+      {
+        "status": "Pending",
+        "_id": "5fb4713645f940001851ea57",
+        "name": "shahmeer"
+      },
+      {
+        "status": "Pending",
+        "_id": "5fb4713645f940001851ea58",
+        "name": "vaishvik"
+      },
+      {
+        "status": "Pending",
+        "_id": "5fb4713645f940001851ea59",
+        "name": "sandy"
       }
     ],
-    "tid": 2,
-    "name": "CSC343 Fall A1",
+    "updatedAt": "2020-11-18T00:56:22.257Z"
+  },
+  {
+    "status": "Error",
+    "num_submissions": 0,
     "extra_fields": [
       {
         "markus_URL": "http://markus.com",
         "assignment_id": 1
       }
-    ]
+    ],
+    "_id": "5fb47041ad3adeea41e2e106",
+    "tid": 2,
+    "name": "CSC343 Fall A1",
+    "submissions": []
   }
 ]
 ```
@@ -60,8 +79,9 @@ Defined schemas for User/Tasks
 
 - name
 - status (["Pending", "Error", "Marking", "Complete"])
-- submissions (list of submission ids)
+  optional:
 - extra_fields
+- submissions (list of submission objects)
 
 **Response**
 
@@ -69,26 +89,48 @@ Defined schemas for User/Tasks
   The task created
 
 ```json
-[
-  {
-    "name": "Markus",
-    "url": "http://markus-connector",
-    "port": 8001
-  },
-  {
-    "name": "Example",
-    "url": "http://example",
-    "port": 3000
-  }
-]
+{
+  "status": "Marking",
+  "num_submissions": 0,
+  "extra_fields": [
+    {
+      "markus_URL": "http://www.test-markus.com",
+      "assignment_id": 1,
+      "api_key": "dfgAHFDFUSF="
+    }
+  ],
+  "_id": "5fb4722245f940001851ea5e",
+  "name": "CSC343 Final Exam",
+  "submissions": [
+    {
+      "status": "Pending",
+      "_id": "5fb4722245f940001851ea5f",
+      "name": "servilla"
+    }
+  ],
+  "createdAt": "2020-11-18T01:00:18.177Z",
+  "updatedAt": "2020-11-18T01:00:18.177Z",
+  "tid": 0,
+  "__v": 0
+}
 ```
 
 **Definition**
-`POST /api/tasks/status/:tid`
+`PATCH /api/tasks/status/:tid`
 
 **Parameters**
 
-- status (["Pending", "Error", "Marking", "Complete"])
+- tid
+- status ([
+  "Pending",
+  "Downloading",
+  "Downloaded",
+  "Error",
+  "Marking",
+  "Complete",
+  ])
+  optional:
+- num_submissions
 
 **Response**
 
@@ -107,7 +149,8 @@ Defined schemas for User/Tasks
 A list of submissions associated with task tid
 
 **Parameters**
--tid
+
+- tid
 
 **Response**
 
@@ -118,43 +161,41 @@ A list of submissions associated with task tid
 [
   {
     "status": "Pending",
-    "_id": 0,
-    "name": "servilla",
-    "__v": 0
+    "_id": "5fb4713645f940001851ea56",
+    "name": "servilla"
+  },
+  {
+    "status": "Pending",
+    "_id": "5fb4713645f940001851ea57",
+    "name": "shahmeer"
   }
 ]
 ```
 
 **Definition**
-`POST /api/tasks`
+`POST /api/submissions/:tid`
 
 **Parameters**
 
-- name
-- status (["Pending", "Error", "Marking", "Complete"])
 - tid
+- names (list of submission names)
 
   **Response**
 
 - `201 CREATED` on success
-  The submission created
 
 ```json
 {
-  "status": "Marking",
-  "name": "dubchaeng",
-  "tid": 0,
-  "_id": 3,
-  "__v": 0
+  "message": "Submission(s) successfully added to task 1"
 }
 ```
 
 **Definition**
-`POST /api/submissions/status/:sid`
+`PATCH /api/submissions/status/:sid`
 
 **Parameters**
 
-- sid
+- sid (Mongo generated ObjectId)
 - status (["Pending", "Error", "Marking", "Complete"])
 
 **Response**

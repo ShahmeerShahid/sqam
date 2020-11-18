@@ -11,6 +11,7 @@ import {
   remove_file,
   does_dir_exist,
 } from "./lib/fs_helpers.js";
+import adminApi from "./lib/admin_api.js"
 
 const app = express();
 app.use(helmet()); // To remove insecure HTTP headers
@@ -58,7 +59,7 @@ app.post("/tasks", async (req, res) => {
     return;
   }
   const {
-    task_id,
+    tid,
     download_directory,
     markus_URL,
     assignment_id,
@@ -94,9 +95,12 @@ app.post("/tasks", async (req, res) => {
     "groups"
   );
   res.json({
-    status: "downloading",
+    status: "Downloading",
     message: `Downloading files from ${Object.keys(groups).length} groups`,
   });
+
+  const admin = new adminApi();
+
   for (let group_name of Object.keys(groups)) {
     let group_id = groups[group_name];
     try {
@@ -118,8 +122,11 @@ app.post("/tasks", async (req, res) => {
       await remove_file(`${download_directory}/${group_id}.zip`);
     } catch (err) {
       console.log("Error when downloading", group_id, group_name, err.message);
+      admin.update_task(tid, success=false);
+      return;
     }
   }
+  admin.update_task(tid, num_submissions = Object.keys(groups).length)
 });
 
 const port = process.env.PORT || 8080; // Port 80 if started by docker-compose

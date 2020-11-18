@@ -5,9 +5,10 @@ export async function fetchTasks() {
   return response.data;
 }
 
-export async function createTask({ name, status, extra_fields }) {
+export async function createTask({ name, connector, status, extra_fields }) {
   const body = {
     name: name,
+    connector: connector,
     status: status ? status : "Pending",
     extra_fields: extra_fields,
   };

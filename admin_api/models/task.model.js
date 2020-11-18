@@ -21,7 +21,7 @@ const Task = new Schema(
     tid: {
       type: Number,
       unique: true,
-      default: 0,
+      default: 1,
     },
     name: {
       type: String,
@@ -45,7 +45,7 @@ const Task = new Schema(
       required: true,
       default: 0,
     },
-    extra_fields: [],
+    extra_fields: {},
   },
   {
     timestamps: true,

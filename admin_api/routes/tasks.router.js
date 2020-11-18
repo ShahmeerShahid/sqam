@@ -93,18 +93,17 @@ router
         if (num_submissions) update.num_submissions = num_submissions;
       }
 
-      if (req.body.num_groups)
-        Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
-          if (doc === null) {
-            res.sendStatus(404);
-          } else if (err) {
-            res.sendStatus(500);
-          } else {
-            res.status(200).json({
-              message: `Task ${tid} successfully updated to status ${status}`,
-            });
-          }
-        });
+      Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
+        if (doc === null) {
+          res.sendStatus(404);
+        } else if (err) {
+          res.sendStatus(500);
+        } else {
+          res.status(200).json({
+            message: `Task ${tid} successfully updated to status ${status}`,
+          });
+        }
+      });
     }
   );
 

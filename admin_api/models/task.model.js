@@ -34,7 +34,7 @@ const Task = new Schema(
       default: "Pending",
     },
     submissions: [Submission],
-    num_groups: {
+    num_submissions: {
       type: Number,
       required: true,
       default: 0,

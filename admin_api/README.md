@@ -22,7 +22,7 @@ Defined schemas for User/Tasks
 [
   {
     "status": "Pending",
-    "num_groups": 0,
+    "num_submissions": 0,
     "extra_fields": [
       {
         "markus_URL": "http://markus.com"
@@ -57,7 +57,7 @@ Defined schemas for User/Tasks
   },
   {
     "status": "Error",
-    "num_groups": 0,
+    "num_submissions": 0,
     "extra_fields": [
       {
         "markus_URL": "http://markus.com",
@@ -91,7 +91,7 @@ Defined schemas for User/Tasks
 ```json
 {
   "status": "Marking",
-  "num_groups": 0,
+  "num_submissions": 0,
   "extra_fields": [
     {
       "markus_URL": "http://www.test-markus.com",
@@ -130,7 +130,7 @@ Defined schemas for User/Tasks
   "Complete",
   ])
   optional:
-- num_groups
+- num_submissions
 
 **Response**
 

@@ -3,12 +3,11 @@ import fetch from "node-fetch"
 
 
 export default function adminAPI() {
-    this.tid = tid;
-    
-    this._send_patch_request = async (tid, body) => {
-        await fetch(`http://admin_api/api/task/status/${tid}`, { method: 'PATCH', body });
+
+    this._send_patch_request = async (tid, reqBody) => {
+        return await fetch(`http://admin_api/api/tasks/status/${tid}`, { method: 'PATCH', body: JSON.stringify(reqBody), headers: { 'Content-Type': 'application/json' } });
     }
-    
+
     this.update_task = async (tid, success = true, num_submissions = 0) => {
         let body = {};
         if (success) {
@@ -17,7 +16,7 @@ export default function adminAPI() {
         } else {
             body.status = "Error"
         }
-        await this._send_patch_request(tid, body);
+        return await this._send_patch_request(tid, body);
     }
 }
 

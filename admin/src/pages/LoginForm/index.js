@@ -33,8 +33,8 @@ export function LoginForm(){
 		  };
 	return(
 		
-		<div class = "myDiv">
-			<Flex w = "full" algin = "center" justifyCotent = "center">
+		<div className = "myDiv">
+			<Flex w = "full" align = "center" justifyContent = "center" height = "100vh">
 				<Box p = {20} maxWidth = "1000px" borderWidth = {2} borderRadius = {8} boxShadow = "xl">
 				<Box textAlign = "center">
 				<Heading size = "2xl">LoginForm</Heading>

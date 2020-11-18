@@ -11,6 +11,7 @@ import {
 import Homepage from "./pages/Home";
 import Tasks from "./pages/Tasks";
 import AddTask from "./pages/AddTask";
+import LoginForm from "./pages/LoginForm";
 
 import "./App.css";
 
@@ -21,6 +22,7 @@ function UnconnectedApp() {
         <Route exact path="/" component={withRouter(Homepage)} />
         <Route exact path="/tasks" component={withRouter(Tasks)} />
         <Route exact path="/tasks/add" component={withRouter(AddTask)} />
+        <Route exact path="/login" component={withRouter(LoginForm)} />
         <Route
           exact
           path="/not-found"

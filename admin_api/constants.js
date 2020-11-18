@@ -9,4 +9,6 @@ const statuses = [
 
 const apps = ["automarker", "connectors", "admin", "admin_api"];
 
-module.exports = { statuses: statuses, apps: apps };
+const connectors = ["markus-connector"];
+
+module.exports = { apps: apps, connectors: connectors, statuses: statuses };

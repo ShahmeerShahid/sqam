@@ -107,8 +107,11 @@ POST /submissions/status/:sid
 POST /logs/
 Documentation
 
-Nov 17:
+Nov 16:
 Meeting w Vaishvik, Sandy, & Shahmeer   6 hrs
 Put submissions within tasks
 Adjust endpoints
 Write tests
+
+Nov 17:
+Admin-connector comm.                   4 hrs

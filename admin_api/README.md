@@ -29,6 +29,7 @@ Defined schemas for User/Tasks
       }
     ],
     "_id": "5fb47041ad3adeea41e2e105",
+    "connector": "markus-connector",
     "tid": 1,
     "name": "CSC343 Fall Test 1",
     "submissions": [
@@ -57,6 +58,7 @@ Defined schemas for User/Tasks
   },
   {
     "status": "Error",
+    "connector": "markus-connector",
     "num_submissions": 0,
     "extra_fields": [
       {
@@ -78,10 +80,13 @@ Defined schemas for User/Tasks
 **Parameters**
 
 - name
-- status (["Pending", "Error", "Marking", "Complete"])
+- connector (["markus-connector"])
   optional:
+- status (["Pending", "Downloading", "Downloaded", "Error", "Marking", "Complete"])
 - extra_fields
 - submissions (list of submission objects)
+
+CANNOT PASS IN: tid, \_id
 
 **Response**
 
@@ -99,6 +104,7 @@ Defined schemas for User/Tasks
       "api_key": "dfgAHFDFUSF="
     }
   ],
+  "connector": "markus-connector",
   "_id": "5fb4722245f940001851ea5e",
   "name": "CSC343 Final Exam",
   "submissions": [
@@ -121,14 +127,36 @@ Defined schemas for User/Tasks
 **Parameters**
 
 - tid
-- status ([
-  "Pending",
-  "Downloading",
-  "Downloaded",
-  "Error",
-  "Marking",
-  "Complete",
-  ])
+  optional:
+- name
+- status (["Pending", "Downloading", "Downloaded", "Error",
+  "Marking", "Complete"])
+- submissions
+- num_submissions
+- extra_fields
+
+CANNOT PASS IN: tid, logs, connector, \_id
+
+**Response**
+
+- `200 OK` on success
+
+```json
+{
+  "message": "Task 1 successfully updated"
+}
+```
+
+**Definition**
+`PATCH /api/tasks/status/:tid`
+
+This endpoint will be removed in the future!
+
+**Parameters**
+
+- tid
+- status (["Pending", "Downloading", "Downloaded", "Error",
+  "Marking", "Complete"])
   optional:
 - num_submissions
 
@@ -143,6 +171,10 @@ Defined schemas for User/Tasks
 ```
 
 ### Submissions
+
+Submissions is subject to change while we shift over
+the Automarker to use the concept of submissions
+so keep that in mind!
 
 **Definition**
 `GET /submissions/:tid`

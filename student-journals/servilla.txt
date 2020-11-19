@@ -115,3 +115,6 @@ Write tests
 
 Nov 17:
 Admin-connector comm.                   4 hrs
+
+Nov 18:
+Admin-Automarker comm. setup            3 hrs

@@ -42,7 +42,8 @@ services:
       - "9000:80"
     environment:
       - PORT=80
-      - PROD_DB_URL=sqam_admindb_1
+      - PROD_DB_URL=admindb
+      - AUTOMARKER_URL=automarker
       - DB_USERNAME=api
       - DB_PASSWD=Y^I8s67tF2ur
     volumes:

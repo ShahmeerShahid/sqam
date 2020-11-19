@@ -6,6 +6,8 @@ const fs = require("fs");
 let { Task, TaskSchema } = require("../models/task.model");
 const constants = require("../constants");
 
+const automarker = process.env.AUTOMARKER_URL || "localhost";
+
 /*	GET /tasks/
 	  @params: none 
     @return: a list of all tasks
@@ -16,11 +18,12 @@ const constants = require("../constants");
 router.route("/").get((req, res) => {
   Task.find()
     .then((tasks) => {
-      res.status(200).json(tasks);
+      return res.status(200).json(tasks);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send("An internal server error occurred.");
+    .catch((e) => {
+      return res.sendStatus(
+        e.response && e.response.status ? e.response.status : 500
+      );
     });
 });
 
@@ -31,17 +34,18 @@ router.route("/").get((req, res) => {
     ON FAILURE: 404, 500
 */
 
-router.route("/:tid").get([param("tid").isInt({ min: 1 })], (req, res) => {
+router.route("/:tid").get([param("tid").isInt({ min: 0 })], (req, res) => {
   Task.findOne({ tid: req.params.tid })
     .then((task) => {
       if (task === null) {
-        res.sendStatus(404);
+        return res.sendStatus(404);
       }
-      res.status(200).json(task);
+      return res.status(200).json(task);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send("An internal server error occurred.");
+    .catch((e) => {
+      return res.sendStatus(
+        e.response && e.response.status ? e.response.status : 500
+      );
     });
 });
 
@@ -78,11 +82,13 @@ router
           //await axios.post(`${connector}/tasks`, task);
           newTask.status = "Downloading";
           newTask.save().then((updatedTask) => {
-            res.status(201).json(updatedTask);
+            return res.status(201).json(updatedTask);
           });
         });
       } catch (e) {
-        res.status(500).send("An internal server error occurred.");
+        return res.sendStatus(
+          e.response && e.response.status ? e.response.status : 500
+        );
       }
     }
   );
@@ -98,7 +104,7 @@ router
   .route("/:tid")
   .patch(
     [
-      param("tid").isInt({ min: 1 }),
+      param("tid").isInt({ min: 0 }),
       body("status").optional().isIn(constants.statuses),
       body("name").optional().notEmpty(),
       body("submissions").optional().isArray({ min: 0 }),
@@ -129,10 +135,9 @@ router
 
       Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
         if (doc === null) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         } else if (err) {
-          console.log(err);
-          res.sendStatus(500);
+          return res.sendStatus(500);
         } else {
           res.status(200).json({
             message: `Task ${tid} successfully updated`,
@@ -156,40 +161,110 @@ router
   .route("/status/:tid")
   .patch(
     [
-      param("tid").isInt({ min: 1 }),
+      param("tid").isInt({ min: 0 }),
       body("status").isIn(constants.statuses),
-      body("num_submissions").optional(),
+      body("num_submissions").optional().isInt({ min: 0 }),
     ],
-    (req, res) => {
+    async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const tid = req.params.tid;
-      const status = req.body.status;
-
+      let status = req.body.status;
       let update = {
         status: status,
       };
 
-      if (status === "Downloaded") {
-        //do stuff relevant to that
-        const num_submissions = req.body.num_submissions;
-        if (num_submissions) update.num_submissions = num_submissions;
-      }
+      const mockTask = {
+        assignment_name: "A2",
+        using_windows_system: false,
+        sqamv3_path: "/automarker/SQAM",
+        create_tables: "./Demo/Winter_2020/createTable.sql",
+        create_trigger: "./Demo/Winter_2020/createTrigger.sql",
+        create_function: "./Demo/Winter_2020/createFunction.sql",
+        load_data: "./Demo/Winter_2020/loadData.sql",
+        solutions: "./Demo/Winter_2020/solutions_winter_2020.sql",
+        submissions: "./Demo/Submissions/",
+        submission_file_name: "queries.sql",
+        json_output_filename: "result.json",
+        lecture_section: "LEC101",
+        timeout: 100,
+        max_marks: 80,
+        max_marks_per_question: [
+          3,
+          4,
+          3,
+          3,
+          4,
+          4,
+          2,
+          2,
+          4,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          6,
+          7,
+        ],
+        question_names: [
+          "Q1",
+          "Q2",
+          "Q3.A",
+          "Q3.B",
+          "Q3.C",
+          "Q4.A",
+          "Q4.B",
+          "Q4.C",
+          "Q5.A",
+          "Q5.B",
+          "Q6.A",
+          "Q6.B",
+          "Q6.C",
+          "Q7.A",
+          "Q7.B",
+          "Q8",
+          "Q9",
+          "Q10",
+        ],
+        db_autocommit: true,
+        db_user_name: "automarkercsc499",
+        db_password: "csc499",
+        db_name: "c499",
+        db_host: "mysql",
+        db_port: 3306,
+        db_type: "mysql",
+        marking_type: "partial",
+      };
 
-      Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
-        if (doc === null) {
-          res.sendStatus(404);
-        } else if (err) {
-          console.log(err);
-          res.sendStatus(500);
-        } else {
-          res.status(200).json({
-            message: `Task ${tid} successfully updated to status ${status}`,
-          });
+      try {
+        const task = await Task.findOne({ tid: tid });
+        if (status === "Downloaded") {
+          if (req.body.num_submissions)
+            update.num_submissions = req.body.num_submissions;
+          console.log("sending to automarker");
+          const response = await axios.post(
+            `http://${automarker}:9005/runJob`,
+            mockTask
+          );
+          console.log("got response");
+          status = response.status;
+          update.status = status;
         }
-      });
+        await Task.findOneAndUpdate({ tid: tid }, update);
+        return res.status(200).json({
+          message: `Task ${tid} successfully updated to status ${status}`,
+        });
+      } catch (e) {
+        console.log(e);
+        return res.sendStatus(
+          e.response && e.response.status ? e.response.status : 500
+        );
+      }
     }
   );
 

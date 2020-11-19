@@ -7,6 +7,7 @@ let { Task, TaskSchema } = require("../models/task.model");
 const constants = require("../constants");
 
 const automarker = process.env.AUTOMARKER_URL || "localhost";
+const config = { headers: { "Content-Type": "application/json" } };
 
 /*	GET /tasks/
 	  @params: none 
@@ -240,19 +241,17 @@ router
         db_type: "mysql",
         marking_type: "partial",
       };
-
       try {
         const task = await Task.findOne({ tid: tid });
         if (status === "Downloaded") {
           if (req.body.num_submissions)
             update.num_submissions = req.body.num_submissions;
-          console.log("sending to automarker");
           const response = await axios.post(
-            `http://${automarker}:9005/runJob`,
-            mockTask
+            `http://${automarker}/runJob`,
+            mockTask,
+            config
           );
-          console.log("got response");
-          status = response.status;
+          status = response.status === 200 ? "Marking" : "Error";
           update.status = status;
         }
         await Task.findOneAndUpdate({ tid: tid }, update);

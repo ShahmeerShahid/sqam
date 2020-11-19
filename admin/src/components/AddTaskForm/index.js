@@ -59,6 +59,7 @@ function renderExtraField(errors, extraField, key, name, register) {
 
 function AddTaskForm({
   info,
+  connector,
   enqueueSnackbar,
   extraFields,
   setShowAddTaskForm,
@@ -70,9 +71,11 @@ function AddTaskForm({
     const omitNameFromValues = (({ taskName, ...o }) => o)(values);
     const response = await createTask({
       name: values.taskName,
+      connector: connector.url.slice(7),
       extra_fields: omitNameFromValues,
     });
     if (response.error) {
+      console.log(response);
       enqueueSnackbar(
         "An error occurred while adding a task, please try again.",
         {

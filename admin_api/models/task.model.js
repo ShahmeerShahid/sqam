@@ -21,7 +21,7 @@ const Task = new Schema(
     tid: {
       type: Number,
       unique: true,
-      default: 0,
+      default: 1,
     },
     name: {
       type: String,
@@ -33,13 +33,19 @@ const Task = new Schema(
       required: true,
       default: "Pending",
     },
+    connector: {
+      type: String,
+      enum: constants.connectors,
+      required: true,
+      default: "markus-connector",
+    },
     submissions: [Submission],
     num_submissions: {
       type: Number,
       required: true,
       default: 0,
     },
-    extra_fields: [],
+    extra_fields: {},
   },
   {
     timestamps: true,
@@ -47,4 +53,4 @@ const Task = new Schema(
 );
 
 Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
-module.exports = mongoose.model("Task", Task);
+module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task };

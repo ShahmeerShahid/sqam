@@ -49,6 +49,7 @@ function AddTask({ enqueueSnackbar }) {
             ) : (
               <AddTaskForm
                 info={connectorInfo.info}
+                connector={connector}
                 extraFields={
                   connectorInfo.extra_fields ? connectorInfo.extra_fields : null
                 }

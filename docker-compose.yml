@@ -28,9 +28,11 @@ services:
     stdin_open: true
     volumes:
       - /admin/node_modules
+      - ./admin:/admin
     tty: true
     environment:
       - PORT=80
+      - CHOKIDAR_USEPOLLING=true
 
   admin_api:
     build: ./admin_api

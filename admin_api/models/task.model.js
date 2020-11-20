@@ -43,10 +43,6 @@ const Task = new Schema(
       type: Number,
       default: 0,
     },
-    lecture_section: {
-      type: String,
-      default: "LEC101",
-    },
     max_marks: {
       type: Number,
       default: 0,
@@ -88,6 +84,7 @@ const Task = new Schema(
     timeout: {
       type: Number,
       default: 0,
+      max: 300,
     },
     db_type: {
       type: String,

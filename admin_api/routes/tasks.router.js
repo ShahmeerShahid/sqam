@@ -185,7 +185,6 @@ router
           const body = {
             tid: task.tid,
             assignment_name: task.name,
-            lecture_section: task.lecture_section,
             max_marks: task.max_marks,
             max_marks_per_question: task.max_marks_per_question,
             marking_type: task.marking_type,
@@ -199,15 +198,7 @@ router
             submissions: task.submission_path,
             timeout: task.timeout,
             db_type: task.db_type,
-            db_user_name: "automarkercsc499", //These fields are going to be
-            db_password: "csc499", // put in .env on the AM side!
-            db_name: "c499",
             db_host: "mysql",
-            db_port: 3306,
-            db_autocommit: true,
-            json_output_filename: "result.json",
-            using_windows_system: false,
-            sqamv3_path: "/automarker/SQAM",
           };
 
           const response = await axios.post(

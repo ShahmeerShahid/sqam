@@ -27,8 +27,9 @@ class Config:
         self.vars["query_extractor_re"] = lambda section : r'[-+\s]+{}[-+\s]+[^;]+;'.format(section)
         self.vars["questions"] = {q_num:max_grade for q_num,max_grade in zip(self.vars["question_names"],self.vars["max_marks_per_question"])}
         self.vars["assignment_structure"] = {'file_name':self.vars["submission_file_name"], 'questions': self.vars["questions"], 'extractor': self.vars["query_extractor_re"]}
+        self.vars["db_name"] = "t"+str(self.vars["tid"])
         self.vars["login_details"] = (self.vars["db_user_name"],self.vars["db_password"],self.vars["db_name"],self.vars["db_host"],self.vars["db_port"],self.vars["db_autocommit"])
-
+    
     def get_instance():
         if Config._instance is None:
             Config()

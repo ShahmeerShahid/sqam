@@ -6,7 +6,7 @@ x-downloads-volume: &downloads-volume
   target: /var/downloads # downloads folder in container
 
 services:
-  mysql:
+  mysqlam:
     image: mysql:5.7
     restart: always
     volumes:
@@ -83,6 +83,8 @@ services:
       - *downloads-volume
     environment:
       - PORT=80
+      - MYPASSWD=csc499
+      - PQPASSWD=csc499
     expose:
       - "80"
 

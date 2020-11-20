@@ -87,9 +87,16 @@ router
           });
         });
       } catch (e) {
-        return res.sendStatus(
-          e.response && e.response.status ? e.response.status : 500
-        );
+        newTask.status = "Error";
+        newTask.save();
+        return res
+          .status(e.response && e.response.status ? e.response.status : 500)
+          .json({
+            message:
+              e.response && e.response.message
+                ? e.response.message
+                : "Internal Server Error",
+          });
       }
     }
   );

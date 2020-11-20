@@ -19,9 +19,9 @@ class Config:
     
     def synthesize_composite_vars(self):
         self.vars["path_to_uam"] = os.path.join(self.vars["sqamv3_path"], 'UAM/')
-        self.vars["students_csv_file"] = os.path.join(self.vars["sqamv3_path"], "Demo/Student_Information_and_Submissions/students.csv")
-        self.vars["student_groups_file"] = os.path.join(self.vars["sqamv3_path"], "Demo/Student_Information_and_Submissions/groups.txt")
-        self.vars["dir_and_name_file"] = os.path.join(self.vars["sqamv3_path"], 'Demo/Student_Information_and_Submissions/dirs_and_names.txt')
+        self.vars["students_csv_file"] = os.path.join(self.vars["submissions"], "students.csv")
+        self.vars["student_groups_file"] = os.path.join(self.vars["submissions"], "groups.txt")
+        self.vars["dir_and_name_file"] = os.path.join(self.vars["submissions"], 'dirs_and_names.txt')
         self.vars["template_dir"] = os.path.join(self.vars["path_to_uam"], "templates")
         self.vars["timeout_operation"] = lambda : open("timedout", "w").close()
         self.vars["query_extractor_re"] = lambda section : r'[-+\s]+{}[-+\s]+[^;]+;'.format(section)

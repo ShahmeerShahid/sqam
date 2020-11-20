@@ -183,7 +183,7 @@ router
           if (req.body.num_submissions)
             update.num_submissions = req.body.num_submissions;
           const body = {
-            //tid: task.tid,
+            tid: task.tid,
             assignment_name: task.name,
             lecture_section: task.lecture_section,
             max_marks: task.max_marks,

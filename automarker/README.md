@@ -18,10 +18,13 @@ to start running the automarker.
 
 After the setup you just need to do make build, and you're good to go!
 
+You must have the admin_api Running in Docker for tha automarker backend to work correctly.
+
 ### How to Test if its working?
 
 Put the following in the body of a POST request to /runJob:
 {
+"tid": 1,
 "assignment_name": "A2",
 "using_windows_system": false,
 "sqamv3_path": "/automarker/SQAM",
@@ -144,55 +147,45 @@ purpose: 'get message about instructions about enpoints'
   request: GET,
   purpose: 'To get this message'
   },
-  {
-  route: /config/,
-  request: POST,
-  example:
-  {
-  "ASSIGNMENT_NAME": 'A2',
-  "USING_WINDOWS_SYSTEM": False,
-  "SUBMISSION_FILE_NAME": 'a2.sql',
-  "JSON_OUTPUT_FILENAME": 'result.json',
-  "LECTURE_SECTION": 'LEC101',
-  "STUDENTS_CSV_FILE": 'SQAM/Student_Information_and_Submissions/students.csv',
-  "STUDENT_GROUPS_FILE": 'SQAM/Student_Information_and_Submissions/groups.txt',
-  "DIR_AND_NAME_FILE" : 'SQAM/Student_Information_and_Submissions/dirs_and_names.txt',
-  "TIMEOUT": 100,
-  "MAX_MARKS": 70,
-  "maxMarksPerQuestion": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
-  "questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
-  'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
-  }
-  purpose: 'update all variables in the config at the same time it runs the program'
-  },
-  }
 
 **Definition**
-route: /config/,
+route: /runJob/,
 request: POST,
 purpose: 'update all variables in the config at the same time it runs the program'
 body_example:
 {
-"ASSIGNMENT_NAME": 'A2',
-"USING_WINDOWS_SYSTEM": False,
-"SUBMISSION_FILE_NAME": 'a2.sql',
-"JSON_OUTPUT_FILENAME": 'result.json',
-"LECTURE_SECTION": 'LEC101',
-"STUDENTS_CSV_FILE": 'SQAM/Student_Information_and_Submissions/students.csv',
-"STUDENT_GROUPS_FILE": 'SQAM/Student_Information_and_Submissions/groups.txt',
-"DIR_AND_NAME_FILE" : 'SQAM/Student_Information_and_Submissions/dirs_and_names.txt',
-"TIMEOUT": 100,
-"MAX_MARKS": 70,
-"maxMarksPerQuestion": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
-"questionNames": ['Q1','Q2','Q3.A','Q3.B','Q3.C','Q4.A','Q4.B','Q4.C','Q5.A','Q5.B','Q6.A',
-'Q6.B','Q6.C','Q7.A','Q7.B','Q8','Q9','Q10']
+"tid": 1,
+"assignment_name": "A2",
+"using_windows_system": false,
+"sqamv3_path": "/automarker/SQAM",
+"create_tables":"./Demo/Winter_2020/createTable.sql",
+"create_trigger":"./Demo/Winter_2020/createTrigger.sql",
+"create_function":"./Demo/Winter_2020/createFunction.sql",
+"load_data":"./Demo/Winter_2020/loadData.sql",
+"solutions":"./Demo/Winter_2020/solutions_winter_2020.sql",
+"submissions": "./Demo/Submissions/",
+"submission_file_name": "queries.sql",
+"json_output_filename": "result.json",
+"lecture_section": "LEC101",
+"timeout": 100,
+"max_marks": 80,
+"max_marks_per_question": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
+"question_names": ["Q1","Q2","Q3.A","Q3.B","Q3.C","Q4.A","Q4.B","Q4.C","Q5.A","Q5.B","Q6.A", "Q6.B","Q6.C","Q7.A","Q7.B","Q8","Q9","Q10"],
+"db_autocommit": true,
+"db_user_name": "automarkercsc499",
+"db_password": "csc499",
+"db_name": "c499",
+"db_host": "mysql",
+"db_port": 3306,
+"db_type": "mysql",
+"marking_type": "partial"
 }
 
 **Response**
 
 - `200 OK` on success:
 - Response Body:
-  {'Status' : "Success", "Results": file_status["submissions"]}
+  {'Status' : "Success"}
 
 **Response**
 

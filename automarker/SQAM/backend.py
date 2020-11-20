@@ -48,8 +48,10 @@ def runJobThread(config_json):
     try:
         job = Job(config_json)
         job.run()
+        print(f"Job with TID {config_json['tid']} ran successfully")
         sendResponse(config_json['tid'], "Complete")
     except Exception as e:
+        print(f"Job with TID {config_json['tid']} failed")
         sendResponse(config_json["tid"], "Error")
         # TODO Log the Error
 

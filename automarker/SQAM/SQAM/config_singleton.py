@@ -10,7 +10,7 @@ class Config:
     
     def load_config(self, json_config):
         self.vars["using_windows_system"] = False
-        self.vars["sqamv3_path"] = "./automarker/SQAM/"
+        self.vars["sqamv3_path"] = "/automarker/SQAM/"
         self.vars["json_output_filename"] = "result.json"
         self.vars["lecture_section"] = "1"
 

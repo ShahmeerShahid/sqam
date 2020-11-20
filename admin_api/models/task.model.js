@@ -36,14 +36,62 @@ const Task = new Schema(
     connector: {
       type: String,
       enum: constants.connectors,
-      required: true,
       default: "markus-connector",
     },
     submissions: [Submission],
     num_submissions: {
       type: Number,
-      required: true,
       default: 0,
+    },
+    lecture_section: {
+      type: String,
+      default: "LEC101",
+    },
+    max_marks: {
+      type: Number,
+      default: 0,
+    },
+    max_marks_per_question: [Number],
+    marking_type: {
+      type: String,
+      default: "",
+    },
+    question_names: [String],
+    submission_file_name: {
+      type: String,
+      default: "",
+    },
+    create_tables: {
+      type: String,
+      default: "",
+    },
+    create_trigger: {
+      type: String,
+      default: "",
+    },
+    create_function: {
+      type: String,
+      default: "",
+    },
+    load_data: {
+      type: String,
+      default: "",
+    },
+    solutions: {
+      type: String,
+      default: "",
+    },
+    submissions_path: {
+      type: String,
+      default: "",
+    },
+    timeout: {
+      type: Number,
+      default: 0,
+    },
+    db_type: {
+      type: String,
+      default: "mysql",
     },
     extra_fields: {},
   },

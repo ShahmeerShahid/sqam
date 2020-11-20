@@ -80,7 +80,7 @@ router
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
           }
-          //await axios.post(`${connector}/tasks`, task);
+          await axios.post(`${connector}/tasks`, task);
           newTask.status = "Downloading";
           newTask.save().then((updatedTask) => {
             return res.status(201).json(updatedTask);
@@ -177,78 +177,42 @@ router
         status: status,
       };
 
-      const mockTask = {
-        assignment_name: "A2",
-        using_windows_system: false,
-        sqamv3_path: "/automarker/SQAM",
-        create_tables: "./Demo/Winter_2020/createTable.sql",
-        create_trigger: "./Demo/Winter_2020/createTrigger.sql",
-        create_function: "./Demo/Winter_2020/createFunction.sql",
-        load_data: "./Demo/Winter_2020/loadData.sql",
-        solutions: "./Demo/Winter_2020/solutions_winter_2020.sql",
-        submissions: "./Demo/Submissions/",
-        submission_file_name: "queries.sql",
-        json_output_filename: "result.json",
-        lecture_section: "LEC101",
-        timeout: 100,
-        max_marks: 80,
-        max_marks_per_question: [
-          3,
-          4,
-          3,
-          3,
-          4,
-          4,
-          2,
-          2,
-          4,
-          5,
-          3,
-          4,
-          4,
-          4,
-          3,
-          5,
-          6,
-          7,
-        ],
-        question_names: [
-          "Q1",
-          "Q2",
-          "Q3.A",
-          "Q3.B",
-          "Q3.C",
-          "Q4.A",
-          "Q4.B",
-          "Q4.C",
-          "Q5.A",
-          "Q5.B",
-          "Q6.A",
-          "Q6.B",
-          "Q6.C",
-          "Q7.A",
-          "Q7.B",
-          "Q8",
-          "Q9",
-          "Q10",
-        ],
-        db_autocommit: true,
-        db_user_name: "automarkercsc499",
-        db_password: "csc499",
-        db_name: "c499",
-        db_host: "mysql",
-        db_port: 3306,
-        db_type: "mysql",
-        marking_type: "partial",
-      };
       try {
         const task = await Task.findOne({ tid: tid });
         if (status === "Downloaded") {
           if (req.body.num_submissions)
             update.num_submissions = req.body.num_submissions;
+          const body = {
+            //tid: task.tid,
+            assignment_name: task.name,
+            lecture_section: task.lecture_section,
+            max_marks: task.max_marks,
+            max_marks_per_question: task.max_marks_per_question,
+            marking_type: task.marking_type,
+            question_names: task.question_names,
+            submission_file_name: task.submission_file_name,
+            create_tables: task.create_tables,
+            create_trigger: task.create_trigger,
+            create_function: task.create_function,
+            load_data: task.load_data,
+            solutions: task.solutions,
+            submissions: task.submission_path,
+            timeout: task.timeout,
+            db_type: task.db_type,
+            db_user_name: "automarkercsc499", //These fields are going to be
+            db_password: "csc499", // put in .env on the AM side!
+            db_name: "c499",
+            db_host: "mysql",
+            db_port: 3306,
+            db_autocommit: true,
+            json_output_filename: "result.json",
+            using_windows_system: false,
+            sqamv3_path: "/automarker/SQAM",
+          };
+
           const response = await axios.post(
             `http://${automarker}/runJob`,
-            mockTask,
+            body,
             config
           );
           status = response.status === 200 ? "Marking" : "Error";

@@ -83,8 +83,10 @@ services:
       - *downloads-volume
     environment:
       - PORT=80
-      - MYPASSWD=csc499
-      - PQPASSWD=csc499
+      - MYSQL_USER=automarkercsc499
+      - MYSQL_PASSWORD=csc499
+      - MYPASSWD=csc499 # TODO CHANGE TO ROOT PASSWD
+      - PQPASSWD=csc499 # TODO Change to root passwd
     expose:
       - "80"
 

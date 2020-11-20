@@ -5,6 +5,7 @@ from SQAM.query_languages.MySQL import MySQLQuerier
 from SQAM.query_languages.query_runner import QueryRunner
 from SQAM.autograder.partial_marking_grader import Partial_Marking_Grader
 from SQAM.autograder.binary_grader import Binary_Marking_Grader
+from SQAM.createPatch import startPatch
 
 class Job:
     """ 
@@ -26,6 +27,9 @@ class Job:
         """
         self.config = Config.get_instance()
         self.config.load_config(raw_config)
+        startPatch(self.config.vars["submissions"])
+
+
         self.assignment = Assignment(self.config.vars["assignment_name"],
                                      self.config.vars["submissions"],
                                      self.config.vars["student_groups_file"],

@@ -9,13 +9,34 @@ class Config:
             Config._instance = self
     
     def load_config(self, json_config):
-        json_config["max_marks"] = float(json_config["max_marks"])
-        json_config["db_port"] = int(json_config["db_port"])
-        json_config["timeout"] = int(json_config["timeout"])
-        json_config["using_windows_system"] = json_config["using_windows_system"] == "True"
-        json_config["db_autocommit"] = json_config["db_autocommit"] == "True"
-        self.vars = json_config
+        self.vars["using_windows_system"] = False
+        self.vars["sqamv3_path"] = "./automarker/SQAM/"
+        self.vars["json_output_filename"] = "result.json"
+        self.vars["lecture_section"] = "1"
+
+        req_args = ["tid", "assignment_name", "create_tables", "create_trigger", "create_function", "load_data", "solutions", "submissions", "submission_file_name",
+        "timeout", "max_marks", "max_marks_per_question", "question_names", "db_type", "marking_type"]
+
+        for arg in req_args:
+            if arg not in json_config:
+                raise Exception(f"Required argument {arg}")
+            self.vars[arg] = json_config[arg]
+        
+        self.vars["db_autocommit"] = True
+        if self.vars["db_type"] == "mysql":
+            self.vars["db_user_name"] = os.getenv('MYSQL_USER', 'automarkercsc499')
+            self.vars["db_password"] = os.getenv('MYSQL_PASSWORD', 'csc499')
+            self.vars["db_host"] = "mysqlam"
+            self.vars["db_port"] = 3306
+        elif self.vars["db_type"] == "postgres":
+            raise Exception("Postgres not yet supported")
+        else:
+            raise Exception("Invalid db_type")
+    
+        self.vars["db_name"] = "t"+str(self.vars["tid"])
+
         self.synthesize_composite_vars()
+
     
     def synthesize_composite_vars(self):
         self.vars["path_to_uam"] = os.path.join(self.vars["sqamv3_path"], 'UAM/')
@@ -27,7 +48,6 @@ class Config:
         self.vars["query_extractor_re"] = lambda section : r'[-+\s]+{}[-+\s]+[^;]+;'.format(section)
         self.vars["questions"] = {q_num:max_grade for q_num,max_grade in zip(self.vars["question_names"],self.vars["max_marks_per_question"])}
         self.vars["assignment_structure"] = {'file_name':self.vars["submission_file_name"], 'questions': self.vars["questions"], 'extractor': self.vars["query_extractor_re"]}
-        self.vars["db_name"] = "t"+str(self.vars["tid"])
         self.vars["login_details"] = (self.vars["db_user_name"],self.vars["db_password"],self.vars["db_name"],self.vars["db_host"],self.vars["db_port"],self.vars["db_autocommit"])
     
     def get_instance():

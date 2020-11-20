@@ -50,7 +50,6 @@ def runJobThread(config_json):
         job.run()
         sendResponse(config_json['tid'], "Complete")
     except Exception as e:
-        print('errors!@!!223#@$#%#')
         sendResponse(config_json["tid"], "Error")
         # TODO Log the Error
 

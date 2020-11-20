@@ -10,7 +10,7 @@ def studentCSVlist(submissions: List[str]) -> List[str]:
     output = []
     for index, name in enumerate(submissions):
         # student0,student0,studentlast0,24800,email
-        output.append(f"student{index},student{index},studentlast{index},{index},{index},email\n")
+        output.append(f"student{index},student{index},studentlast{index},{index},email\n")
 
     return output
 

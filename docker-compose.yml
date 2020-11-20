@@ -83,8 +83,8 @@ services:
       - *downloads-volume
     environment:
       - PORT=80
-      - MYSQLPW=csc499
-      - PQSQLPW=csc499
+      - MYPASSWD=csc499
+      - PQPASSWD=csc499
     expose:
       - "80"
 

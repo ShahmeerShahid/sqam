@@ -26,7 +26,6 @@ class Job:
         
         Precondtion: Provided configuration information contains all required keys
         """
-        print('Before getting anything.')
         self.config = Config.get_instance()
         self.config.load_config(raw_config)
         startPatch(self.config.vars["submissions"])
@@ -44,7 +43,6 @@ class Job:
             #Initialize the database
             rootpwd = os.getenv("MYPASSWD")
             #result = subprocess.check_output(["./setup.sh", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
-            cmd = ""
             cmd =' '.join(["./setup.sh", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
             os.system(cmd)
             #Run the system

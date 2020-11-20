@@ -45,16 +45,14 @@ def sendResponse(tid, status):
     # TODO Log the response and possibly error handle a failed request
 
 def runJobThread(config_json):
-    job = Job(config_json)
-    job.run()
-    # try:
-    #     job = Job(config_json)
-    #     job.run()
-    #     sendResponse(config_json['tid'], "Complete")
-    # except Exception as e:
-    #     print('errors!@!!223#@$#%#')
-    #     sendResponse(config_json["tid"], "Error")
-    #     # TODO Log the Error
+    try:
+        job = Job(config_json)
+        job.run()
+        sendResponse(config_json['tid'], "Complete")
+    except Exception as e:
+        print('errors!@!!223#@$#%#')
+        sendResponse(config_json["tid"], "Error")
+        # TODO Log the Error
 
 # Pass config arguments and start automarker
 @app.route('/runJob', methods=['POST'])

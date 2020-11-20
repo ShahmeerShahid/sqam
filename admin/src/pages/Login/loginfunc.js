@@ -1,4 +1,4 @@
-export const demo = async ({ username, password }) => {
+export const login = async ({ username, password }) => {
 	return new Promise((resolve, reject) => {
 	  setTimeout(() => {
 		if (username === 'test@utoronto.ca' && password === 'password') {

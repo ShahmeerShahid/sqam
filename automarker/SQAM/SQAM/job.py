@@ -6,6 +6,7 @@ from SQAM.query_languages.query_runner import QueryRunner
 from SQAM.autograder.partial_marking_grader import Partial_Marking_Grader
 from SQAM.autograder.binary_grader import Binary_Marking_Grader
 from SQAM.createPatch import startPatch
+import os
 
 class Job:
     """ 
@@ -39,6 +40,12 @@ class Job:
         self.assignment.extract_queries()
 
         if(self.config.vars["db_type"] == "mysql"):
+            #Initialize the database
+            passwd = os.getenv("MYSQLPW")
+            print(passwd)
+            print(os.getcwd())
+            os.system("./start.sh mysql root "+passwd+" "+self.config.vars["tid"])
+            #Run the system
             self.query_language = MySQLQuerier(*self.config.vars["login_details"])
         elif(self.config.vars["db_type"] == "postgresql"):
             # Need to add postgres requirements to requirements.txt before uncommenting

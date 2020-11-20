@@ -6,7 +6,7 @@ x-downloads-volume: &downloads-volume
   target: /var/downloads # downloads folder in container
 
 services:
-  mysql:
+  mysqlam:
     image: mysql:5.7
     restart: always
     volumes:
@@ -84,6 +84,10 @@ services:
       - *downloads-volume
     environment:
       - PORT=80
+      - MYSQL_USER=automarkercsc499
+      - MYSQL_PASSWORD=csc499
+      - MYPASSWD=csc499 # TODO CHANGE TO ROOT PASSWD
+      - PQPASSWD=csc499 # TODO Change to root passwd
     expose:
       - "80"
 

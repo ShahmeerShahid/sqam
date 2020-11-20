@@ -43,7 +43,7 @@ class Job:
             #Initialize the database
             rootpwd = os.getenv("MYPASSWD")
             #result = subprocess.check_output(["./setup.sh", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
-            cmd =' '.join(["./setup.sh", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
+            cmd =' '.join(["./setup", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
             os.system(cmd)
             #Run the system
             self.query_language = MySQLQuerier(*self.config.vars["login_details"])

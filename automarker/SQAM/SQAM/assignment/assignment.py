@@ -40,8 +40,8 @@ class Assignment:
 
     def run_templator(self):
         config = Config.get_instance()
-        temp_py = config.vars["path_to_uam"] + "templator.py " + "--template_dir " + os.path.join(config.vars["path_to_uam"], "templates") + " "
-        run_templator_cmd = "python3 "+ temp_py+"aggregated.json txt"
+        temp_py = config.vars["path_to_uam"] + "templator.py " + "--template_dir " + os.path.join(config.vars["path_to_uam"], "templates") + f" -o {config.vars['submissions']}/report"
+        run_templator_cmd = "python3 " + temp_py +" aggregated.json txt"
         cmd = run_templator_cmd
         self.run_as_subprocess(cmd)
 
@@ -50,7 +50,7 @@ class Assignment:
         agg_py = config.vars["path_to_uam"] + "aggregator.py "
         python_type = "python3 " if not config.vars["using_windows_system"] else "python "
         run_aggregator_cmd = python_type + agg_py + self.assignment_name+" "
-        paths = config.vars["dir_and_name_file"]+" "+config.vars["students_csv_file"]+" "+config.vars["student_groups_file"]
+        paths = config.vars["dir_and_name_file"]+" "+config.vars["students_csv_file"]+" "+config.vars["student_groups_file"] + " result.json" + f" {config.vars['submissions']}/aggregated.json"
         cmd = run_aggregator_cmd + paths
         
         self.run_as_subprocess(cmd)

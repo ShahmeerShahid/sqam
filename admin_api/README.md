@@ -15,60 +15,168 @@ Defined schemas for User/Tasks
 
 **Response**
 
-- `200 OK` on success
-  List of all tasks
+-   `200 OK` on success
+    List of all tasks
 
 ```json
 [
-  {
-    "status": "Pending",
-    "num_submissions": 0,
-    "extra_fields": [
-      {
-        "markus_URL": "http://markus.com"
-      }
-    ],
-    "_id": "5fb47041ad3adeea41e2e105",
-    "connector": "markus-connector",
-    "tid": 1,
-    "name": "CSC343 Fall Test 1",
-    "submissions": [
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea56",
-        "name": "servilla"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea57",
-        "name": "shahmeer"
-      }
-    ],
-    "updatedAt": "2020-11-18T00:56:22.257Z",
-    "logs": [
-      {
-        "text": "line 1",
-        "source": "connector",
-        "timestamp": "2021-20-1"
-      }
-    ]
-  },
-  {
-    "status": "Error",
-    "connector": "markus-connector",
-    "num_submissions": 0,
-    "extra_fields": [
-      {
-        "markus_URL": "http://markus.com",
-        "assignment_id": 1
-      }
-    ],
-    "_id": "5fb47041ad3adeea41e2e106",
-    "tid": 2,
-    "name": "CSC343 Fall A1",
-    "submissions": []
-  }
+	{
+		"status": "Downloading",
+		"connector": "markus-connector",
+		"num_submissions": 0,
+		"lecture_section": "LEC102",
+		"max_marks": 80,
+		"max_marks_per_question": [
+			3,
+			4,
+			3,
+			3,
+			4,
+			4,
+			2,
+			2,
+			4,
+			5,
+			3,
+			4,
+			4,
+			4,
+			3,
+			5,
+			6,
+			7
+		],
+		"marking_type": "partial",
+		"question_names": [
+			"Q1",
+			"Q2",
+			"Q3.A",
+			"Q3.B",
+			"Q3.C",
+			"Q4.A",
+			"Q4.B",
+			"Q4.C",
+			"Q5.A",
+			"Q5.B",
+			"Q6.A",
+			"Q6.B",
+			"Q6.C",
+			"Q7.A",
+			"Q7.B",
+			"Q8",
+			"Q9",
+			"Q10"
+		],
+		"submission_file_name": "queries.sql",
+		"create_tables": "./Demo/Winter_2020/createTable.sql",
+		"create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+		"create_function": "./Demo/Winter_2020/createFunction.sql",
+		"load_data": "./Demo/Winter_2020/loadData.sql",
+		"solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+		"submissions_path": "./Demo/Submissions/",
+		"timeout": 100,
+		"db_type": "mysql",
+		"_id": "5fb741d5ba9512001295d833",
+		"name": "new task",
+		"extra_fields": {
+			"markus_URL": "http://www.test-markus.com",
+			"assignment_id": 1,
+			"api_key": "dfgAHFDFUSF="
+		},
+		"submissions": [],
+		"createdAt": "2020-11-20T04:11:01.148Z",
+		"updatedAt": "2020-11-20T04:11:01.191Z",
+		"tid": 0,
+		"__v": 0,
+		"logs": [
+			{
+				"text": "line 1",
+				"source": "connector",
+				"timestamp": "2021-20-1"
+			}
+		]
+	}
 ]
+```
+
+**Definition**
+`GET /api/tasks/:tid`
+
+**Response**
+
+-   `200 OK` on success
+    A task object
+
+```json
+{
+	"status": "Downloading",
+	"connector": "markus-connector",
+	"num_submissions": 0,
+	"lecture_section": "LEC102",
+	"max_marks": 80,
+	"max_marks_per_question": [
+		3,
+		4,
+		3,
+		3,
+		4,
+		4,
+		2,
+		2,
+		4,
+		5,
+		3,
+		4,
+		4,
+		4,
+		3,
+		5,
+		6,
+		7
+	],
+	"marking_type": "partial",
+	"question_names": [
+		"Q1",
+		"Q2",
+		"Q3.A",
+		"Q3.B",
+		"Q3.C",
+		"Q4.A",
+		"Q4.B",
+		"Q4.C",
+		"Q5.A",
+		"Q5.B",
+		"Q6.A",
+		"Q6.B",
+		"Q6.C",
+		"Q7.A",
+		"Q7.B",
+		"Q8",
+		"Q9",
+		"Q10"
+	],
+	"submission_file_name": "queries.sql",
+	"create_tables": "./Demo/Winter_2020/createTable.sql",
+	"create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+	"create_function": "./Demo/Winter_2020/createFunction.sql",
+	"load_data": "./Demo/Winter_2020/loadData.sql",
+	"solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+	"submissions_path": "./Demo/Submissions/",
+	"timeout": 100,
+	"db_type": "mysql",
+	"_id": "5fb741d5ba9512001295d833",
+	"name": "new task",
+	"extra_fields": {
+		"markus_URL": "http://www.test-markus.com",
+		"assignment_id": 1,
+		"api_key": "dfgAHFDFUSF="
+	},
+	"submissions": [],
+	"createdAt": "2020-11-20T04:11:01.148Z",
+	"updatedAt": "2020-11-20T04:11:01.191Z",
+	"tid": 0,
+	"__v": 0
+}
 ```
 
 **Definition**
@@ -76,19 +184,19 @@ Defined schemas for User/Tasks
 
 **Parameters**
 
-- name
-- connector (["markus-connector"])
-  optional:
-- status (["Pending", "Downloading", "Downloaded", "Error", "Marking", "Complete"])
-- extra_fields
-- submissions (list of submission objects)
+-   name
+-   connector (["markus-connector"])
+    optional:
+-   status (["Pending", "Downloading", "Downloaded", "Error", "Marking", "Complete"])
+-   extra_fields
+-   submissions (list of submission objects)
 
 CANNOT PASS IN: tid, \_id
 
 **Response**
 
-- `201 CREATED` on success
-  The task created
+-   `201 CREATED` on success
+    The task created
 
 ```json
 {
@@ -124,24 +232,24 @@ CANNOT PASS IN: tid, \_id
 
 **Parameters**
 
-- tid
-  optional:
-- name
-- status (["Pending", "Downloading", "Downloaded", "Error",
-  "Marking", "Complete"])
-- submissions
-- num_submissions
-- extra_fields
+-   tid
+    optional:
+-   name
+-   status (["Pending", "Downloading", "Downloaded", "Error",
+    "Marking", "Complete"])
+-   submissions
+-   num_submissions
+-   extra_fields
 
 CANNOT PASS IN: tid, logs, connector, \_id
 
 **Response**
 
-- `200 OK` on success
+-   `200 OK` on success
 
 ```json
 {
-  "message": "Task 1 successfully updated"
+	"message": "Task 1 successfully updated"
 }
 ```
 
@@ -152,19 +260,19 @@ This endpoint will be removed in the future!
 
 **Parameters**
 
-- tid
-- status (["Pending", "Downloading", "Downloaded", "Error",
-  "Marking", "Complete"])
-  optional:
-- num_submissions
+-   tid
+-   status (["Pending", "Downloading", "Downloaded", "Error",
+    "Marking", "Complete"])
+    optional:
+-   num_submissions
 
 **Response**
 
-- `200 OK` on success
+-   `200 OK` on success
 
 ```json
 {
-  "message": "Task 1 successfully updated to status Marking"
+	"message": "Task 1 successfully updated to status Marking"
 }
 ```
 
@@ -180,25 +288,25 @@ A list of submissions associated with task tid
 
 **Parameters**
 
-- tid
+-   tid
 
 **Response**
 
-- `200 OK` on success
-  List of all submissions
+-   `200 OK` on success
+    List of all submissions
 
 ```json
 [
-  {
-    "status": "Pending",
-    "_id": "5fb4713645f940001851ea56",
-    "name": "servilla"
-  },
-  {
-    "status": "Pending",
-    "_id": "5fb4713645f940001851ea57",
-    "name": "shahmeer"
-  }
+	{
+		"status": "Pending",
+		"_id": "5fb4713645f940001851ea56",
+		"name": "servilla"
+	},
+	{
+		"status": "Pending",
+		"_id": "5fb4713645f940001851ea57",
+		"name": "shahmeer"
+	}
 ]
 ```
 
@@ -207,16 +315,16 @@ A list of submissions associated with task tid
 
 **Parameters**
 
-- tid
-- names (list of submission names)
+-   tid
+-   names (list of submission names)
 
-  **Response**
+    **Response**
 
-- `201 CREATED` on success
+-   `201 CREATED` on success
 
 ```json
 {
-  "message": "Submission(s) successfully added to task 1"
+	"message": "Submission(s) successfully added to task 1"
 }
 ```
 
@@ -225,16 +333,16 @@ A list of submissions associated with task tid
 
 **Parameters**
 
-- sid (Mongo generated ObjectId)
-- status (["Pending", "Error", "Marking", "Complete"])
+-   sid (Mongo generated ObjectId)
+-   status (["Pending", "Error", "Marking", "Complete"])
 
 **Response**
 
-- `200 OK` on success
+-   `200 OK` on success
 
 ```json
 {
-  "message": "Submission 1 successfully updated to status Marking"
+	"message": "Submission 1 successfully updated to status Marking"
 }
 ```
 
@@ -247,33 +355,29 @@ Note: List of supplied logs will be appended to existing list of logs for given 
 
 **Parameters**
 
-- logs: a list of strings
-- source: String, must be one of "frontend", "automarker", "connector", or "api"
+-   logs: a list of strings
+-   source: String, must be one of "frontend", "automarker", "connector", or "api"
 
 **Example Request Body**
 
 ```json
 {
-    "logs": [
-        "first line",
-        "second line",
-        "third line",
-        "fourth line"
-    ],
-    "source": "automarker"
+	"logs": ["first line", "second line", "third line", "fourth line"],
+	"source": "automarker"
 }
 ```
 
 **Response**
 
-- `200 OK` on success
+-   `200 OK` on success
 
 ```json
 {
-  "message": "Task :tid logs successfully updated"
+	"message": "Task :tid logs successfully updated"
 }
 ```
-- `404 Not found` if no such task with given tid
+
+-   `404 Not found` if no such task with given tid
 
 ### Connectors
 
@@ -282,21 +386,21 @@ Note: List of supplied logs will be appended to existing list of logs for given 
 
 **Response**
 
-- `200 OK` on success
-  List of connectors (name and url) that can be used to download submissions
+-   `200 OK` on success
+    List of connectors (name and url) that can be used to download submissions
 
 ```json
 [
-  {
-    "name": "Markus",
-    "url": "http://markus-connector",
-    "port": 8001
-  },
-  {
-    "name": "Example",
-    "url": "http://example",
-    "port": 3000
-  }
+	{
+		"name": "Markus",
+		"url": "http://markus-connector",
+		"port": 8001
+	},
+	{
+		"name": "Example",
+		"url": "http://example",
+		"port": 3000
+	}
 ]
 ```
 

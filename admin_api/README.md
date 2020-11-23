@@ -42,19 +42,16 @@ Defined schemas for User/Tasks
         "status": "Pending",
         "_id": "5fb4713645f940001851ea57",
         "name": "shahmeer"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea58",
-        "name": "vaishvik"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea59",
-        "name": "sandy"
       }
     ],
-    "updatedAt": "2020-11-18T00:56:22.257Z"
+    "updatedAt": "2020-11-18T00:56:22.257Z",
+    "logs": [
+      {
+        "text": "line 1",
+        "source": "connector",
+        "timestamp": "2021-20-1"
+      }
+    ]
   },
   {
     "status": "Error",
@@ -117,7 +114,8 @@ CANNOT PASS IN: tid, \_id
   "createdAt": "2020-11-18T01:00:18.177Z",
   "updatedAt": "2020-11-18T01:00:18.177Z",
   "tid": 0,
-  "__v": 0
+  "__v": ,
+  "logs": []
 }
 ```
 
@@ -249,7 +247,8 @@ Note: List of supplied logs will be appended to existing list of logs for given 
 
 **Parameters**
 
-- logs: a list of strings 
+- logs: a list of strings
+- source: String, must be one of "frontend", "automarker", "connector", or "api"
 
 **Example Request Body**
 
@@ -260,7 +259,8 @@ Note: List of supplied logs will be appended to existing list of logs for given 
         "second line",
         "third line",
         "fourth line"
-    ]
+    ],
+    "source": "automarker"
 }
 ```
 

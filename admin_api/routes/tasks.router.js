@@ -31,7 +31,7 @@ router.route("/").get((req, res) => {
     ON FAILURE: 404, 500
 */
 
-router.route("/:tid").get([param("tid").isInt({ min: 1 })], (req, res) => {
+router.route("/:tid").get([param("tid").isInt({ min: 0 })], (req, res) => {
 	Task.findOne({ tid: req.params.tid })
 		.then((task) => {
 			if (task === null) {
@@ -151,7 +151,11 @@ router
 router
 	.route("/:tid/logs")
 	.put(
-		[param("tid").isInt({ min: 0 }), body("logs").isArray()],
+		[
+			param("tid").isInt({ min: 0 }),
+			body("logs").isArray(),
+			body("source").optional().isIn(constants.logSources),
+		],
 		(req, res) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
@@ -162,7 +166,11 @@ router
 
 			for (line in req.body.logs) {
 				logsToAppend.push(
-					new Log({ timestamp: new Date(), text: req.body.logs[line] })
+					new Log({
+						timestamp: new Date(),
+						text: req.body.logs[line],
+						source: req.body.source,
+					})
 				);
 			}
 
@@ -199,7 +207,7 @@ router
 	.route("/status/:tid")
 	.patch(
 		[
-			param("tid").isInt({ min: 1 }),
+			param("tid").isInt({ min: 0 }),
 			body("status").isIn(constants.statuses),
 			body("num_submissions").optional(),
 		],

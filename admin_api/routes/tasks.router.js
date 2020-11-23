@@ -6,6 +6,9 @@ const fs = require("fs");
 let { Task, TaskSchema } = require("../models/task.model");
 const constants = require("../constants");
 
+const automarker = process.env.AUTOMARKER_URL || "localhost";
+const config = { headers: { "Content-Type": "application/json" } };
+
 /*	GET /tasks/
 	  @params: none 
     @return: a list of all tasks
@@ -16,11 +19,12 @@ const constants = require("../constants");
 router.route("/").get((req, res) => {
   Task.find()
     .then((tasks) => {
-      res.status(200).json(tasks);
+      return res.status(200).json(tasks);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send("An internal server error occurred.");
+    .catch((e) => {
+      return res.sendStatus(
+        e.response && e.response.status ? e.response.status : 500
+      );
     });
 });
 
@@ -31,17 +35,18 @@ router.route("/").get((req, res) => {
     ON FAILURE: 404, 500
 */
 
-router.route("/:tid").get([param("tid").isInt({ min: 1 })], (req, res) => {
+router.route("/:tid").get([param("tid").isInt({ min: 0 })], (req, res) => {
   Task.findOne({ tid: req.params.tid })
     .then((task) => {
       if (task === null) {
-        res.sendStatus(404);
+        return res.sendStatus(404);
       }
-      res.status(200).json(task);
+      return res.status(200).json(task);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send("An internal server error occurred.");
+    .catch((e) => {
+      return res.sendStatus(
+        e.response && e.response.status ? e.response.status : 500
+      );
     });
 });
 
@@ -75,14 +80,23 @@ router
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
           }
-          //await axios.post(`${connector}/tasks`, task);
+          await axios.post(`${connector}/tasks`, task);
           newTask.status = "Downloading";
           newTask.save().then((updatedTask) => {
-            res.status(201).json(updatedTask);
+            return res.status(201).json(updatedTask);
           });
         });
       } catch (e) {
-        res.status(500).send("An internal server error occurred.");
+        newTask.status = "Error";
+        newTask.save();
+        return res
+          .status(e.response && e.response.status ? e.response.status : 500)
+          .json({
+            message:
+              e.response && e.response.message
+                ? e.response.message
+                : "Internal Server Error",
+          });
       }
     }
   );
@@ -98,7 +112,7 @@ router
   .route("/:tid")
   .patch(
     [
-      param("tid").isInt({ min: 1 }),
+      param("tid").isInt({ min: 0 }),
       body("status").optional().isIn(constants.statuses),
       body("name").optional().notEmpty(),
       body("submissions").optional().isArray({ min: 0 }),
@@ -129,10 +143,9 @@ router
 
       Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
         if (doc === null) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         } else if (err) {
-          console.log(err);
-          res.sendStatus(500);
+          return res.sendStatus(500);
         } else {
           res.status(200).json({
             message: `Task ${tid} successfully updated`,
@@ -156,40 +169,63 @@ router
   .route("/status/:tid")
   .patch(
     [
-      param("tid").isInt({ min: 1 }),
+      param("tid").isInt({ min: 0 }),
       body("status").isIn(constants.statuses),
-      body("num_submissions").optional(),
+      body("num_submissions").optional().isInt({ min: 0 }),
     ],
-    (req, res) => {
+    async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const tid = req.params.tid;
-      const status = req.body.status;
-
+      let status = req.body.status;
       let update = {
         status: status,
       };
 
-      if (status === "Downloaded") {
-        //do stuff relevant to that
-        const num_submissions = req.body.num_submissions;
-        if (num_submissions) update.num_submissions = num_submissions;
-      }
+      try {
+        const task = await Task.findOne({ tid: tid });
+        if (status === "Downloaded") {
+          if (req.body.num_submissions)
+            update.num_submissions = req.body.num_submissions;
+          const body = {
+            tid: task.tid,
+            assignment_name: task.name,
+            max_marks: task.max_marks,
+            max_marks_per_question: task.max_marks_per_question,
+            marking_type: task.marking_type,
+            question_names: task.question_names,
+            submission_file_name: task.submission_file_name,
+            create_tables: task.create_tables,
+            create_trigger: task.create_trigger,
+            create_function: task.create_function,
+            load_data: task.load_data,
+            solutions: task.solutions,
+            submissions: task.submission_path,
+            timeout: task.timeout,
+            db_type: task.db_type,
+            db_host: "mysql",
+          };
 
-      Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
-        if (doc === null) {
-          res.sendStatus(404);
-        } else if (err) {
-          console.log(err);
-          res.sendStatus(500);
-        } else {
-          res.status(200).json({
-            message: `Task ${tid} successfully updated to status ${status}`,
-          });
+          const response = await axios.post(
+            `http://${automarker}/runJob`,
+            body,
+            config
+          );
+          status = response.status === 200 ? "Marking" : "Error";
+          update.status = status;
         }
-      });
+        await Task.findOneAndUpdate({ tid: tid }, update);
+        return res.status(200).json({
+          message: `Task ${tid} successfully updated to status ${status}`,
+        });
+      } catch (e) {
+        console.log(e);
+        return res.sendStatus(
+          e.response && e.response.status ? e.response.status : 500
+        );
+      }
     }
   );
 

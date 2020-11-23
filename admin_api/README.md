@@ -21,57 +21,155 @@ Defined schemas for User/Tasks
 ```json
 [
   {
-    "status": "Pending",
-    "num_submissions": 0,
-    "extra_fields": [
-      {
-        "markus_URL": "http://markus.com"
-      }
-    ],
-    "_id": "5fb47041ad3adeea41e2e105",
-    "connector": "markus-connector",
-    "tid": 1,
-    "name": "CSC343 Fall Test 1",
-    "submissions": [
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea56",
-        "name": "servilla"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea57",
-        "name": "shahmeer"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea58",
-        "name": "vaishvik"
-      },
-      {
-        "status": "Pending",
-        "_id": "5fb4713645f940001851ea59",
-        "name": "sandy"
-      }
-    ],
-    "updatedAt": "2020-11-18T00:56:22.257Z"
-  },
-  {
-    "status": "Error",
+    "status": "Downloading",
     "connector": "markus-connector",
     "num_submissions": 0,
-    "extra_fields": [
-      {
-        "markus_URL": "http://markus.com",
-        "assignment_id": 1
-      }
+    "lecture_section": "LEC102",
+    "max_marks": 80,
+    "max_marks_per_question": [
+      3,
+      4,
+      3,
+      3,
+      4,
+      4,
+      2,
+      2,
+      4,
+      5,
+      3,
+      4,
+      4,
+      4,
+      3,
+      5,
+      6,
+      7
     ],
-    "_id": "5fb47041ad3adeea41e2e106",
-    "tid": 2,
-    "name": "CSC343 Fall A1",
-    "submissions": []
+    "marking_type": "partial",
+    "question_names": [
+      "Q1",
+      "Q2",
+      "Q3.A",
+      "Q3.B",
+      "Q3.C",
+      "Q4.A",
+      "Q4.B",
+      "Q4.C",
+      "Q5.A",
+      "Q5.B",
+      "Q6.A",
+      "Q6.B",
+      "Q6.C",
+      "Q7.A",
+      "Q7.B",
+      "Q8",
+      "Q9",
+      "Q10"
+    ],
+    "submission_file_name": "queries.sql",
+    "create_tables": "./Demo/Winter_2020/createTable.sql",
+    "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+    "create_function": "./Demo/Winter_2020/createFunction.sql",
+    "load_data": "./Demo/Winter_2020/loadData.sql",
+    "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+    "submissions_path": "./Demo/Submissions/",
+    "timeout": 100,
+    "db_type": "mysql",
+    "_id": "5fb741d5ba9512001295d833",
+    "name": "new task",
+    "extra_fields": {
+      "markus_URL": "http://www.test-markus.com",
+      "assignment_id": 1,
+      "api_key": "dfgAHFDFUSF="
+    },
+    "submissions": [],
+    "createdAt": "2020-11-20T04:11:01.148Z",
+    "updatedAt": "2020-11-20T04:11:01.191Z",
+    "tid": 0,
+    "__v": 0
   }
 ]
+```
+
+**Definition**
+`GET /api/tasks/:tid`
+
+**Response**
+
+- `200 OK` on success
+  A task object
+
+```json
+{
+  "status": "Downloading",
+  "connector": "markus-connector",
+  "num_submissions": 0,
+  "lecture_section": "LEC102",
+  "max_marks": 80,
+  "max_marks_per_question": [
+    3,
+    4,
+    3,
+    3,
+    4,
+    4,
+    2,
+    2,
+    4,
+    5,
+    3,
+    4,
+    4,
+    4,
+    3,
+    5,
+    6,
+    7
+  ],
+  "marking_type": "partial",
+  "question_names": [
+    "Q1",
+    "Q2",
+    "Q3.A",
+    "Q3.B",
+    "Q3.C",
+    "Q4.A",
+    "Q4.B",
+    "Q4.C",
+    "Q5.A",
+    "Q5.B",
+    "Q6.A",
+    "Q6.B",
+    "Q6.C",
+    "Q7.A",
+    "Q7.B",
+    "Q8",
+    "Q9",
+    "Q10"
+  ],
+  "submission_file_name": "queries.sql",
+  "create_tables": "./Demo/Winter_2020/createTable.sql",
+  "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+  "create_function": "./Demo/Winter_2020/createFunction.sql",
+  "load_data": "./Demo/Winter_2020/loadData.sql",
+  "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+  "submissions_path": "./Demo/Submissions/",
+  "timeout": 100,
+  "db_type": "mysql",
+  "_id": "5fb741d5ba9512001295d833",
+  "name": "new task",
+  "extra_fields": {
+    "markus_URL": "http://www.test-markus.com",
+    "assignment_id": 1,
+    "api_key": "dfgAHFDFUSF="
+  },
+  "submissions": [],
+  "createdAt": "2020-11-20T04:11:01.148Z",
+  "updatedAt": "2020-11-20T04:11:01.191Z",
+  "tid": 0,
+  "__v": 0
+}
 ```
 
 **Definition**

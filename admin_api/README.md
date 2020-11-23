@@ -243,13 +243,24 @@ A list of submissions associated with task tid
 ### Logs
 
 **Definition**
-`POST /api/logs/`
+`PUT /api/tasks/:tid/logs`
 
 **Parameters**
 
-- app (["automarker", "connectors", "admin", "admin_api"])
-- filename (must end with .txt)
-- text
+- logs: a list of strings
+
+**Example Request Body**
+
+```json
+{
+    "logs": [
+        "first line",
+        "second line",
+        "third line",
+        "fourth line"
+    ]
+}
+```
 
 **Response**
 
@@ -257,9 +268,10 @@ A list of submissions associated with task tid
 
 ```json
 {
-  "message": "Log for app automarker with text Submission 5 marked written to servilla.txt"
+  "message": "Task :tid logs successfully updated"
 }
 ```
+- `404 Not found` if no such task with given tid
 
 ### Connectors
 

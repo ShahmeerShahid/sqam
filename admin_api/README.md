@@ -245,9 +245,11 @@ A list of submissions associated with task tid
 **Definition**
 `PUT /api/tasks/:tid/logs`
 
+Note: List of supplied logs will be appended to existing list of logs for given task.
+
 **Parameters**
 
-- logs: a list of strings
+- logs: a list of strings 
 
 **Example Request Body**
 

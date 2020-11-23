@@ -16,6 +16,16 @@ const Submission = new Schema({
   },
 });
 
+const Log = new Schema({
+	timestamp: Date,
+	text: String,
+	source: {
+		type: String,
+		required: true,
+		enum: constants.logSources
+	}
+});
+
 const Task = new Schema(
   {
     tid: {
@@ -83,14 +93,15 @@ const Task = new Schema(
     },
     timeout: {
       type: Number,
-      default: 0,
+      default: 100,
       max: 300,
     },
     db_type: {
       type: String,
       default: "mysql",
     },
-    extra_fields: {},
+		extra_fields: {},
+		logs: [Log], // Mongoose automatically sets default to []
   },
   {
     timestamps: true,
@@ -98,4 +109,4 @@ const Task = new Schema(
 );
 
 Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
-module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task };
+module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task, Log: mongoose.model("Log", Log) };

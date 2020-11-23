@@ -16,41 +16,47 @@ const Submission = new Schema({
   },
 });
 
+const Log = new Schema({
+	timestamp: Date,
+	text: String,
+});
+
 const Task = new Schema(
-  {
-    tid: {
-      type: Number,
-      unique: true,
-      default: 1,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: constants.statuses,
-      required: true,
-      default: "Pending",
-    },
-    connector: {
-      type: String,
-      enum: constants.connectors,
-      required: true,
-      default: "markus-connector",
-    },
-    submissions: [Submission],
-    num_submissions: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    extra_fields: {},
-  },
-  {
-    timestamps: true,
-  }
+	{
+		tid: {
+			type: Number,
+			unique: true,
+			default: 1,
+		},
+		name: {
+			type: String,
+			required: true,
+		},
+		status: {
+			type: String,
+			enum: constants.statuses,
+			required: true,
+			default: "Pending",
+		},
+		connector: {
+			type: String,
+			enum: constants.connectors,
+			required: true,
+			default: "markus-connector",
+		},
+		submissions: [Submission],
+		num_submissions: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		logs: [Log], // Mongoose automatically sets default to []
+		extra_fields: {},
+	},
+	{
+		timestamps: true,
+	}
 );
 
 Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
-module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task };
+module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task, Log: mongoose.model("Log", Log) };

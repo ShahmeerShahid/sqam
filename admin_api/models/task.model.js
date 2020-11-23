@@ -19,6 +19,11 @@ const Submission = new Schema({
 const Log = new Schema({
 	timestamp: Date,
 	text: String,
+	source: {
+		type: String,
+		required: true,
+		enum: constants.logSources
+	}
 });
 
 const Task = new Schema(

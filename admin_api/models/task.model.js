@@ -16,6 +16,16 @@ const Submission = new Schema({
   },
 });
 
+const Log = new Schema({
+	timestamp: Date,
+	text: String,
+	source: {
+		type: String,
+		required: true,
+		enum: constants.logSources
+	}
+});
+
 const Task = new Schema(
   {
     tid: {
@@ -36,16 +46,62 @@ const Task = new Schema(
     connector: {
       type: String,
       enum: constants.connectors,
-      required: true,
       default: "markus-connector",
     },
     submissions: [Submission],
     num_submissions: {
       type: Number,
-      required: true,
       default: 0,
     },
-    extra_fields: {},
+    max_marks: {
+      type: Number,
+      default: 0,
+    },
+    max_marks_per_question: [Number],
+    marking_type: {
+      type: String,
+      default: "",
+    },
+    question_names: [String],
+    submission_file_name: {
+      type: String,
+      default: "",
+    },
+    create_tables: {
+      type: String,
+      default: "",
+    },
+    create_trigger: {
+      type: String,
+      default: "",
+    },
+    create_function: {
+      type: String,
+      default: "",
+    },
+    load_data: {
+      type: String,
+      default: "",
+    },
+    solutions: {
+      type: String,
+      default: "",
+    },
+    submissions_path: {
+      type: String,
+      default: "",
+    },
+    timeout: {
+      type: Number,
+      default: 100,
+      max: 300,
+    },
+    db_type: {
+      type: String,
+      default: "mysql",
+    },
+		extra_fields: {},
+		logs: [Log], // Mongoose automatically sets default to []
   },
   {
     timestamps: true,
@@ -53,4 +109,4 @@ const Task = new Schema(
 );
 
 Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
-module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task };
+module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task, Log: mongoose.model("Log", Log) };

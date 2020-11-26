@@ -46,7 +46,7 @@ export function TaskPage({ enqueueSnackbar }) {
             justifyContent="flex-start"
           >
             <Text fontSize="3xl" fontWeight="bold">
-              Welcome to Task({tid})
+              Task({tid})
             </Text>
           </Flex>
         </Flex>

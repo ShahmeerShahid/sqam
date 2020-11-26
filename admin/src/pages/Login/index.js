@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/core";
 
 
-import {login} from './loginfunc';
+import {login} from '../../requests/login/';
 import ErrorMsg from '../../components/ErrorMsg';
 import { Link } from "react-router-dom";
 
@@ -28,8 +28,9 @@ export function LoginForm(){
 			event.preventDefault();
 			setLoading(true);
 			try {
-			  await login({ username, password });
-			  setLoggedIn(true);
+			  const result = await login({ username, password });
+			  console.log(result);
+			  setLoggedIn(result);
 			  setLoading(false);
 			} catch (error) {
 			  setError('Invalid username or password');

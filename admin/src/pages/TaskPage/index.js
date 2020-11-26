@@ -1,49 +1,32 @@
-import React, { useEffect } from "react";
-import { Badge, Box, Heading, ThemeProvider, CSSReset, theme, Text, Grid, Flex } from "@chakra-ui/core";
+import React, {useEffect} from "react";
+import { ThemeProvider, Text, Grid, Flex } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
-import { Link, useParams } from "react-router-dom";
-import { useAsync } from "react-use";
+import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
-import { fetchTasks } from "../../requests/tasks";
 import "./TaskPage.css";
 import TaskDetail from "../../components/TaskDetail";
 import TaskLog from "../../components/TaskLog";
+import { useAsync } from "react-async"
+import { fetchTasksInfo } from "../../requests/tasks";
 
-export function Task({ task }) {
-  const taskColor = (status) => {
-    switch (status) {
-      case "Complete":
-        return "green";
-      case "Pending":
-        return "yellow";
-      case "Error":
-        return "red";
-      case "Marking":
-        return "red";
-      default:
-        return "";
-    }
-  };
-
-  return (
-    <Box p={5} mb={4} shadow="md" borderWidth="1px">
-      <Heading fontSize="xl">
-        {task.name}{" "}
-        <Badge variantColor={taskColor(task.status)}>{task.status}</Badge>
-      </Heading>
-    </Box>
-  );
-}
 
 export function TaskPage({ enqueueSnackbar }) {
-  const tasks = useAsync(fetchTasks, []);
   let { tid } = useParams();
+  let tasks_info = useAsync({promiseFn: fetchTasksInfo, tid: tid });
+  let TaskData = tasks_info.data
+  let TaskLogs = []
+  
   useEffect(() => {
-    if (tasks.error) {
-      enqueueSnackbar("Failed fetching tasks", { variant: "error" });
-    }
-  }, [tasks, enqueueSnackbar]);
-
+      if (tasks_info.error) {
+          enqueueSnackbar("Failed fetching task information", { variant: "error" });
+      }
+      TaskData = tasks_info.data
+  }, [tasks_info, enqueueSnackbar]);
+  if (TaskData){
+    TaskLogs = TaskData.logs
+    // Dummy Data
+    // TaskLogs = [{"timestamp":"Monday", "text": " Line 23:18:  Assignments to the 'TaskData' variable from inside React Hook useEffect will be lost after each render. To preserve the value over time, store it in a useRef Hook and keep the mutable value in the '.current' property. Otherwise, you can move this variable directly inside useEffect  react-hooks/exhaustive-deps", "source":"automarker"}, {"timestamp":"Tuesday", "text": " not Working Hard", "source":"connector"}]
+  }
   return (
     <div>
       <Header />
@@ -68,8 +51,8 @@ export function TaskPage({ enqueueSnackbar }) {
           </Flex>
         </Flex>
         <Grid p={10} gap={6} templateColumns="repeat(auto-fit, minmax(350px, 1fr))">
-          <TaskDetail tid={tid} />
-          <TaskLog tid={tid} />
+          <TaskDetail TaskData={TaskData} tid={tid} enqueueSnackbar={enqueueSnackbar}/>
+          <TaskLog TaskLogs={TaskLogs} tid={tid} enqueueSnackbar={enqueueSnackbar}/>
         </Grid>
       </ThemeProvider>
     </div>

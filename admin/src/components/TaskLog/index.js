@@ -1,21 +1,50 @@
 import React from "react";
-import { Box, Heading, Stack, Text, Icon, Flex, Tag } from "@chakra-ui/core";
+import { Box, Heading, Stack, Icon, Flex, Text } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
-import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import { createTask } from "../../requests/tasks";
+import { Container } from "@material-ui/core";
 
 
-function TaskLog({
-    tid
-}) {
+function LogRow({ Log_Field }) {
+    return (
+        <Box
+            bg="darkturquoise"
+            w="100%"
+            p={3}
+            px={5}
+            minHeight="50px"
+            py={4}
+            borderRadius="lg"
+            justifyContent="space-between"
+            alignItems="center"
+        >
+            <Box d="flex" justifyContent="space-between" alignItems="center">
+                <Box>
+                    <Box mt="1" lineHeight="tight" isTruncated>
+                        <Text fontWeight="semibold" as="h4">
+                            Source: {Log_Field["source"]}, Time: {Log_Field["timestamp"]}
+                        </Text>
+                    </Box>
+                    <Box >
+                        <Container>Log : {Log_Field["text"]}</Container> 
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+    );
+}
+
+
+function TaskLog({ tid, TaskLogs }) {
+    console.log(TaskLogs)
     return (
         <div>
             <Box>
                 <Box
-                    backgroundColor="white"
+                    backgroundColor="gainsboro"
                     borderRadius="lg"
                     shadow="sm"
+                    maxH ={1000}
+                    overflowY="scroll"                    
                     pl={3}
                     pr={3}
                     pt={5}
@@ -40,9 +69,13 @@ function TaskLog({
                         </Heading>
                         <Icon name="chevron-right" />
                     </Flex>
-                    <Stack shouldWrapChildren spacing={4} ml={4} mt={4}>
+                    <Stack shouldWrapChildren spacing={4} ml={4} mt={4} >
                         <Stack shouldWrapChildren spacing={2}>
-                            
+                        {TaskLogs.length !== 0 ? ( TaskLogs.map((key, index) => (
+                            <LogRow key={index}  Log_Field={key} />
+                        ))) : (
+                            <h1>No tasks to display</h1>
+                        )}
                         </Stack>
                     </Stack>
                 </Box>

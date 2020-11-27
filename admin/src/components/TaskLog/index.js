@@ -35,7 +35,6 @@ function LogRow({ Log_Field }) {
 
 
 function TaskLog({ tid, TaskLogs }) {
-    console.log(TaskLogs)
     return (
         <div>
             <Box>

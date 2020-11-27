@@ -84,7 +84,6 @@ router
         { tid: tid, submissions: { $elemMatch: { _id: sid } } },
         { $set: { "submissions.$.status": status } },
         function (err, task) {
-          console.log(task);
           if (task === null) {
             res.sendStatus(404);
           } else if (err) {

@@ -75,7 +75,6 @@ function AddTaskForm({
       extra_fields: omitNameFromValues,
     });
     if (response.error) {
-      console.log(response);
       enqueueSnackbar(
         "An error occurred while adding a task, please try again.",
         {

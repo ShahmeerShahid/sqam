@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Heading, Stack, Flex, Icon, ThemeProvider, Text} from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 
-function TaskRow({ Field_Name, Field_Value }) {
+function TaskRow({ fieldName, fieldValue }) {
     return (
       <div>
           <ThemeProvider>
@@ -18,10 +18,10 @@ function TaskRow({ Field_Name, Field_Value }) {
                   alignItems="center"
               >
                   <Flex flexDirection="row" justifyContent="center" alignItems="center">
-                  <Text>{Field_Name} : </Text>
+                  <Text>{fieldName} : </Text>
                   </Flex>
                   <Box>
-                  <Text>{Field_Value} </Text>
+                  <Text>{fieldValue} </Text>
                   </Box>
               </Flex>
           </ThemeProvider>
@@ -30,6 +30,12 @@ function TaskRow({ Field_Name, Field_Value }) {
 }
 
 function TaskDetail({TaskData, tid, enqueueSnackbar}) {
+
+    if (TaskData){
+        ['_id', 'logs', 'createdAt', 'updatedAt', '__v'].forEach(e => delete TaskData[e]);
+        TaskData["submissions"] = ['lol', 'new']
+    }
+    
     return (
     <div >
         <Box
@@ -66,7 +72,11 @@ function TaskDetail({TaskData, tid, enqueueSnackbar}) {
                 </Flex>
                 <Stack ml={4} spacing={2} shouldWrapChildren mt={4} mr={4}>
                     {TaskData ? ( Object.keys(TaskData).map((key, index) => (
-                        <TaskRow key={index} Field_Name={key} Field_Value={String(TaskData[key])} />
+                        (String(TaskData[key])) ?
+                            typeof(TaskData[key]) == "object" && !(Array.isArray(TaskData[key])) ? ( Object.keys(TaskData[key]).map((key2, index2) => (
+                                    <TaskRow key={index2} fieldName={key2} fieldValue={String(TaskData[key][key2])} />
+                                ))) :
+                            <TaskRow key={index} fieldName={key} fieldValue={String(TaskData[key])} /> : null
                     ))) : (
                         <h1>No tasks to display</h1>
                     )}

@@ -25,7 +25,7 @@ export function Task({ task }) {
   };
   let new_Path = "/tasks/";
   if (task.tid || task.tid === 0) {
-    new_Path= "/tasks/" + task.tid + "/"
+    new_Path = "/tasks/" + task.tid + "/";
   }
 
   return (

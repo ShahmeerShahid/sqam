@@ -17,13 +17,13 @@ const Submission = new Schema({
 });
 
 const Log = new Schema({
-	timestamp: Date,
-	text: String,
-	source: {
-		type: String,
-		required: true,
-		enum: constants.logSources
-	}
+  timestamp: Date,
+  text: String,
+  source: {
+    type: String,
+    required: true,
+    enum: constants.logSources,
+  },
 });
 
 const Task = new Schema(
@@ -100,8 +100,8 @@ const Task = new Schema(
       type: String,
       default: "mysql",
     },
-		extra_fields: {},
-		logs: [Log], // Mongoose automatically sets default to []
+    extra_fields: {},
+    logs: [Log], // Mongoose automatically sets default to []
   },
   {
     timestamps: true,
@@ -109,4 +109,8 @@ const Task = new Schema(
 );
 
 Task.plugin(server.autoIncrement.plugin, { model: "Task", field: "tid" });
-module.exports = { Task: mongoose.model("Task", Task), TaskSchema: Task, Log: mongoose.model("Log", Log) };
+module.exports = {
+  Task: mongoose.model("Task", Task),
+  TaskSchema: Task,
+  Log: mongoose.model("Log", Log),
+};

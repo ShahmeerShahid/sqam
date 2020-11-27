@@ -42,7 +42,6 @@ function TaskDetail({ TaskData, tid, enqueueSnackbar }) {
     ["_id", "logs", "createdAt", "updatedAt", "__v"].forEach(
       (e) => delete TaskData[e]
     );
-    TaskData["submissions"] = ["lol", "new"];
   }
 
   return (

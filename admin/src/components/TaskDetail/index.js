@@ -18,7 +18,7 @@ function TaskRow({ fieldName, fieldValue }) {
                   alignItems="center"
               >
                   <Flex flexDirection="row" justifyContent="center" alignItems="center">
-                  <Text>{fieldName} : </Text>
+                  <Text>{fieldName}: </Text>
                   </Flex>
                   <Box>
                   <Text>{fieldValue} </Text>

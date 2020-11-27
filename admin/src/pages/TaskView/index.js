@@ -22,8 +22,6 @@ export function TaskView({ enqueueSnackbar }) {
   }, [tasks_info, enqueueSnackbar]);
   if (TaskData) {
     TaskLogs = TaskData.logs;
-    // Dummy Data
-    // TaskLogs = [{"timestamp":"Monday", "text": " Line 23:18:  Assignments to the 'TaskData' variable from inside React Hook useEffect will be lost after each render. To preserve the value over time, store it in a useRef Hook and keep the mutable value in the '.current' property. Otherwise, you can move this variable directly inside useEffect  react-hooks/exhaustive-deps", "source":"automarker"}, {"timestamp":"Tuesday", "text": " not Working Hard", "source":"connector"}]
   }
 
   return (

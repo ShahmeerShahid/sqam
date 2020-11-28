@@ -5,6 +5,11 @@ export async function fetchTasks() {
   return response.data;
 }
 
+export async function fetchTasksInfo({ tid }) {
+  const response = await getRequest("/api/tasks/" + tid);
+  return response.data;
+}
+
 export async function createTask({ name, connector, status, extra_fields }) {
   const body = {
     name: name,

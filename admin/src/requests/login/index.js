@@ -1,36 +1,27 @@
 //import { postRequest } from "../../network";
 
-
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
-
-function hashHelper({ password, saltRounds }){
-bcrypt.hash(password, saltRounds).then(function(hash) {
-    return hash;
-}).catch(err => {
-    alert(err.message)
-});
-}
+const myPassword = 'password';
 
 export async function login({ username, password }) {
-    const hash = hashHelper({ password, saltRounds })
-    const body = {
-      username: username,
-      hash:hash
-    };
+    
+    const hash = await bcrypt.hash(password, saltRounds)
+
+    // const body = {
+    //   username: username,
+    //   password:hash
+    // };
     try {
-        bcrypt.compare(password, hash).then(function(result){
-          //const response = await postRequest("/api/TODO", body);
-          //return response.data;
-        return result;
-    }).catch (err => {
+        const match = await bcrypt.compare(myPassword, hash) 
+        //const response = await postRequest("/api/TODO", body);
+        //return response.data;
+        return match && (username === 'test@utoronto.ca');
+    } catch (e) {
       return {
         error: true,
-        status: err.response && err.response.status,
-        message: err.response && err.response.data,
+        status: e.response && e.response.status,
+        message: e.response && e.response.data,
       };
-    });
-} catch(e) {
-    alert(e.message);
-}
+      }
 }

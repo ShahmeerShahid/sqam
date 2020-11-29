@@ -27,16 +27,12 @@ export function LoginForm(){
 		const handleSubmit = async event => {
 			event.preventDefault();
 			setLoading(true);
-			try {
-			  const result = await login({ username, password });
-			  console.log(result);
-			  setLoggedIn(result);
-			  setLoading(false);
-			} catch (error) {
+			const response = await login({ username, password });
+			setLoggedIn(response);
+			setLoading(false);
+			if(!response) {
 			  setError('Invalid username or password');
 			  setLoading(false);
-			  setUsername(null);
-			  setPassword(null);
 			}
 		  };
 	return(
@@ -87,7 +83,9 @@ export function LoginForm(){
 									)}
 								</Button>
 								<Link to = "/">
-									Forget password?
+									<Text textAlign="center">
+										Forget password?
+									</Text>
 								</Link>
 							</form>  
 						</Box>

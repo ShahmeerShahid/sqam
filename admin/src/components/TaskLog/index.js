@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Stack, Icon, Flex, Text } from "@chakra-ui/core";
+import { Box, Heading, Stack, Icon, Flex, Text, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 import { Container } from "@material-ui/core";
 
@@ -33,6 +33,8 @@ function LogRow({ Log_Field }) {
 }
 
 function TaskLog({ tid, TaskLogs }) {
+  let logSources = ["all", "frontend", "automarker", "connector", "api"];
+  let filter = "all"
   return (
     <div>
       <Box>
@@ -51,7 +53,9 @@ function TaskLog({ tid, TaskLogs }) {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            justifyContent="center"
+            // justifyContent="center"
+            justifyContent="space-between"
+            alignItems="center"
           >
             <Icon name="chevron-left" />
             <Heading
@@ -62,9 +66,18 @@ function TaskLog({ tid, TaskLogs }) {
               alignItems="center"
               fontFamily="heading"
             >
-              Logs for {tid}
+              Logs for {tid} 
+              
             </Heading>
             <Icon name="chevron-right" />
+
+            <Select variant="filled" placeholder="All" w="40%">
+                {logSources.map((key, index) => (
+                  <option value={key}>{key}</option>
+                ))}
+            </Select>
+
+            
           </Flex>
           <Stack shouldWrapChildren spacing={4} ml={4} mt={4}>
             <Stack shouldWrapChildren spacing={2}>

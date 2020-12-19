@@ -11,6 +11,8 @@ import {
 import { withSnackbar } from "notistack";
 
 function TaskRow({ fieldName, fieldValue }) {
+
+  const stripped = fieldValue.replace(/,/g, ', ')
   return (
     <div>
       <ThemeProvider>
@@ -29,7 +31,7 @@ function TaskRow({ fieldName, fieldValue }) {
             <Text>{fieldName}: </Text>
           </Flex>
           <Box>
-            <Text>{fieldValue} </Text>
+            <Text> {stripped} </Text>
           </Box>
         </Flex>
       </ThemeProvider>

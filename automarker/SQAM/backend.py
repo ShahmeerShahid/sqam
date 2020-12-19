@@ -51,6 +51,7 @@ def runJobThread(config_json):
         print(f"Job with TID {config_json['tid']} ran successfully", flush=True)
         sendResponse(config_json['tid'], "Complete")
     except Exception as e:
+        print(e)
         print(f"Job with TID {config_json['tid']} failed", flush=True)
         sendResponse(config_json["tid"], "Error")
         # TODO Log the Error

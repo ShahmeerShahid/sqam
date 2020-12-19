@@ -1,34 +1,69 @@
-import React from "react";
+import React, { createRef } from "react";
 import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Link,
   Select,
 } from "@chakra-ui/core";
-import { useForm } from "react-hook-form";
+import { withSnackbar } from "notistack";
+import { CSVReader } from "react-papaparse";
+import template from "./questions.csv";
+
+const fileRef = createRef();
 
 function SelectConnectorForm({
-  connector,
   connectors,
-  setConnector,
-  setShowAddTaskForm,
+  enqueueSnackbar,
+  setFieldValue,
+  setStage,
+  values,
 }) {
-  const { errors, formState, handleSubmit, register, watch } = useForm({
-    defaultValues: {
-      connector: connector ? connector : 0,
-    },
-  });
-  const watchConnector = watch("connector", 0);
-  const onSubmit = async (values) => {
-    setConnector(connectors[values.connector]);
-    setShowAddTaskForm(true);
+  const connectorIndex = values.connectorIndex;
+
+  const validateCsv = (rows) => {
+    // ensure csv is of correct format
+    let i;
+    for (i = 0; i < rows.length; i++) {
+      try {
+        const data = rows[i].data;
+        if (data.length !== 2) {
+          return false;
+        }
+        if (i === 0 && (data[0] !== "question" || data[1] !== "marks")) {
+          return false;
+        } else if (parseInt(data[1]) <= 0) {
+          return false;
+        }
+      } catch (e) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleOnDrop = (data) => {
+    if (fileRef.current.state.file.name.endsWith(".csv") && validateCsv(data)) {
+      setFieldValue(
+        "question_names",
+        data.slice(1).map((row) => row.data[0])
+      );
+      setFieldValue(
+        "max_marks_per_question",
+        data.slice(1).map((row) => parseInt(row.data[1]))
+      );
+    } else {
+      fileRef.current.removeFile();
+      enqueueSnackbar("File uploaded must be a .csv of format question,marks", {
+        variant: "error",
+      });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <FormControl alignItems="start">
         <Box d="flex" justifyContent="left">
           <FormLabel htmlFor="connector">Connector</FormLabel>
@@ -37,13 +72,18 @@ function SelectConnectorForm({
           name="connector"
           data-testid="select"
           placeholder="Select connector"
-          ref={register({
-            required: true,
-          })}
+          onChange={(e) =>
+            setFieldValue("connectorIndex", parseInt(e.target.value))
+          }
         >
           {connectors &&
             connectors.map((connector, index) => (
-              <option key={index} value={index} data-testid="select-option">
+              <option
+                key={index}
+                value={index}
+                data-testid="select-option"
+                style={{ color: "black" }}
+              >
                 {connector.name}
               </option>
             ))}
@@ -53,19 +93,35 @@ function SelectConnectorForm({
             Select the website to pull assessments from
           </FormHelperText>
         </Box>
+      </FormControl>
+      <FormControl mt={2}>
         <Box d="flex" justifyContent="left">
-          <FormErrorMessage>
-            {errors.connector && errors.connector.message}
-          </FormErrorMessage>
+          <FormLabel htmlFor="questions">Questions (Optional)</FormLabel>
+        </Box>
+
+        <CSVReader ref={fileRef} onDrop={handleOnDrop} addRemoveButton>
+          <span>Drop CSV file here or click to upload.</span>
+        </CSVReader>
+        <Box d="flex" justifyContent="left">
+          <FormHelperText>
+            Upload a{" "}
+            <Link href={template} download className="link">
+              csv file
+            </Link>{" "}
+            for the questions outline
+          </FormHelperText>
         </Box>
       </FormControl>
       <Button
-        variantColor="blue"
-        type="submit"
-        style={{ float: "right" }}
+        disabled={isNaN(connectorIndex)}
+        isLoading={false}
         m={3}
-        isLoading={formState.isSubmitting}
-        disabled={watchConnector === 0}
+        style={{ float: "right" }}
+        variantColor="blue"
+        onClick={() => {
+          setFieldValue("connector", connectors[connectorIndex]);
+          setStage(2);
+        }}
       >
         Submit
       </Button>
@@ -73,4 +129,4 @@ function SelectConnectorForm({
   );
 }
 
-export default SelectConnectorForm;
+export default withSnackbar(SelectConnectorForm);

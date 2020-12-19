@@ -72,16 +72,31 @@ router
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const newTask = new Task(req.body);
 
+      const newTask = new Task(req.body);
+      const connector = req.body.connector;
       try {
         newTask.save().then(async (task) => {
           const dir = `/var/downloads/${task.tid}`;
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
           }
-          await axios.post(`${connector}/tasks`, task);
+          fs.writeFileSync(`${dir}/aggregated.json`, JSON.stringify({}));
+          const body = {
+            tid: task.tid,
+            download_directory: dir,
+            markus_URL: task.extra_fields.markus_URL,
+            assignment_id: task.extra_fields.assignment_id,
+            api_key: task.extra_fields.api_key,
+          };
+
+          await axios.post(`http://${connector}/tasks`, body);
           newTask.status = "Downloading";
+          newTask.create_tables = `/var/downloads/${task.tid}/create_tables.sql`;
+          newTask.create_trigger = `/var/downloads/${task.tid}/create_trigger.sql`;
+          newTask.create_function = `/var/downloads/${task.tid}/create_function.sql`;
+          newTask.load_data = `/var/downloads/${task.tid}/load_data.sql`;
+          newTask.solutions = `/var/downloads/${task.tid}/solutions.sql`;
           newTask.save().then((updatedTask) => {
             return res.status(201).json(updatedTask);
           });
@@ -176,7 +191,6 @@ router
       }
       const tid = req.params.tid;
       const logsToAppend = [];
-
       for (line in req.body.logs) {
         logsToAppend.push(
           new Log({
@@ -234,18 +248,20 @@ router
       let update = {
         status: status,
       };
-
       try {
         const task = await Task.findOne({ tid: tid });
+        if (!task) {
+          return res.sendStatus(404);
+        }
         if (status === "Downloaded") {
           if (req.body.num_submissions)
             update.num_submissions = req.body.num_submissions;
           const body = {
-            tid: task.tid,
+            tid: tid,
             assignment_name: task.name,
             max_marks: task.max_marks,
             max_marks_per_question: task.max_marks_per_question,
-            marking_type: task.marking_type,
+            marking_type: "partial",
             question_names: task.question_names,
             submission_file_name: task.submission_file_name,
             create_tables: task.create_tables,
@@ -253,12 +269,10 @@ router
             create_function: task.create_function,
             load_data: task.load_data,
             solutions: task.solutions,
-            submissions: task.submission_path,
-            timeout: task.timeout,
-            db_type: task.db_type,
-            db_host: "mysql",
+            submissions: `/var/downloads/${tid}`,
+            timeout: 100,
+            db_type: "mysql",
           };
-
           const response = await axios.post(
             `http://${automarker}/runJob`,
             body,
@@ -279,5 +293,55 @@ router
       }
     }
   );
+
+/*	POST /tasks/upload/
+    @params: file
+    @return:
+      ON SUCCESS: 200
+      ON FAILURE: 404
+*/
+
+router.route("/upload/").post(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  } else if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded");
+  }
+  let create_tables = req.files.create_tables;
+  let create_trigger = req.files.create_trigger;
+  let create_function = req.files.create_function;
+  let load_data = req.files.load_data;
+  let solutions = req.files.solutions;
+  let tid;
+
+  try {
+    const result = await Task.findOne().sort("-tid").limit(1).exec();
+    if (!result) {
+      tid = 0;
+    } else {
+      tid = result.tid + 1;
+    }
+
+    const dir = `/var/downloads/${tid}`;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
+    create_tables.mv(`${dir}/create_tables.sql`);
+    create_trigger.mv(`${dir}/create_trigger.sql`);
+    create_function.mv(`${dir}/create_function.sql`);
+    load_data.mv(`${dir}/load_data.sql`);
+    solutions.mv(`${dir}/solutions.sql`);
+    return res.status(200).json({
+      message: `Files uploaded for task ${tid}`,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(
+      e.response && e.response.status ? e.response.status : 500
+    );
+  }
+});
 
 module.exports = router;

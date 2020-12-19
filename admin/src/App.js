@@ -12,7 +12,7 @@ import Homepage from "./pages/Home";
 import Tasks from "./pages/Tasks";
 import TaskView from "./pages/TaskView";
 import AddTask from "./pages/AddTask";
-
+import "react-dropzone-uploader/dist/styles.css";
 import "./App.css";
 
 function UnconnectedApp() {

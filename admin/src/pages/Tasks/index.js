@@ -54,16 +54,16 @@ export function Tasks({ enqueueSnackbar }) {
       <Box mt={4}>
         <Stack isInline justify="center">
           <h1 className="title">Tasks</h1>
-          <Button m={2} ml={4} variantColor="green">
-            <Link to="/tasks/add">
+          <Link to="/tasks/add">
+            <Button m={2} ml={4} variantColor="green">
               <Box d="flex" justify="center">
                 <AiOutlinePlusCircle
                   style={{ size: "2em", marginTop: "2px" }}
                 />{" "}
                 Add Task
               </Box>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Stack>
         <Box justify="center" w="50%" m="auto">
           <Skeleton isLoaded={!tasks.loading}>

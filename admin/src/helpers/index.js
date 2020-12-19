@@ -1,6 +1,8 @@
 export function formatFieldToTitle(field) {
-  if (!field.includes("_")) {
+  if (!field) {
     return "";
+  } else if (!field.includes("_")) {
+    return field[0].toUpperCase() + field.slice(1);
   }
   const words = field.split("_");
   var title = "";
@@ -9,11 +11,6 @@ export function formatFieldToTitle(field) {
   });
   return title.trim();
 }
-
-export const validateNumber = {
-  value: /^\d+$/,
-  message: "Must be a non-negative number",
-};
 
 export const validateMarkUsAPIKey = {
   value: /^[a-zA-Z0-9]*=$/,

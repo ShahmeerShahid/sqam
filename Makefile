@@ -1,6 +1,9 @@
 build :
 	docker-compose up --build
 
+down :
+	docker-compose down --remove-orphans
+
 run : 
 ifeq ($(app), am_backend)
 	cd automarker && python3 backend.py 
@@ -22,7 +25,7 @@ endif
 
 setup :
 ifeq ($(app), sql)
-	docker exec -it sqam_mysql_1 bash -c "mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql"
+	docker exec -it sqam_mysqlam_1 bash -c "mysql -uroot -pcsc499 c499 < /var/lib/mysql-files/start.sql"
 endif
 
 prettier :

@@ -118,3 +118,34 @@ Admin-connector comm.                   4 hrs
 
 Nov 18:
 Admin-Automarker comm. setup            3 hrs
+
+Nov 20:                                 4 hrs
+Setup wizard form 
+SelectConnectorForm
+TaskDetailsForm
+
+Nov 21:                                 2 hrs
+Stage validation
+
+Nov 29:
+CSV upload + parsing for questions      3 hrs
+
+Nov 30:
+Microservice communication setup        2 hrs
+
+Dec 1:
+Render questions                        1 hr
+
+Dec 2:
+Dropzone setup                          1 hr
+
+Dec 6:
+Required files functionality            3 hrs
+
+Dec 7th:
+Frontend flow setup for add tasks       3 hrs
+Save upload files in POST /tasks/       
+
+Dec 8th:
+/api/tasks/upload endpoint              4 hrs
+hook up to frontend

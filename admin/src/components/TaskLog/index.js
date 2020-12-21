@@ -3,13 +3,13 @@ import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 import Terminal from "./Terminal";
 
-function LogRow({ Log_Field }) {
+function LogRow({ logField }) {
   return (
 
       <Box d="flex" justifyContent="space-between" alignItems="center">
         <Terminal>
           {async ({ print, println }) => {
-            await println(Log_Field["text"], Log_Field["source"],Log_Field["timestamp"], 100);
+            await println(logField["text"], logField["source"],logField["timestamp"], 100);
           }}
         </Terminal>
       </Box>
@@ -17,7 +17,7 @@ function LogRow({ Log_Field }) {
   );
 }
 
-function TaskLog({ tid, TaskLogs }) {
+function TaskLog({ tid, taskLogs }) {
   let logSources = ["All", "frontend", "automarker", "connector", "api"];
   const [value, setValue] = useState("All")
   const handleChange = (event) => {
@@ -82,9 +82,9 @@ function TaskLog({ tid, TaskLogs }) {
                 pt={5}
                 pb={5}
               >
-                {TaskLogs.length !== 0  ? (
-                  TaskLogs.map((key, index) => (
-                    ( (value === key["source"] || value === "All") && <LogRow key={index} Log_Field={key} /> )
+                {taskLogs.length !== 0  ? (
+                  taskLogs.map((key, index) => (
+                    ( (value === key["source"] || value === "All") && <LogRow key={index} logField={key} /> )
                   ))
                 ) : (
                   <h1>No tasks to display</h1>

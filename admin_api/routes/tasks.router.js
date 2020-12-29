@@ -72,20 +72,21 @@ router
       const tid = req.params.tid;
       const status = req.body.status;
 
-      Task.findOneAndUpdate({ tid: tid }, { status: status }, function (
-        err,
-        doc
-      ) {
-        if (doc === null) {
-          res.sendStatus(404);
-        } else if (err) {
-          res.sendStatus(500);
-        } else {
-          res.status(200).json({
-            message: `Task ${tid} successfully updated to status ${status}`,
-          });
+      Task.findOneAndUpdate(
+        { tid: tid },
+        { status: status },
+        function (err, doc) {
+          if (doc === null) {
+            res.sendStatus(404);
+          } else if (err) {
+            res.sendStatus(500);
+          } else {
+            res.status(200).json({
+              message: `Task ${tid} successfully updated to status ${status}`,
+            });
+          }
         }
-      });
+      );
     }
   );
 

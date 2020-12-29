@@ -6,7 +6,7 @@ import {
   Heading,
   Switch,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/core";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -67,7 +67,7 @@ const Header = () => {
         display={{ sm: show ? "block" : "none", md: "flex" }}
         width={{ sm: "full", md: "auto" }}
         alignItems="center"
-        ml={950}
+        ml={1120}
         flexGrow={1}
       >
         <MenuItems>

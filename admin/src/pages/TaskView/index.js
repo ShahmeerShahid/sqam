@@ -11,8 +11,8 @@ import { fetchTasksInfo } from "../../requests/tasks";
 export function TaskView({ enqueueSnackbar }) {
   let { tid } = useParams();
   let tasks_info = useAsync({ promiseFn: fetchTasksInfo, tid: tid });
-  let TaskData = tasks_info.data;
-  let TaskLogs = [];
+  let taskData = tasks_info.data;
+  let taskLogs = [];
 
   useEffect(() => {
     if (tasks_info.error) {
@@ -20,8 +20,8 @@ export function TaskView({ enqueueSnackbar }) {
     }
   }, [tasks_info, enqueueSnackbar]);
   
-  if (TaskData) {
-    TaskLogs = TaskData.logs;
+  if (taskData) {
+    taskLogs = taskData.logs;
   }
 
   return (
@@ -53,12 +53,12 @@ export function TaskView({ enqueueSnackbar }) {
           templateColumns="repeat(auto-fit, minmax(350px, 1fr))"
         >
           <TaskDetail
-            TaskData={TaskData}
+            taskData={taskData}
             tid={tid}
             enqueueSnackbar={enqueueSnackbar}
           />
           <TaskLog
-            TaskLogs={TaskLogs}
+            taskLogs={taskLogs}
             tid={tid}
             enqueueSnackbar={enqueueSnackbar}
           />

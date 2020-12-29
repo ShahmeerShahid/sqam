@@ -1,29 +1,22 @@
 import React, { useState } from "react";
 import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
-import Terminal from "./Terminal";
 
 function LogRow({ logField }) {
+  const strFinal = ''.concat('> ', logField['source'], ' -- [',logField['timestamp'], "]", logField['text'], "\n" );
   return (
-
       <Box d="flex" justifyContent="space-between" alignItems="center">
-        <Terminal>
-          {async ({ print, println }) => {
-            await println(logField["text"], logField["source"],logField["timestamp"], 100);
-          }}
-        </Terminal>
+        <pre>{strFinal}</pre>
       </Box>
-
   );
 }
 
-function TaskLog({ tid, taskLogs }) {
+function TaskLog({ taskLogs, tid }) {
   let logSources = ["All", "frontend", "automarker", "connector", "api"];
   const [value, setValue] = useState("All")
   const handleChange = (event) => {
     setValue(event.target.value)
   }
-
   return (
     <div>
       <Box>

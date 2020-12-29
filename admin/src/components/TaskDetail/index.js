@@ -11,6 +11,8 @@ import {
 import { withSnackbar } from "notistack";
 
 function TaskRow({ fieldName, fieldValue }) {
+
+  const stripped = fieldValue.replace(/,/g, ', ')
   return (
     <div>
       <ThemeProvider>
@@ -29,7 +31,7 @@ function TaskRow({ fieldName, fieldValue }) {
             <Text>{fieldName}: </Text>
           </Flex>
           <Box>
-            <Text>{fieldValue} </Text>
+            <Text> {stripped} </Text>
           </Box>
         </Flex>
       </ThemeProvider>
@@ -37,10 +39,10 @@ function TaskRow({ fieldName, fieldValue }) {
   );
 }
 
-function TaskDetail({ TaskData, tid, enqueueSnackbar }) {
-  if (TaskData) {
+function TaskDetail({ taskData, tid, enqueueSnackbar }) {
+  if (taskData) {
     ["_id", "logs", "createdAt", "updatedAt", "__v"].forEach(
-      (e) => delete TaskData[e]
+      (e) => delete taskData[e]
     );
   }
 
@@ -78,23 +80,23 @@ function TaskDetail({ TaskData, tid, enqueueSnackbar }) {
           <Icon name="chevron-right" />
         </Flex>
         <Stack ml={4} spacing={2} shouldWrapChildren mt={4} mr={4}>
-          {TaskData ? (
-            Object.keys(TaskData).map((key, index) =>
-              String(TaskData[key]) ? (
-                typeof TaskData[key] == "object" &&
-                !Array.isArray(TaskData[key]) ? (
-                  Object.keys(TaskData[key]).map((key2, index2) => (
+          {taskData ? (
+            Object.keys(taskData).map((key, index) =>
+              String(taskData[key]) ? (
+                typeof taskData[key] == "object" &&
+                !Array.isArray(taskData[key]) ? (
+                  Object.keys(taskData[key]).map((key2, index2) => (
                     <TaskRow
                       key={index2}
                       fieldName={key2}
-                      fieldValue={String(TaskData[key][key2])}
+                      fieldValue={String(taskData[key][key2])}
                     />
                   ))
                 ) : (
                   <TaskRow
                     key={index}
                     fieldName={key}
-                    fieldValue={String(TaskData[key])}
+                    fieldValue={String(taskData[key])}
                   />
                 )
               ) : null

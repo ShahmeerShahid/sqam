@@ -1,38 +1,22 @@
-import React from "react";
-import { Box, Heading, Stack, Icon, Flex, Text } from "@chakra-ui/core";
+import React, { useState } from "react";
+import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
-import { Container } from "@material-ui/core";
 
-function LogRow({ Log_Field }) {
+function LogRow({ logField }) {
+  const strFinal = ''.concat('> ', logField['source'], ' -- [',logField['timestamp'], "]", logField['text'], "\n" );
   return (
-    <Box
-      bg="darkturquoise"
-      w="100%"
-      p={3}
-      px={5}
-      minHeight="50px"
-      py={4}
-      borderRadius="lg"
-      justifyContent="space-between"
-      alignItems="center"
-    >
       <Box d="flex" justifyContent="space-between" alignItems="center">
-        <Box>
-          <Box mt="1" lineHeight="tight" isTruncated>
-            <Text fontWeight="semibold" as="h4">
-              Source: {Log_Field["source"]}, Time: {Log_Field["timestamp"]}
-            </Text>
-          </Box>
-          <Box>
-            <Container>Log : {Log_Field["text"]}</Container>
-          </Box>
-        </Box>
+        <pre>{strFinal}</pre>
       </Box>
-    </Box>
   );
 }
 
-function TaskLog({ tid, TaskLogs }) {
+function TaskLog({ taskLogs, tid }) {
+  let logSources = ["All", "frontend", "automarker", "connector", "api"];
+  const [value, setValue] = useState("All")
+  const handleChange = (event) => {
+    setValue(event.target.value)
+  }
   return (
     <div>
       <Box>
@@ -51,7 +35,7 @@ function TaskLog({ tid, TaskLogs }) {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Icon name="chevron-left" />
             <Heading
@@ -62,19 +46,43 @@ function TaskLog({ tid, TaskLogs }) {
               alignItems="center"
               fontFamily="heading"
             >
-              Logs for {tid}
+              Logs for {tid} 
+              
             </Heading>
             <Icon name="chevron-right" />
+
+            <Select 
+              variant="filled" 
+              value={value}
+              onChange={handleChange} 
+              w="40%"
+            >
+                {logSources.map((key, index) => (
+                  <option key={index} value={key}>{key}</option>
+                ))}
+            </Select>
           </Flex>
           <Stack shouldWrapChildren spacing={4} ml={4} mt={4}>
             <Stack shouldWrapChildren spacing={2}>
-              {TaskLogs.length !== 0 ? (
-                TaskLogs.map((key, index) => (
-                  <LogRow key={index} Log_Field={key} />
-                ))
-              ) : (
-                <h1>No tasks to display</h1>
-              )}
+              <Box
+                backgroundColor="black"
+                color="white"
+                shadow="sm"
+                maxH={1000}
+                overflowY="scroll"
+                pl={3}
+                pr={3}
+                pt={5}
+                pb={5}
+              >
+                {taskLogs.length !== 0  ? (
+                  taskLogs.map((key, index) => (
+                    ( (value === key["source"] || value === "All") && <LogRow key={index} logField={key} /> )
+                  ))
+                ) : (
+                  <h1>No tasks to display</h1>
+                )}
+              </Box>
             </Stack>
           </Stack>
         </Box>

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/core";
+import {
+  Button,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/core";
+import { saveAs } from "file-saver";
 import { withFormik } from "formik";
 import { withSnackbar } from "notistack";
 import * as Yup from "yup";
@@ -59,14 +67,37 @@ function UnconnectedMasterForm({
   connectors,
   enqueueSnackbar,
   handleSubmit,
+  resetForm,
   setFieldValue,
   setStage,
+  setValues,
   stage,
   values,
 }) {
   const [isLoadingConnectorInfo, setIsLoadingConnectorInfo] = useState(false);
   const connector = values.connector;
   const connectorInfo = values.connectorInfo;
+
+  const saveBtn = (
+    <Button
+      m={3}
+      style={{ float: "right" }}
+      variant="outline"
+      onClick={() => {
+        let { files, ...valuesObj } = values;
+        var file = new File(
+          [JSON.stringify(valuesObj)],
+          `task_${new Date()}.json`,
+          {
+            type: "text/plain;charset=utf-8",
+          }
+        );
+        saveAs(file);
+      }}
+    >
+      Save
+    </Button>
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -123,8 +154,10 @@ function UnconnectedMasterForm({
         <TabPanel>
           <SelectConnectorForm
             connectors={connectors}
+            resetForm={resetForm}
             setFieldValue={setFieldValue}
             setStage={setStage}
+            setValues={setValues}
             values={values}
           />
         </TabPanel>
@@ -132,6 +165,7 @@ function UnconnectedMasterForm({
           <TaskDetailsForm
             connectorInfo={connectorInfo}
             isLoadingConnectorInfo={isLoadingConnectorInfo}
+            saveBtn={saveBtn}
             stageTwoSchema={StageTwoSchema}
             setFieldValue={setFieldValue}
             setStage={setStage}
@@ -141,6 +175,7 @@ function UnconnectedMasterForm({
         <TabPanel>
           <TaskFilesForm
             handleSubmit={handleSubmit}
+            saveBtn={saveBtn}
             setFieldValue={setFieldValue}
           />
         </TabPanel>

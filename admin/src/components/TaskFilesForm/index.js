@@ -84,7 +84,12 @@ const FileDropzone = ({
   );
 };
 
-function TaskFilesForm({ enqueueSnackbar, handleSubmit, setFieldValue }) {
+function TaskFilesForm({
+  enqueueSnackbar,
+  handleSubmit,
+  saveBtn,
+  setFieldValue,
+}) {
   const requiredFiles = [
     "create_tables",
     "create_trigger",
@@ -143,6 +148,7 @@ function TaskFilesForm({ enqueueSnackbar, handleSubmit, setFieldValue }) {
       >
         <Link to="/tasks">Submit</Link>
       </Button>
+      {saveBtn}
     </>
   );
 }

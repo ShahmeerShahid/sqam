@@ -17,8 +17,10 @@ const fileRef = createRef();
 function SelectConnectorForm({
   connectors,
   enqueueSnackbar,
+  resetForm,
   setFieldValue,
   setStage,
+  setValues,
   values,
 }) {
   const connectorIndex = values.connectorIndex;
@@ -75,6 +77,7 @@ function SelectConnectorForm({
           onChange={(e) =>
             setFieldValue("connectorIndex", parseInt(e.target.value))
           }
+          value={values.connectorIndex}
         >
           {connectors &&
             connectors.map((connector, index) => (
@@ -112,6 +115,44 @@ function SelectConnectorForm({
           </FormHelperText>
         </Box>
       </FormControl>
+      <FormControl mt={2}>
+        <Box d="flex" justifyContent="left">
+          <FormLabel htmlFor="config">Configuration (Optional)</FormLabel>
+        </Box>
+        <Box d="flex" justifyContent="left">
+          <input
+            type="file"
+            onChange={(e) => {
+              const fileReader = new FileReader();
+              const fileName = e.target.files[0].name;
+              if (!fileName.endsWith(".json")) {
+                resetForm();
+                enqueueSnackbar("Config file uploaded must be a .json", {
+                  variant: "error",
+                });
+                return;
+              }
+              fileReader.readAsText(e.target.files[0], "UTF-8");
+              fileReader.onload = (e) => {
+                try {
+                  const obj = JSON.parse(e.target.result);
+                  setValues(obj);
+                } catch (e) {
+                  resetForm();
+                  enqueueSnackbar("Provided file is incorrectly formatted", {
+                    variant: "error",
+                  });
+                }
+              };
+            }}
+          />
+        </Box>
+        <Box d="flex" justifyContent="left">
+          <FormHelperText>
+            Upload a task configuration json file for quick form completion
+          </FormHelperText>
+        </Box>
+      </FormControl>
       <Button
         disabled={isNaN(connectorIndex)}
         isLoading={false}
@@ -123,7 +164,7 @@ function SelectConnectorForm({
           setStage(2);
         }}
       >
-        Submit
+        Continue
       </Button>
     </form>
   );

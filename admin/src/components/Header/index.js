@@ -64,18 +64,6 @@ const Header = () => {
       </Box>
 
       <Box
-        display={{ sm: show ? "block" : "none", md: "flex" }}
-        width={{ sm: "full", md: "auto" }}
-        alignItems="center"
-        ml={1120}
-        flexGrow={1}
-      >
-        <MenuItems>
-          <Link to="/login">Login</Link>
-        </MenuItems>
-      </Box>
-
-      <Box
         display={{ sm: show ? "block" : "none", md: "block" }}
         width={{ sm: "full", md: "auto" }}
         mt={{ base: 4, md: 0 }}
@@ -86,6 +74,18 @@ const Header = () => {
           {colorMode === "light" ? <FaRegMoon /> : <FaMoon />}
         </FormLabel>
         <Switch color="gray" onChange={() => toggleColorMode()} />
+      </Box>
+
+      <Box
+        display={{ sm: show ? "block" : "none", md: "block" }}
+        width={{ sm: "full", md: "auto" }}
+        mt={{ base: 4, md: 0 }}
+        alignItems="center"
+        ml={8}
+      >
+        <MenuItems>
+          <Link to="/login">Login</Link>
+        </MenuItems>
       </Box>
     </Flex>
   );

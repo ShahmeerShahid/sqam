@@ -1,9 +1,8 @@
 import React from "react";
-import { render, wait } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { Task, Tasks } from "./";
-import { fetchTasks } from "../../requests/tasks";
-import { wrapInTheme, wrapComponentInRouter } from "../../testing/helpers";
+import { Task } from "./";
+import { wrapInTheme } from "../../testing/helpers";
 import { mockTasks } from "../../testing/mockData";
 
 jest.mock("../../requests/tasks");

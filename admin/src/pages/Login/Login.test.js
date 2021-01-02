@@ -9,23 +9,23 @@ describe("LoginForm", () => {
     const fakeform = {
       username: "test@utoronto.ca",
       password: "password",
-    //   error: "",
-    //   loading: "",
-    //   loggedIn: ""
+      //   error: "",
+      //   loading: "",
+      //   loggedIn: ""
     };
     jest.spyOn(global, "LoginForm").mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(fakeform)
-    })
-  );
+      Promise.resolve({
+        json: () => Promise.resolve(fakeform),
+      })
+    );
 
-  expect(getByText(fakeform.username)).toBeInTheDocument();
-  expect(getByText(fakeform.password)).toBeInTheDocument();
-//   expect(getByText(fakeform.error)).toBeInTheDocument();
-//   expect(getByText(fakeform.loading)).toBeInTheDocument();
-//   expect(getByText(fakeform.loggedIn)).toBeInTheDocument();
+    expect(getByText(fakeform.username)).toBeInTheDocument();
+    expect(getByText(fakeform.password)).toBeInTheDocument();
+    //   expect(getByText(fakeform.error)).toBeInTheDocument();
+    //   expect(getByText(fakeform.loading)).toBeInTheDocument();
+    //   expect(getByText(fakeform.loggedIn)).toBeInTheDocument();
 
-  // remove the mock to ensure tests are completely isolated
-  global.LoginForm.mockRestore();
+    // remove the mock to ensure tests are completely isolated
+    global.LoginForm.mockRestore();
   });
 });

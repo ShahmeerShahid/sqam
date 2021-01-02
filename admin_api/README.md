@@ -21,36 +21,162 @@ Defined schemas for User/Tasks
 ```json
 [
   {
-    "status": "Pending",
-    "submissions": [],
-    "tid": 1,
-    "name": "CSC343 Fall Test 1",
-    "extra_fields": [
-      {
-        "markus_URL": "http://markus.com"
-      }
-    ]
-  },
-  {
-    "status": "Error",
-    "submissions": [
-      {
-        "status": "Pending",
-        "_id": 0,
-        "name": "servilla",
-        "__v": 0
-      }
+    "status": "Downloading",
+    "connector": "markus-connector",
+    "num_submissions": 0,
+    "lecture_section": "LEC102",
+    "max_marks": 80,
+    "max_marks_per_question": [
+      3,
+      4,
+      3,
+      3,
+      4,
+      4,
+      2,
+      2,
+      4,
+      5,
+      3,
+      4,
+      4,
+      4,
+      3,
+      5,
+      6,
+      7
     ],
-    "tid": 2,
-    "name": "CSC343 Fall A1",
-    "extra_fields": [
+    "marking_type": "partial",
+    "question_names": [
+      "Q1",
+      "Q2",
+      "Q3.A",
+      "Q3.B",
+      "Q3.C",
+      "Q4.A",
+      "Q4.B",
+      "Q4.C",
+      "Q5.A",
+      "Q5.B",
+      "Q6.A",
+      "Q6.B",
+      "Q6.C",
+      "Q7.A",
+      "Q7.B",
+      "Q8",
+      "Q9",
+      "Q10"
+    ],
+    "submission_file_name": "queries.sql",
+    "create_tables": "./Demo/Winter_2020/createTable.sql",
+    "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+    "create_function": "./Demo/Winter_2020/createFunction.sql",
+    "load_data": "./Demo/Winter_2020/loadData.sql",
+    "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+    "submissions_path": "./Demo/Submissions/",
+    "timeout": 100,
+    "db_type": "mysql",
+    "_id": "5fb741d5ba9512001295d833",
+    "name": "new task",
+    "extra_fields": {
+      "markus_URL": "http://www.test-markus.com",
+      "assignment_id": 1,
+      "api_key": "dfgAHFDFUSF="
+    },
+    "submissions": [],
+    "createdAt": "2020-11-20T04:11:01.148Z",
+    "updatedAt": "2020-11-20T04:11:01.191Z",
+    "tid": 0,
+    "__v": 0,
+    "logs": [
       {
-        "markus_URL": "http://markus.com",
-        "assignment_id": 1
+        "text": "line 1",
+        "source": "connector",
+        "timestamp": "2021-20-1"
       }
     ]
   }
 ]
+```
+
+**Definition**
+`GET /api/tasks/:tid`
+
+**Response**
+
+- `200 OK` on success
+  A task object
+
+```json
+{
+  "status": "Downloading",
+  "connector": "markus-connector",
+  "num_submissions": 0,
+  "lecture_section": "LEC102",
+  "max_marks": 80,
+  "max_marks_per_question": [
+    3,
+    4,
+    3,
+    3,
+    4,
+    4,
+    2,
+    2,
+    4,
+    5,
+    3,
+    4,
+    4,
+    4,
+    3,
+    5,
+    6,
+    7
+  ],
+  "marking_type": "partial",
+  "question_names": [
+    "Q1",
+    "Q2",
+    "Q3.A",
+    "Q3.B",
+    "Q3.C",
+    "Q4.A",
+    "Q4.B",
+    "Q4.C",
+    "Q5.A",
+    "Q5.B",
+    "Q6.A",
+    "Q6.B",
+    "Q6.C",
+    "Q7.A",
+    "Q7.B",
+    "Q8",
+    "Q9",
+    "Q10"
+  ],
+  "submission_file_name": "queries.sql",
+  "create_tables": "./Demo/Winter_2020/createTable.sql",
+  "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
+  "create_function": "./Demo/Winter_2020/createFunction.sql",
+  "load_data": "./Demo/Winter_2020/loadData.sql",
+  "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
+  "submissions_path": "./Demo/Submissions/",
+  "timeout": 100,
+  "db_type": "mysql",
+  "_id": "5fb741d5ba9512001295d833",
+  "name": "new task",
+  "extra_fields": {
+    "markus_URL": "http://www.test-markus.com",
+    "assignment_id": 1,
+    "api_key": "dfgAHFDFUSF="
+  },
+  "submissions": [],
+  "createdAt": "2020-11-20T04:11:01.148Z",
+  "updatedAt": "2020-11-20T04:11:01.191Z",
+  "tid": 0,
+  "__v": 0
+}
 ```
 
 **Definition**
@@ -59,9 +185,13 @@ Defined schemas for User/Tasks
 **Parameters**
 
 - name
-- status (["Pending", "Error", "Marking", "Complete"])
-- submissions (list of submission ids)
+- connector (["markus-connector"])
+  optional:
+- status (["Pending", "Downloading", "Downloaded", "Error", "Marking", "Complete"])
 - extra_fields
+- submissions (list of submission objects)
+
+CANNOT PASS IN: tid, \_id
 
 **Response**
 
@@ -69,26 +199,72 @@ Defined schemas for User/Tasks
   The task created
 
 ```json
-[
-  {
-    "name": "Markus",
-    "url": "http://markus-connector",
-    "port": 8001
-  },
-  {
-    "name": "Example",
-    "url": "http://example",
-    "port": 3000
-  }
-]
+{
+  "status": "Marking",
+  "num_submissions": 0,
+  "extra_fields": [
+    {
+      "markus_URL": "http://www.test-markus.com",
+      "assignment_id": 1,
+      "api_key": "dfgAHFDFUSF="
+    }
+  ],
+  "connector": "markus-connector",
+  "_id": "5fb4722245f940001851ea5e",
+  "name": "CSC343 Final Exam",
+  "submissions": [
+    {
+      "status": "Pending",
+      "_id": "5fb4722245f940001851ea5f",
+      "name": "servilla"
+    }
+  ],
+  "createdAt": "2020-11-18T01:00:18.177Z",
+  "updatedAt": "2020-11-18T01:00:18.177Z",
+  "tid": 0,
+  "__v": ,
+  "logs": []
+}
 ```
 
 **Definition**
-`POST /api/tasks/status/:tid`
+`PATCH /api/tasks/status/:tid`
 
 **Parameters**
 
-- status (["Pending", "Error", "Marking", "Complete"])
+- tid
+  optional:
+- name
+- status (["Pending", "Downloading", "Downloaded", "Error",
+  "Marking", "Complete"])
+- submissions
+- num_submissions
+- extra_fields
+
+CANNOT PASS IN: tid, logs, connector, \_id
+
+**Response**
+
+- `200 OK` on success
+
+```json
+{
+  "message": "Task 1 successfully updated"
+}
+```
+
+**Definition**
+`PATCH /api/tasks/status/:tid`
+
+This endpoint will be removed in the future!
+
+**Parameters**
+
+- tid
+- status (["Pending", "Downloading", "Downloaded", "Error",
+  "Marking", "Complete"])
+  optional:
+- num_submissions
 
 **Response**
 
@@ -102,12 +278,17 @@ Defined schemas for User/Tasks
 
 ### Submissions
 
+Submissions is subject to change while we shift over
+the Automarker to use the concept of submissions
+so keep that in mind!
+
 **Definition**
 `GET /submissions/:tid`
 A list of submissions associated with task tid
 
 **Parameters**
--tid
+
+- tid
 
 **Response**
 
@@ -118,43 +299,41 @@ A list of submissions associated with task tid
 [
   {
     "status": "Pending",
-    "_id": 0,
-    "name": "servilla",
-    "__v": 0
+    "_id": "5fb4713645f940001851ea56",
+    "name": "servilla"
+  },
+  {
+    "status": "Pending",
+    "_id": "5fb4713645f940001851ea57",
+    "name": "shahmeer"
   }
 ]
 ```
 
 **Definition**
-`POST /api/tasks`
+`POST /api/submissions/:tid`
 
 **Parameters**
 
-- name
-- status (["Pending", "Error", "Marking", "Complete"])
 - tid
+- names (list of submission names)
 
   **Response**
 
 - `201 CREATED` on success
-  The submission created
 
 ```json
 {
-  "status": "Marking",
-  "name": "dubchaeng",
-  "tid": 0,
-  "_id": 3,
-  "__v": 0
+  "message": "Submission(s) successfully added to task 1"
 }
 ```
 
 **Definition**
-`POST /api/submissions/status/:sid`
+`PATCH /api/submissions/status/:sid`
 
 **Parameters**
 
-- sid
+- sid (Mongo generated ObjectId)
 - status (["Pending", "Error", "Marking", "Complete"])
 
 **Response**
@@ -170,13 +349,23 @@ A list of submissions associated with task tid
 ### Logs
 
 **Definition**
-`POST /api/logs/`
+`PUT /api/tasks/:tid/logs`
+
+Note: List of supplied logs will be appended to existing list of logs for given task.
 
 **Parameters**
 
-- app (["automarker", "connectors", "admin", "admin_api"])
-- filename (must end with .txt)
-- text
+- logs: a list of strings
+- source: String, must be one of "frontend", "automarker", "connector", or "api"
+
+**Example Request Body**
+
+```json
+{
+  "logs": ["first line", "second line", "third line", "fourth line"],
+  "source": "automarker"
+}
+```
 
 **Response**
 
@@ -184,9 +373,11 @@ A list of submissions associated with task tid
 
 ```json
 {
-  "message": "Log for app automarker with text Submission 5 marked written to servilla.txt"
+  "message": "Task :tid logs successfully updated"
 }
 ```
+
+- `404 Not found` if no such task with given tid
 
 ### Connectors
 

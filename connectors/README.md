@@ -2,7 +2,7 @@
 
 All connectors MUST provide the endpoints `/extra_fields` and `/tasks`.
 
-When `POST`ing to a `/tasks`, `task_id` and `download_directory` will always be sent. However, any other fields (required or optional) MUST be documented using `/extra_fields` as shown below:
+When `POST`ing to a `/tasks`, `tid` and `download_directory` will always be sent. However, any other fields (required or optional) MUST be documented using `/extra_fields` as shown below:
 
 ### Required Fields
 **Definition**
@@ -11,7 +11,7 @@ When `POST`ing to a `/tasks`, `task_id` and `download_directory` will always be 
 **Response**
 - `200 OK` on success
   
-Fields APART FROM `task_id` and `download_directory` that this connector requires when `POST`ing download tasks.
+Fields APART FROM `tid` and `download_directory` that this connector requires when `POST`ing download tasks.
 ```json
 {
     "info": "Any extra general information to be displayed on the submission page/form e.g. group names must not have whitespace characters. Field specific should be provided as shown below.",
@@ -53,11 +53,10 @@ Furthermore, each connector MUST expose the following HTTP request methods for t
 Body:
 ```json
 {
-    "task_id": 1,
+    "tid": 1,
     "download_directory": "/var/downloads/1/",
     extra_fields
 }
-
 ```
 **Response**
 - `200 OK` on success. To be returned once the connector is sure it is able to start downloading submissions
@@ -66,6 +65,26 @@ Body:
 - `404 Not Found` if unable to download specified assignment submissions
 - `500 Internal Server Error` on other error
 
+***
+***
+
+## AFTER FILES ARE DOWNLOADED
+
+After the files are downloaded OR an error has occurred, the following `PATCH` request **must** be sent to `http://admin_api/api/task/status/{tid}`:
+
+In case of error, the request body will be:
+```json
+{
+    "status": "Error"
+}
+```
+TODO, LOGGING:   "error_message": "Custom, descriptive error message that will be viewed by users"
 
 
-
+In case of success, the request body will be:
+```json
+{
+    "status": "Downloaded",
+    "num_submissions": 5,
+}
+```

@@ -4,8 +4,8 @@ import { withSnackbar } from "notistack";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useAsync } from "react-use";
-import Header from "../../components/Header";
 import { fetchTasks } from "../../requests/tasks";
+import Header from "../../components/Header";
 import "./Tasks.css";
 
 export function Task({ task }) {
@@ -23,14 +23,20 @@ export function Task({ task }) {
         return "";
     }
   };
+  let new_Path = "/tasks/";
+  if (task.tid || task.tid === 0) {
+    new_Path = "/tasks/" + task.tid + "/";
+  }
 
   return (
-    <Box p={5} mb={4} shadow="md" borderWidth="1px">
-      <Heading fontSize="xl">
-        {task.name}{" "}
-        <Badge variantColor={taskColor(task.status)}>{task.status}</Badge>
-      </Heading>
-    </Box>
+    <Link to={new_Path}>
+      <Box p={5} mb={4} shadow="md" borderWidth="1px">
+        <Heading fontSize="xl">
+          {task.name}{" "}
+          <Badge variantColor={taskColor(task.status)}>{task.status}</Badge>
+        </Heading>
+      </Box>
+    </Link>
   );
 }
 
@@ -48,16 +54,16 @@ export function Tasks({ enqueueSnackbar }) {
       <Box mt={4}>
         <Stack isInline justify="center">
           <h1 className="title">Tasks</h1>
-          <Button m={2} ml={4} variantColor="green">
-            <Link to="/tasks/add">
+          <Link to="/tasks/add">
+            <Button m={2} ml={4} variantColor="green">
               <Box d="flex" justify="center">
                 <AiOutlinePlusCircle
                   style={{ size: "2em", marginTop: "2px" }}
                 />{" "}
                 Add Task
               </Box>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Stack>
         <Box justify="center" w="50%" m="auto">
           <Skeleton isLoaded={!tasks.loading}>

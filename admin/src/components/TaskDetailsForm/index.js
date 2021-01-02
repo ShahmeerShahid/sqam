@@ -38,6 +38,7 @@ function TaskDetailsForm({
   connectorInfo,
   isLoadingConnectorInfo,
   questions,
+  saveBtn,
   setFieldValue,
   setStage,
   stageTwoSchema,
@@ -98,7 +99,11 @@ function TaskDetailsForm({
         <NumberInput
           min={0}
           defaultValue={0}
-          value={values[name]}
+          value={
+            isExtraField && values.extra_fields
+              ? values.extra_fields[name]
+              : values[name]
+          }
           onChange={(value) =>
             handleChange(value, name, "number", isExtraField)
           }
@@ -116,7 +121,11 @@ function TaskDetailsForm({
           aria-label={name}
           name={name}
           placeholder={placeholder}
-          value={values[name]}
+          value={
+            isExtraField && values.extra_fields
+              ? values.extra_fields[name]
+              : values[name]
+          }
           onChange={(e) => handleChange(e, name, "string", isExtraField)}
         />
       );
@@ -163,8 +172,9 @@ function TaskDetailsForm({
           setStage(3);
         }}
       >
-        Submit
+        Continue
       </Button>
+      {saveBtn}
     </>
   );
 }

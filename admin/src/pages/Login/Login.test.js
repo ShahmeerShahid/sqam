@@ -1,10 +1,11 @@
 import React from "react";
-import { shallow } from "enzyme";
+//import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import { login } from "../../requests/login/";
 
 jest.mock("../../requests/login");
 describe("Login test", () => {
-  const wrapper = shallow(<Login />);
+  const wrapper = render(<Login />);
 
   it("should have a login button", () => {
     expect(wrapper.find("Button")).toHaveLength(1);

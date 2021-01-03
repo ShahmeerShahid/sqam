@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { login } from "../../requests/login/";
 
+jest.mock("../../requests/login");
 describe("Login test", () => {
   const wrapper = shallow(<Login />);
 

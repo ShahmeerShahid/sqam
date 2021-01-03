@@ -19,7 +19,7 @@ export function TaskView({ enqueueSnackbar }) {
       enqueueSnackbar("Failed fetching task information", { variant: "error" });
     }
   }, [tasks_info, enqueueSnackbar]);
-  
+
   if (taskData) {
     taskLogs = taskData.logs;
   }

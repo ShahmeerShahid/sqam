@@ -1,31 +1,35 @@
-import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
-import { login } from "../../requests/login/";
-import ErrorMsg from "../../components/ErrorMsg";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { shallow } from 'enzyme';
+import {login} from "../../requests/login/"
 
-describe("LoginForm", () => {
-  it("Renders a form data", async () => {
-    const fakeform = {
-      username: "test@utoronto.ca",
-      password: "password",
-      //   error: "",
-      //   loading: "",
-      //   loggedIn: ""
-    };
-    jest.spyOn(global, "LoginForm").mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(fakeform),
-      })
-    );
 
-    expect(getByText(fakeform.username)).toBeInTheDocument();
-    expect(getByText(fakeform.password)).toBeInTheDocument();
-    //   expect(getByText(fakeform.error)).toBeInTheDocument();
-    //   expect(getByText(fakeform.loading)).toBeInTheDocument();
-    //   expect(getByText(fakeform.loggedIn)).toBeInTheDocument();
 
-    // remove the mock to ensure tests are completely isolated
-    global.LoginForm.mockRestore();
-  });
-});
+    describe('Login test', ()=> {
+        const wrapper = shallow(<Login />);
+
+        it('should have a login button', ()=> {
+
+            expect(wrapper.find('Button')).toHaveLength(1);
+
+            //Button should be of type button
+            expect(wrapper.find('Button').type().defaultProps.type).toEqual('button');
+
+            expect(wrapper.find('Button').text()).toEqual('Login');
+        });
+
+        it('should have input for email and password', ()=> {
+            //Email and password input field should be present
+            expect(wrapper.find('input#email')).toHaveLength(1);
+            expect(wrapper.find('input#password')).toHaveLength(1);
+        });
+   
+        it('should test email and password presence', () => {
+      
+                    //should return true 
+                    expect(login('test@utoronto.ca', 'password')).toEqual(true);
+      
+                    //should return false
+                    expect(validateEmailAndPasswordPresence('', '')).toEqual(false);
+              });
+   
+       });

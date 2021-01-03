@@ -28,7 +28,7 @@ class StudentGroup:
         config = Config.get_instance()
         self.group_id = kwargs.get('group_id')
         self.number_of_students = kwargs.get('number_of_students')
-        self.path_to_submission = kwargs.get('path_to_submission') + kwargs.get('dir_name') +'/'+ config.vars["submission_file_name"]
+        self.path_to_submission = kwargs.get('path_to_submission') + '/' + kwargs.get('dir_name') +'/'+ config.vars["submission_file_name"]
         self.path_to_group_dir = kwargs.get('path_to_submission') + kwargs.get('dir_name')
         self.assignment = None
 

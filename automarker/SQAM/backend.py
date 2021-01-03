@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, request, jsonify
 from SQAM.job import Job
-import json
 from threading import Thread
+import requests
 app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
@@ -39,23 +39,31 @@ def root():
     
     """
 
-def run_job(config_json):
-    job = Job(config_json)
-    job.run()
-    # TODO Use Config Info to Send Back Response that Job is Done Marking
+def sendResponse(tid, status):
+    send_info = {"status": status}
+    res = requests.patch("http://admin_api/api/tasks/status/{tid}".format(tid=tid), json=send_info)
+    # TODO Log the response and possibly error handle a failed request
+
+def runJobThread(config_json):
+    try:
+        job = Job(config_json)
+        job.run()
+        print(f"Job with TID {config_json['tid']} ran successfully", flush=True)
+        sendResponse(config_json['tid'], "Complete")
+    except Exception as e:
+        print(e)
+        print(f"Job with TID {config_json['tid']} failed", flush=True)
+        sendResponse(config_json["tid"], "Error")
+        # TODO Log the Error
 
 # Pass config arguments and start automarker
-@app.route('/config', methods=['POST'])
-def ChangeAll():
+@app.route('/runJob', methods=['POST'])
+def runJob():
     config_json = request.get_json()
     # We Should Add Validation that All Required Feilds are correct and have Correct Values
-    if len(config_json) == 24:
-        job_thread = Thread(target=run_job, args=(config_json,))
-        job_thread.start()
-        return jsonify({'Status' : "Success", "Results": config_json["submissions"]})
-    else:
-        return jsonify({'Status' : "Failure", "Message": "Invalid parameters"})
-
+    job_thread = Thread(target=runJobThread, args=(config_json,))
+    job_thread.start()
+    return jsonify({'Status' : "Success"})
 
 if __name__ == '__main__':
     #Setting ports by reading the environment variable that set by docker compose file.

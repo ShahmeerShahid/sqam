@@ -5,6 +5,8 @@ from SQAM.query_languages.MySQL import MySQLQuerier
 from SQAM.query_languages.query_runner import QueryRunner
 from SQAM.autograder.partial_marking_grader import Partial_Marking_Grader
 from SQAM.autograder.binary_grader import Binary_Marking_Grader
+from SQAM.createPatch import startPatch
+import os,time,subprocess
 
 class Job:
     """ 
@@ -26,6 +28,9 @@ class Job:
         """
         self.config = Config.get_instance()
         self.config.load_config(raw_config)
+        startPatch(self.config.vars["submissions"])
+
+
         self.assignment = Assignment(self.config.vars["assignment_name"],
                                      self.config.vars["submissions"],
                                      self.config.vars["student_groups_file"],
@@ -35,6 +40,12 @@ class Job:
         self.assignment.extract_queries()
 
         if(self.config.vars["db_type"] == "mysql"):
+            #Initialize the database
+            rootpwd = os.getenv("MYPASSWD")
+            #result = subprocess.check_output(["./setup.sh", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
+            cmd =' '.join(["./setup", "mysql", "root", rootpwd, str(self.config.vars["db_name"]),str(self.config.vars["db_user_name"]),str(self.config.vars["db_password"])])
+            os.system(cmd)
+            #Run the system
             self.query_language = MySQLQuerier(*self.config.vars["login_details"])
         elif(self.config.vars["db_type"] == "postgresql"):
             # Need to add postgres requirements to requirements.txt before uncommenting

@@ -10,9 +10,11 @@ import {
 } from "react-router-dom";
 import Homepage from "./pages/Home";
 import Tasks from "./pages/Tasks";
+import TaskView from "./pages/TaskView";
 import AddTask from "./pages/AddTask";
 import LoginForm from "./pages/Login";
 
+import "react-dropzone-uploader/dist/styles.css";
 import "./App.css";
 
 function UnconnectedApp() {
@@ -23,6 +25,7 @@ function UnconnectedApp() {
         <Route exact path="/tasks" component={withRouter(Tasks)} />
         <Route exact path="/tasks/add" component={withRouter(AddTask)} />
         <Route exact path="/login" component={withRouter(LoginForm)} />
+        <Route path="/tasks/:tid" children={<TaskView />} />
         <Route
           exact
           path="/not-found"

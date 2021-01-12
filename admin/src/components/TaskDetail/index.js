@@ -11,8 +11,7 @@ import {
 import { withSnackbar } from "notistack";
 
 function TaskRow({ fieldName, fieldValue }) {
-
-  const stripped = fieldValue.replace(/,/g, ', ')
+  const stripped = fieldValue.replace(/,/g, ", ");
   return (
     <div>
       <ThemeProvider>

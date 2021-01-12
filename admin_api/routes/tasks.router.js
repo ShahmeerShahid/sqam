@@ -166,7 +166,7 @@ router
             message: `Task ${tid} successfully updated`,
           });
         }
-      });
+      );
     }
   );
 

@@ -3,20 +3,28 @@ import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 
 function LogRow({ logField }) {
-  const strFinal = ''.concat('> ', logField['source'], ' -- [',logField['timestamp'], "]", logField['text'], "\n" );
+  const strFinal = "".concat(
+    "> ",
+    logField["source"],
+    " -- [",
+    logField["timestamp"],
+    "]",
+    logField["text"],
+    "\n"
+  );
   return (
-      <Box d="flex" justifyContent="space-between" alignItems="center">
-        <pre>{strFinal}</pre>
-      </Box>
+    <Box d="flex" justifyContent="space-between" alignItems="center">
+      <pre>{strFinal}</pre>
+    </Box>
   );
 }
 
 function TaskLog({ taskLogs, tid }) {
   let logSources = ["All", "frontend", "automarker", "connector", "api"];
-  const [value, setValue] = useState("All")
+  const [value, setValue] = useState("All");
   const handleChange = (event) => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
   return (
     <div>
       <Box>
@@ -46,20 +54,21 @@ function TaskLog({ taskLogs, tid }) {
               alignItems="center"
               fontFamily="heading"
             >
-              Logs for {tid} 
-              
+              Logs for {tid}
             </Heading>
             <Icon name="chevron-right" />
 
-            <Select 
-              variant="filled" 
+            <Select
+              variant="filled"
               value={value}
-              onChange={handleChange} 
+              onChange={handleChange}
               w="40%"
             >
-                {logSources.map((key, index) => (
-                  <option key={index} value={key}>{key}</option>
-                ))}
+              {logSources.map((key, index) => (
+                <option key={index} value={key}>
+                  {key}
+                </option>
+              ))}
             </Select>
           </Flex>
           <Stack shouldWrapChildren spacing={4} ml={4} mt={4}>
@@ -75,10 +84,13 @@ function TaskLog({ taskLogs, tid }) {
                 pt={5}
                 pb={5}
               >
-                {taskLogs.length !== 0  ? (
-                  taskLogs.map((key, index) => (
-                    ( (value === key["source"] || value === "All") && <LogRow key={index} logField={key} /> )
-                  ))
+                {taskLogs.length !== 0 ? (
+                  taskLogs.map(
+                    (key, index) =>
+                      (value === key["source"] || value === "All") && (
+                        <LogRow key={index} logField={key} />
+                      )
+                  )
                 ) : (
                   <h1>No tasks to display</h1>
                 )}

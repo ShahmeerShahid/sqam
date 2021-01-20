@@ -1,25 +1,96 @@
-#!/usr/bin/env python3
-
-'''Report Templator.
-Author: Kenneth Ma (2015), under supervision of Dr. Anya Tafliovich
-Author: Anya Tafliovich 2015, 2016
-
-Given template file(s), create individual and/or aggregrated human
-readable reports from an aggregrated JSON report file.
-
-'''
-
-import argparse
 import json
 import os
 import sys
+import re
 
 import jinja2
 
-from utils.defaults import (DEFAULT_TEMPLATE_TYPE, DEFAULT_AGGREGATE_TEMPLATE,
-                       DEFAULT_INDIVIDUAL_TEMPLATE, DEFAULT_JINJA_EXTENSIONS, DEFAULT_REPORT_NAME)
-from utils.plugins import (student_list, get_all_counts, get_counts, ljust,
-                               to_gf_names, exclude, passed, get_balanced_weight)
+DEFAULT_TEMPLATE_TYPE = 'txt'
+DEFAULT_AGGREGATE_TEMPLATE = 'aggregated.tpl'
+DEFAULT_JINJA_EXTENSIONS = ['jinja2.ext.do']
+
+def student_list(students, format_str, fields):
+    ''' (list of dict, str, list of str) -> list of str
+    Prepares a list of student fields from a list of dictionaries representing
+    aggregator.UTSCStudents in the given format with respective fields.
+    '''
+
+    return [format_str % tuple([student.get(field) for field in fields])
+            for student in students]
+
+
+def get_all_counts(results, select):
+    ''' (dict of dicts) -> int
+    Gets either the number of passes, failures, errors, and total of the given
+    results dictionary depending on select (from the respective order) for all
+    TestCases.
+    '''
+
+    return sum([get_counts(test, select) for test in results.values()])
+
+
+def get_counts(results, select):
+    ''' (dict of dicts/lists) -> int
+    Gets either the number of passes, failures, errors, or total of the given
+    results dictionary depending on select (from the respective order) for a
+    single TestCase.
+    '''
+    select = ['passes', 'failures', 'errors', 'total'][select]
+
+    return (len(results.get(select)) if results.get(select) else 0
+            if select != 'total' else
+            sum([get_counts(results, i) for i in range(3)]))
+
+
+def ljust(text, amount, offset_after_first=0):
+    ''' (str, int) -> str
+    Pads the given text with spaces on the left until its length is the given
+    amount -- in otherwords, right justify text. Every line after the first
+    will be offset to the left offsetAfterFirst spaces.
+    '''
+    return '\n'.join([line.ljust(amount + int(bool(i)) * offset_after_first)
+                      for i, line in enumerate(text.split('\n'))])
+
+
+def to_gf_names(name):
+    ''' (str) -> str
+    Converts all non-compliant (non alphanumeric including the underscore)
+    characters to underscores for usage as a grade name in a standard .gf
+    file as specified by:
+
+    http://www.cdf.toronto.edu/~clarke/grade/fileformat.shtml
+    '''
+    return re.sub('[^A-Za-z0-9_]', '_', name)
+
+
+def exclude(collection, exclusions):
+    ''' (list, list) -> list
+    Removes any elements that contain exclusions from collection.
+    '''
+    return [element for element in collection if all(exclusion not in element for exclusion in exclusions)]
+
+def passed(test_name, results):
+    ''' (str, dict{str:dict{str: dict{str: str or dict}}}) -> int
+    Returns 1 if the test testName is a key in any TestCase's passes dict
+    in results and 0 otherwise.
+    '''
+    # flatten passes from all TestCases
+    passes = set()
+    for test_case in results.values():
+        passes.update((test_case.get('passes') or {}).keys())
+    return int(test_name in passes)
+
+
+def get_balanced_weight(tests):
+    '''(list) -> int
+
+    Calculate the equally weighted value of an individual test from a
+    collection of tests.
+
+    '''
+    return round(1 / len(tests) * 100, 3)
+
+
 
 
 class TemplatedReport:
@@ -252,31 +323,19 @@ def _set_up_jinja_env(template_dir, plugins, jinja_exts):
 
     return env
 
-
-def individual_report(source, plugins, template_file,
-                      template_dir, jinja_extns, origin, output):
-    '''Template an individual report given an individual json.'''
-
-    report = IndividualReport.from_json(source,
-                                        template_file,
-                                        template_dir,
-                                        plugins,
-                                        jinja_extns,
-                                        origin)
-    report.write(output)
-
-
-def aggregate_report(source, plugins, template_file, template_dir,
-                     jinja_extns, output):
+def aggregate_report_SQAM(source, template_dir, report_name):
     '''Template an aggregate report given an aggregate json.'''
-
+    
+    PLUGINS = [student_list, get_all_counts, get_counts, ljust,
+            to_gf_names, exclude, passed, get_balanced_weight]
+    template_file=os.path.join(DEFAULT_TEMPLATE_TYPE, DEFAULT_AGGREGATE_TEMPLATE)
+    OUTPUT = '%s.%s' % (report_name, DEFAULT_TEMPLATE_TYPE)
     report = AggregateReport.from_json(source,
                                        template_file,
                                        template_dir,
-                                       plugins,
-                                       jinja_extns)
-    report.write(output)
-
+                                       PLUGINS,
+                                       DEFAULT_JINJA_EXTENSIONS)
+    report.write(OUTPUT)
 
 def individual_reports(source, plugins, template_file,
                        template_dir, jinja_extns, output):
@@ -288,87 +347,3 @@ def individual_reports(source, plugins, template_file,
                                           plugins,
                                           jinja_extns)
     reports.write(output)
-
-
-def check_arguments(args):
-    '''TODO: write me.'''
-
-    pass
-
-
-def arguments():
-    '''Parse command line arguments.'''
-
-    help_all = 'If neither -i nor -a are specified, all reports are generated.'
-
-    # get options
-    parser = argparse.ArgumentParser(
-        description=('Convert JSON file(s) (individual, aggregated or both) ' +
-                     'into human readable format'))
-    parser.add_argument('-i', '--individual', action="store_true",
-                        help=('Produce a single individual report. ' +
-                              help_all))
-    parser.add_argument('-a', '--aggregate', action="store_true",
-                        help=('Produce a single aggregated report. ' +
-                              help_all))
-    parser.add_argument('-o', '--output',
-                        help='Filepath for templated report output.',
-                        default=DEFAULT_REPORT_NAME)
-    parser.add_argument('--template_dir',
-                        help=('Directory that contains the templates.' +
-                              help_all))
-    parser.add_argument('--template_individual',
-                        help=('Filepath for template file to use for ' +
-                              'templating individual reports.' + help_all),
-                        default=DEFAULT_INDIVIDUAL_TEMPLATE)
-    parser.add_argument('--template_aggregate',
-                        help=('Filepath for template file to use for ' +
-                              'templating aggregate reports.' + help_all),
-                        default=DEFAULT_AGGREGATE_TEMPLATE)
-    parser.add_argument('--jinja_extensions',
-                        help=('Jinja extension. ' + help_all),
-                        default=DEFAULT_JINJA_EXTENSIONS)
-    parser.add_argument('source_json',
-                        help='Path to (aggregated or individual) JSON file.')
-    parser.add_argument('template_type', nargs='?',
-                        help='Type of template to use (txt/gf/markus/html).',
-                        default=DEFAULT_TEMPLATE_TYPE)
-    return parser.parse_args()
-
-
-if __name__ == '__main__':
-
-    PLUGINS = [student_list, get_all_counts, get_counts, ljust,
-               to_gf_names, exclude, passed, get_balanced_weight]
-
-    ARGS = arguments()
-    check_arguments(ARGS)
-
-    OUTPUT = '%s.%s' % (ARGS.output, ARGS.template_type)
-
-    if ARGS.individual:
-        individual_report(ARGS.source_json,
-                          PLUGINS,
-                          os.path.join(ARGS.template_type,
-                                       ARGS.template_individual),
-                          ARGS.template_dir,
-                          ARGS.jinja_extensions,
-                          os.path.dirname(ARGS.source_json),
-                          OUTPUT)
-        exit(0)
-
-    aggregate_report(ARGS.source_json,
-                     PLUGINS,
-                     os.path.join(ARGS.template_type, ARGS.template_aggregate),
-                     ARGS.template_dir,
-                     ARGS.jinja_extensions,
-                     OUTPUT)
-
-    if not ARGS.aggregate and not ARGS.individual:
-        individual_reports(ARGS.source_json,
-                           PLUGINS,
-                           os.path.join(ARGS.template_type,
-                                        ARGS.template_individual),
-                           ARGS.template_dir,
-                           ARGS.jinja_extensions,
-                           OUTPUT)

@@ -1,20 +1,13 @@
 from mysql.connector import OperationalError
-from SQAM.query_languages.query_language import QueryLanguage
-from SQAM.config_singleton import Config
-# from SQAM.config import CREATE_TABLES, LOAD_DATA
+from SQAM.queriers.querier import Querier
 import mysql.connector
 import time
 
-class MySQLQuerier(QueryLanguage):
-    def __init__(self, username, password, database_name, host, port,autocommit=True):
-        super().__init__(username, password, database_name, host, port, autocommit)
-        self.refreshDB()
-
+class MySQLQuerier(Querier):
     def refreshDB(self):
-        config = Config.get_instance()
         self.call_procedure('drop_all_tables')
-        self.executeScript(config.vars["create_tables"])
-        self.reloadData(config.vars["load_data"])
+        self.executeScript(self.create_tables_path)
+        self.reloadData(self.load_data_path)
         time.sleep(10)
 
     def get_cursor(self):

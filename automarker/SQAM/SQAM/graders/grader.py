@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from SQAM.autograder.my_utils import *
+from SQAM.graders.my_utils import *
 
 class Grader(ABC):
     def __init__(self, assignment, query_language):
@@ -32,9 +32,9 @@ class Grader(ABC):
         return True
 
     def grade_all_student_groups(self):
-        for i, group in enumerate(self.assignment.class_list):
+        for i, group in enumerate(self.assignment.submissions):
             self.grade_group(group)
-            print(f'Finished Grading {i} groups -- Group {group.group_id} mark: {group.total_grade}')
+            print(f'Finished Grading {i} groups -- Group {group.path_to_submission} mark: {group.total_grade}')
 
     def get_number_of_extra_columns_in_student_answer(self, answer, solutions):
         number_extra = len(answer[0]) - len(solutions[0]) if answer and not answer[0] == ('', '') else -len(solutions[0])

@@ -1,12 +1,22 @@
 from abc import ABC, abstractmethod
-class QueryLanguage(ABC):
-    def __init__(self, username, password, database_name, host, port,autocommit=True):
+class Querier(ABC):
+    def __init__(self, username, password, host, port, database_name, create_tables_path,
+                load_data_path, create_function_path, create_trigger_path, autocommit=True):
+        self.create_tables_path = create_tables_path
+        self.load_data_path = load_data_path
+        self.create_function_path = create_function_path
+        self.create_trigger_path = create_trigger_path
         self.username = username
         self.password = password
         self.database_name = database_name
         self.autocommit = autocommit
         self.host = host
         self.port = int(port)
+        self.refreshDB()
+
+    @abstractmethod
+    def refreshDB(self):
+        pass
 
     @abstractmethod
     def run_single_query(self, query, verbose=None):

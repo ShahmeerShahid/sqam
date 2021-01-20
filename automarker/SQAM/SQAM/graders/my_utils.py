@@ -2,8 +2,6 @@ from operator import itemgetter
 import math
 import os
 import re
-from SQAM.config_singleton import Config
-# from SQAM.config import SUBMISSIONS
 
 def sort_list_of_tuples_as_strings(lst):
     ret = []
@@ -44,14 +42,12 @@ def round_half_up(n, decimals=0):
     multiplier = 10 ** decimals
     return int(math.floor(n * multiplier + 0.5) / multiplier)
 
-def getAllAnnotations():
+def getAllAnnotations(path):
     """
     Collect the path to all annotation files as a list
     @return: List of paths to annotation files
     """
-    config = Config.get_instance()
     files = []
-    path = config.vars["submissions"]
     # r=root, d=directories, f = files
     for r, d, f in os.walk(path):
         for file in f:

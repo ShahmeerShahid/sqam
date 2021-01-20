@@ -1,23 +1,14 @@
 import psycopg2
-from SQAM.query_languages.query_language import QueryLanguage
-from SQAM.config_singleton import Config
-# from SQAM.config import CREATE_TABLES, LOAD_DATA, CREATE_TRIGGER, CREATE_FUNCTION
+from SQAM.queriers.querier import Querier
 import time
 
-class PostGreSQLQuerier(QueryLanguage):
-    def __init__(self, username, password, database_name, host, port, autocommit=True):
-        super().__init__(username, password, database_name, autocommit)
-        self.host = host
-        self.port = port
-        self.refreshDB()
-
+class PostGreSQLQuerier(Querier):
     def refreshDB(self):
-        config = Config.get_instance()
         # self.call_procedure('drop_all_tables')
-        self.executeScript(config.vars["create_tables"])
-        self.executeEntireScript(config.vars["create_function"])
-        self.executeEntireScript(config.vars["create_trigger"])
-        self.reloadData(config.vars["load_data"])
+        self.executeScript(self.create_tables_path)
+        self.executeEntireScript(self.create_function_path)
+        self.executeEntireScript(self.create_tables_path)
+        self.reloadData(self.load_data_path)
         time.sleep(10)
 
     def get_cursor(self):

@@ -1,5 +1,0 @@
-group_0000,group_0000,student0,student1
-group_0001,group_0001,student2,student3
-group_0002,group_0002,student4,student5
-group_0003,group_0003,student6
-group_0004,group_0004,student7,student8

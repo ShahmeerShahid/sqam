@@ -9,8 +9,6 @@ services:
   mysqlam:
     image: mysql:5.7
     restart: always
-    volumes:
-      - ./automarker/SQAM/start.sql:/var/lib/mysql-files/start.sql
     environment:
       MYSQL_ROOT_PASSWORD: csc499
       MYSQL_DATABASE: c499

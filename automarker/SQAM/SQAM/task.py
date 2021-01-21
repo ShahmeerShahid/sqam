@@ -4,7 +4,6 @@ from SQAM.queriers.MySQL import MySQLQuerier
 from SQAM.graders.partial_marking_grader import Partial_Marking_Grader
 from SQAM.graders.binary_grader import Binary_Marking_Grader
 import SQAM.settings
-import os,subprocess
 import requests
 
 class Task:
@@ -28,9 +27,6 @@ class Task:
         db_name = "t"+str(self.tid)
         if(config["db_type"] == "mysql"):
             login_details = SQAM.settings.MYSQL_LOGIN_DETAILS
-            os.system("sed -i 's/\r$//' setup")
-            cmd =' '.join(["source setup", "mysql", "root", SQAM.settings.MYSQL_root_password, str(db_name),str(login_details[0]),str(login_details[1])])
-            os.system(cmd)
             query_language = MySQLQuerier(*login_details,
                                             db_name,
                                             config["create_tables"], 
@@ -79,6 +75,7 @@ class Task:
         self.assignment.run_templator()
         self.log("Generated all Result Files")
         self.log("Assignment Marking Complete")
+        self.assignment.querier.remove_database()
 
         print(f'Done Grading Submissions. Class Average: {self.assignment.get_average()*100:.2f}%')
     

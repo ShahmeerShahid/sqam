@@ -10,6 +10,50 @@ class MySQLQuerier(Querier):
         self.reloadData(self.load_data_path)
         time.sleep(10)
 
+    def setup(self):
+        cursor, cnx = self.get_admin_cursor()
+        cursor.execute(f"DROP DATABASE IF EXISTS {self.database_name}")
+        cursor.execute(f"CREATE DATABASE {self.database_name}")
+        cursor.execute(f"GRANT ALL PRIVILEGES ON {self.database_name}.* TO {self.username}@'%' IDENTIFIED BY '{self.password}'")
+        cursor.execute("FLUSH PRIVILEGES")
+        cursor.execute(f"USE {self.database_name}")
+        cursor.execute("""
+        CREATE PROCEDURE drop_all_tables()
+        BEGIN
+        DECLARE _done INT DEFAULT FALSE;
+        DECLARE _tableName VARCHAR(255);
+        DECLARE _cursor CURSOR FOR
+            SELECT table_name
+            FROM information_schema.TABLES
+            WHERE table_schema = SCHEMA();
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET _done = TRUE;
+        SET FOREIGN_KEY_CHECKS = 0;
+        OPEN _cursor;
+        REPEAT FETCH _cursor INTO _tableName;
+        IF NOT _done THEN
+            SET @stmt_sql = CONCAT('DROP TABLE ', _tableName);
+            PREPARE stmt1 FROM @stmt_sql;
+            EXECUTE stmt1;
+            DEALLOCATE PREPARE stmt1;
+        END IF;
+        UNTIL _done END REPEAT;
+        CLOSE _cursor;
+        SET FOREIGN_KEY_CHECKS = 1;
+        END
+        """)
+        self.close_cursor_connection(cursor, cnx)
+
+    def remove_database(self):
+        cursor, cnx = self.get_admin_cursor()
+        cursor.execute(f"DROP DATABASE {self.database_name}")
+        self.close_cursor_connection(cursor, cnx)
+
+    def get_admin_cursor(self):
+        cnx = mysql.connector.connect(user=self.root_username, password=self.root_password,
+                                        host=self.host, port=self.port,autocommit=self.autocommit)
+        cursor = cnx.cursor(buffered=True)
+        return cursor, cnx
+
     def get_cursor(self):
         """
         Create and return a connector & cursor for connecting to mysql database

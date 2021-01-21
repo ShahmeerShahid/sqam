@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 class Querier(ABC):
-    def __init__(self, username, password, host, port, database_name, create_tables_path,
+    def __init__(self, username, password, root_username, root_password, host, port, database_name, create_tables_path,
                 load_data_path, create_function_path, create_trigger_path, autocommit=True):
         self.create_tables_path = create_tables_path
         self.load_data_path = load_data_path
@@ -8,11 +8,22 @@ class Querier(ABC):
         self.create_trigger_path = create_trigger_path
         self.username = username
         self.password = password
+        self.root_username = root_username
+        self.root_password = root_password
         self.database_name = database_name
         self.autocommit = autocommit
         self.host = host
         self.port = int(port)
+        self.setup()
         self.refreshDB()
+
+    @abstractmethod
+    def setup(self):
+        pass
+
+    @abstractmethod
+    def remove_database(self):
+        pass
 
     @abstractmethod
     def refreshDB(self):

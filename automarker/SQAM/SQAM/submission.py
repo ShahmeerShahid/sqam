@@ -5,7 +5,8 @@ class Submission:
     """
     A representation of a Submission
     """
-    def __init__(self, submission_id, path_to_submission_file, path_to_results_file, questions, regex_extractor):
+    def __init__(self, name, path_to_submission_file, path_to_results_file):
+        self.name = name
         self.path_to_submission = path_to_submission_file
         self.path_to_results_file = path_to_results_file
 
@@ -20,9 +21,18 @@ class Submission:
         self.incorrect_query_details = {}
         self.extra_columns_per_query = {}
         self.results_as_test_cases = {}
-
         self.queries = {}
-        self.extract_all_queries(questions, regex_extractor)
+
+    def grade_submission(self, questions, regex_extractor, querier, grader):
+        try:
+            self.extract_all_queries(questions, regex_extractor)
+            self.get_results_for_submission(querier)
+            grader.grade_group(self)
+            grader.generate_test_results_for_group(self)
+            self.dump_json_output_to_submission_folder()
+            print(f"Finished Grading: {self.name} Mark: {self.total_grade}", flush=True)
+        except Exception as e:
+            print(f"Grading Failed for {self.name} Exception: {e}", flush=True)
 
     def extract_query(self, query_name, regex_extractor):
         query_regex = re.compile(regex_extractor(query_name))

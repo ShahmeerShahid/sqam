@@ -28,15 +28,13 @@ class Assignment:
             path_to_result_file = os.path.join(path_to_submission_dir, SQAM.settings.JSON_RESULT_FILENAME)
             submission = Submission(name,
                                     path_to_submission_file,
-                                    path_to_result_file,
-                                    self.questions.keys(),
-                                    self.extractor)
+                                    path_to_result_file)
             submissions.append(submission)
         return submissions
 
-    def dump_results_to_json(self):
+    def mark_submissions(self, grader):
         for submission in self.submissions:
-            submission.dump_json_output_to_submission_folder()
+            submission.grade_submission(self.questions.keys(), self.extractor, self.querier, grader)
 
     def get_average(self):
         all_totals = []
@@ -66,8 +64,3 @@ class Assignment:
             sqlFile = fd.read()
             all_solutions, errors = self.querier.run_SQL_file(sqlFile, query_names, verbose)
         return all_solutions, errors
-
-    def get_results_for_all_submissions(self):
-        for submission in self.submissions:
-            submission.get_results_for_submission(self.querier)
-            

@@ -65,12 +65,8 @@ class Task:
         one json file. 
         """
         self.log("Beginning Assignment Marking")
-        self.assignment.get_results_for_all_submissions()
-        self.log("Ran all Submissions")
-        self.grader.grade_all_student_groups()
-        self.grader.generate_unit_tests_for_student_groups()
+        self.assignment.mark_submissions(self.grader)
         self.log("Graded all Submissions")
-        self.assignment.dump_results_to_json()
         self.assignment.run_aggregator()
         self.assignment.run_templator()
         self.log("Generated all Result Files")

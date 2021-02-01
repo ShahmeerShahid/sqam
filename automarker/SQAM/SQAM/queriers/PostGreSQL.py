@@ -10,7 +10,8 @@ class PostGreSQLQuerier(Querier):
         self.executeEntireScript(self.create_tables_path)
         self.reloadData(self.load_data_path)
         time.sleep(10)
-
+    def initialize(self):
+        pass
     def get_cursor(self):
         """
         Create and return a connector & cursor for connecting to mysql database

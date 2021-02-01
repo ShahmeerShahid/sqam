@@ -5,9 +5,9 @@ WORKDIR /automarker/SQAM
 #Copy all files into container
 COPY . .
 #Install the essential libraries on alpine 
-RUN apk add --no-cache gcc musl-dev
+RUN apk add --no-cache gcc musl-dev binutils-libs binutils libgcc libstdc++ isl libgomp mpfr3 mpc1 
 #Install mysql / postgresql client software
-RUN apk add --no-cache mysql-client postgresql-client
+RUN apk add --no-cache mysql-client postgresql-client postgresql-libs postgresql-dev
 #upgrade pip
 RUN pip3 install --upgrade pip
 # Install the requirements to run flask endpoint and SQAM.

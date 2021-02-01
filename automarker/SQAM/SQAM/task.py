@@ -36,6 +36,7 @@ class Task:
             self.log("Setup MYSQL Database")
         elif(config["db_type"] == "postgresql"):
             # Need to add postgres requirements to requirements.txt before uncommenting
+            
             pass
         else:
             exit(1)

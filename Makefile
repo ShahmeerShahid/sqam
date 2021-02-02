@@ -21,6 +21,11 @@ else ifeq ($(app), backend)
 	docker-compose up -d
 	docker-compose run admin_api npm test
 	docker-compose down
+else
+	docker-compose up -d
+	docker-compose run admin npm test
+	docker-compose run admin_api npm test
+	docker-compose down
 endif
 
 setup :

@@ -6,6 +6,6 @@ describe("formatFieldToTitle", () => {
   });
 
   it("doesn't contain a _", () => {
-    expect(formatFieldToTitle("assignmentid")).toBe("");
+    expect(formatFieldToTitle("assignmentid")).toBe("Assignmentid");
   });
 });

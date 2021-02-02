@@ -1,16 +1,33 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { Task } from "./";
-import { wrapInTheme } from "../../testing/helpers";
+import { fetchTasks } from "../../requests/tasks";
+import Tasks from ".";
+import { wrapInAll } from "../../testing/helpers";
 import { mockTasks } from "../../testing/mockData";
 
 jest.mock("../../requests/tasks");
 
-describe("Task", () => {
-  it("Renders a task for each task provided", () => {
-    const { getByText } = render(wrapInTheme(<Task task={mockTasks[0]} />));
-    expect(getByText(mockTasks[0].name)).toBeInTheDocument();
-    expect(getByText(mockTasks[0].status)).toBeInTheDocument();
+describe("Tasks", () => {
+  const renderPage = (props) => {
+    return render(wrapInAll(<Tasks {...props} />));
+  };
+
+  beforeEach(() => {
+    fetchTasks.mockImplementationOnce(() => Promise.resolve(mockTasks));
+  });
+
+  it("Renders tasks", async () => {
+    let component;
+    await act(async () => {
+      component = renderPage();
+    });
+    expect(
+      component.getByRole("heading", { name: /tasks/i })
+    ).toBeInTheDocument();
+    mockTasks.forEach((task) => {
+      expect(component.getByText(task.name)).toBeInTheDocument();
+    });
+    expect(fetchTasks).toHaveBeenCalledTimes(1);
   });
 });

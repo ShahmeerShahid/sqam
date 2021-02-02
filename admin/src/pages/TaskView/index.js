@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ThemeProvider, Text, Grid, Flex } from "@chakra-ui/core";
+import { Text, Grid, Flex } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
@@ -8,7 +8,7 @@ import TaskLog from "../../components/TaskLog";
 import { useAsync } from "react-async";
 import { fetchTasksInfo } from "../../requests/tasks";
 
-export function TaskView({ enqueueSnackbar }) {
+function TaskView({ enqueueSnackbar }) {
   let { tid } = useParams();
   let tasks_info = useAsync({ promiseFn: fetchTasksInfo, tid: tid });
   let taskData = tasks_info.data;
@@ -27,43 +27,41 @@ export function TaskView({ enqueueSnackbar }) {
   return (
     <div>
       <Header />
-      <ThemeProvider>
+      <Flex
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        mt={4}
+      >
         <Flex
           display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          mt={4}
+          flexDirection="row"
+          alignItems="flex-start"
+          justifyContent="flex-start"
         >
-          <Flex
-            display="flex"
-            flexDirection="row"
-            alignItems="flex-start"
-            justifyContent="flex-start"
-          >
-            <Text fontSize="3xl" fontWeight="bold">
-              Task({tid})
-            </Text>
-          </Flex>
+          <Text fontSize="3xl" fontWeight="bold">
+            Task({tid})
+          </Text>
         </Flex>
-        <Grid
-          p={10}
-          gap={6}
-          templateColumns="repeat(auto-fit, minmax(350px, 1fr))"
-        >
-          <TaskDetail
-            taskData={taskData}
-            tid={tid}
-            enqueueSnackbar={enqueueSnackbar}
-          />
-          <TaskLog
-            taskLogs={taskLogs}
-            tid={tid}
-            enqueueSnackbar={enqueueSnackbar}
-          />
-        </Grid>
-      </ThemeProvider>
+      </Flex>
+      <Grid
+        p={10}
+        gap={6}
+        templateColumns="repeat(auto-fit, minmax(350px, 1fr))"
+      >
+        <TaskDetail
+          taskData={taskData}
+          tid={tid}
+          enqueueSnackbar={enqueueSnackbar}
+        />
+        <TaskLog
+          taskLogs={taskLogs}
+          tid={tid}
+          enqueueSnackbar={enqueueSnackbar}
+        />
+      </Grid>
     </div>
   );
 }

@@ -166,7 +166,7 @@ router
             message: `Task ${tid} successfully updated`,
           });
         }
-      );
+      });
     }
   );
 
@@ -269,7 +269,7 @@ router
             create_function: task.create_function,
             load_data: task.load_data,
             solutions: task.solutions,
-            submissions: `/var/downloads/${tid}`,
+            submissions: `/var/downloads/${tid}/`,
             timeout: 100,
             db_type: "mysql",
           };

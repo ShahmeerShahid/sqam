@@ -51,7 +51,7 @@ function QuestionInput({
         }}
         key={`numinput-${index}`}
       >
-        <NumberInputField />
+        <NumberInputField aria-label={`num-${index}-input`} />
         <NumberInputStepper>
           <NumberIncrementStepper />
           <NumberDecrementStepper />
@@ -59,6 +59,7 @@ function QuestionInput({
       </NumberInput>
       <Button
         aria-label="Delete question"
+        data-testid={`delete-btn-${index}`}
         onClick={() => {
           handleDelete(index);
         }}

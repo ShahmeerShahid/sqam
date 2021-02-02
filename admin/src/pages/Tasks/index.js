@@ -8,7 +8,7 @@ import { fetchTasks } from "../../requests/tasks";
 import Header from "../../components/Header";
 import "./Tasks.css";
 
-export function Task({ task }) {
+export function TaskItem({ task }) {
   const taskColor = (status) => {
     switch (status) {
       case "Complete":
@@ -70,7 +70,7 @@ export function Tasks({ enqueueSnackbar }) {
             <Stack spacing={8}>
               {tasks.value ? (
                 tasks.value.map((task, index) => (
-                  <Task key={index} task={task} />
+                  <TaskItem key={index} task={task} />
                 ))
               ) : (
                 <h1>No tasks to display</h1>

@@ -38,13 +38,12 @@ function TaskRow({ fieldName, fieldValue }) {
   );
 }
 
-function TaskDetail({ taskData, tid, enqueueSnackbar }) {
+function TaskDetail({ taskData, tid }) {
   if (taskData) {
     ["_id", "logs", "createdAt", "updatedAt", "__v"].forEach(
       (e) => delete taskData[e]
     );
   }
-
   return (
     <div>
       <Box

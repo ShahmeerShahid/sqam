@@ -77,14 +77,16 @@ function SelectConnectorForm({
           onChange={(e) =>
             setFieldValue("connectorIndex", parseInt(e.target.value))
           }
-          value={values.connectorIndex}
+          value={
+            Number.isNaN(values.connectorIndex) ? "" : values.connectorIndex
+          }
         >
           {connectors &&
             connectors.map((connector, index) => (
               <option
                 key={index}
                 value={index}
-                data-testid="select-option"
+                data-testid={`select-option-${index}`}
                 style={{ color: "black" }}
               >
                 {connector.name}

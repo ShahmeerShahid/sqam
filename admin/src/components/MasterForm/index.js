@@ -31,7 +31,7 @@ const StageOneSchema = Yup.object().shape({
   connectorInfo: Yup.object().required(),
 });
 
-const StageTwoSchema = Yup.object().shape({
+export const StageTwoSchema = Yup.object().shape({
   name: Yup.string().min(1).required(ERROR_MSGS.nameMissing), // STAGE 2
   max_marks_per_question: Yup.array()
     .of(Yup.number().min(1))
@@ -63,7 +63,40 @@ const CreateTaskSchema = ExcludeFilesSchema.concat(
   })
 );
 
-function UnconnectedMasterForm({
+function validateStageTwo(values) {
+  try {
+    StageTwoSchema.validateSync({
+      name: values.name,
+      max_marks_per_question: values.max_marks_per_question,
+      question_names: values.question_names,
+      submission_file_name: values.submission_file_name,
+      extra_fields: values.extra_fields,
+    });
+    return false;
+  } catch (e) {
+    return true;
+  }
+}
+
+function validateStageThree(values) {
+  try {
+    ExcludeFilesSchema.validateSync({
+      connector: values.connector,
+      connectorIndex: values.connectorIndex,
+      connectorInfo: values.connectorInfo,
+      name: values.name,
+      max_marks_per_question: values.max_marks_per_question,
+      question_names: values.question_names,
+      submission_file_name: values.submission_file_name,
+      extra_fields: values.extra_fields,
+    });
+    return false;
+  } catch (e) {
+    return true;
+  }
+}
+
+export function UnconnectedMasterForm({
   connectors,
   enqueueSnackbar,
   handleSubmit,
@@ -115,24 +148,6 @@ function UnconnectedMasterForm({
     if (connector) fetchData();
   }, [connector, enqueueSnackbar, setFieldValue]);
 
-  function validate() {
-    try {
-      ExcludeFilesSchema.validateSync({
-        connector: values.connector,
-        connectorIndex: values.connectorIndex,
-        connectorInfo: values.connectorInfo,
-        name: values.name,
-        max_marks_per_question: values.max_marks_per_question,
-        question_names: values.question_names,
-        submission_file_name: values.submission_file_name,
-        extra_fields: values.extra_fields,
-      });
-      return false;
-    } catch (e) {
-      return true;
-    }
-  }
-
   return (
     <Tabs
       isFitted
@@ -146,7 +161,10 @@ function UnconnectedMasterForm({
         <Tab isDisabled={!connector} onClick={() => setStage(2)}>
           Task Details
         </Tab>
-        <Tab isDisabled={validate()} onClick={() => setStage(3)}>
+        <Tab
+          isDisabled={validateStageThree(values)}
+          onClick={() => setStage(3)}
+        >
           Files
         </Tab>
       </TabList>
@@ -166,9 +184,9 @@ function UnconnectedMasterForm({
             connectorInfo={connectorInfo}
             isLoadingConnectorInfo={isLoadingConnectorInfo}
             saveBtn={saveBtn}
-            stageTwoSchema={StageTwoSchema}
             setFieldValue={setFieldValue}
             setStage={setStage}
+            validate={() => validateStageTwo(values)}
             values={values}
           />
         </TabPanel>

@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 
-function LogRow({ logField }) {
-  const strFinal = "".concat(
+export function formatLog(logField) {
+  return "".concat(
     "> ",
     logField["source"],
     " -- [",
     logField["timestamp"],
-    "]",
+    "] ",
     logField["text"],
     "\n"
   );
+}
+
+function LogRow({ logField }) {
   return (
     <Box d="flex" justifyContent="space-between" alignItems="center">
-      <pre>{strFinal}</pre>
+      <pre>{formatLog(logField)}</pre>
     </Box>
   );
 }
@@ -92,7 +95,7 @@ function TaskLog({ taskLogs, tid }) {
                       )
                   )
                 ) : (
-                  <h1>No tasks to display</h1>
+                  <h1>No logs to display</h1>
                 )}
               </Box>
             </Stack>

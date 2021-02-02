@@ -10,10 +10,12 @@ export const wrapInTheme = (component) => {
     </ThemeProvider>
   );
 };
-export const wrapComponentInRouter = (component) => (
-  <Router>{component}</Router>
-);
+export const wrapInRouter = (component) => <Router>{component}</Router>;
 
-export const wrapComponentInSnackBarProvider = (component) => (
+export const wrapInSnackbar = (component) => (
   <SnackbarProvider>{component}</SnackbarProvider>
 );
+
+export const wrapInAll = (component) => {
+  return wrapInTheme(wrapInSnackbar(wrapInRouter(component)));
+};

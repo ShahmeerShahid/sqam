@@ -3,18 +3,41 @@ from SQAM.queriers.querier import Querier
 import time
 
 class PostGreSQLQuerier(Querier):
+    def remove_database(self):
+        cursor, cnx = self.get_admin_cursor()
+        cnx.autocommit = True
+        cursor.execute(f"DROP DATABASE {self.database_name}")
+        self.close_cursor_connection(cursor, cnx)
+
     def refreshDB(self):
-        # self.call_procedure('drop_all_tables')
-        self.executeScript(self.create_tables_path)
-        self.executeEntireScript(self.create_function_path)
-        self.executeEntireScript(self.create_tables_path)
-        self.reloadData(self.load_data_path)
-        time.sleep(10)
-    def initialize(self):
-        pass
+        self.setup()
+        cursor, cnx = self.get_cursor()
+        cnx.autocommit = True
+        with open(self.create_tables_path, "r") as f:
+            cursor.execute(f.read())
+        with open(self.load_data_path, "r") as f:
+            cursor.execute(f.read())
+        self.close_cursor_connection(cursor, cnx)
+        print("Loaded Tables", flush=True)
+
+    def setup(self):
+        cursor, cnx = self.get_admin_cursor()
+        cnx.autocommit = True
+        cursor.execute(f"DROP DATABASE IF EXISTS {self.database_name}")
+        cursor.execute(f"CREATE DATABASE {self.database_name}")
+        self.close_cursor_connection(cursor, cnx)
+
+    def get_admin_cursor(self):
+        """
+        Create and return a connector & cursor for connecting to PostgreSQL with root privilege 
+        """
+        cnx = psycopg2.connect(
+            user=self.username, password=self.password,host=self.host, port=self.port)
+        cursor = cnx.cursor()
+        return cursor, cnx
     def get_cursor(self):
         """
-        Create and return a connector & cursor for connecting to mysql database
+        Create and return a connector & cursor for connecting to PostgreSQL database
         """
         cnx = psycopg2.connect(
             user=self.username, password=self.password, database=self.database_name,
@@ -123,7 +146,7 @@ class PostGreSQLQuerier(Querier):
 
     def call_procedure(self, proc_name):
         c, cnx = self.get_cursor()
-        c.callproc(proc_name, args=())
+        c.execute("call "+proc_name)
         self.close_cursor_connection(c, cnx)
 
     def reloadData(self, filename):

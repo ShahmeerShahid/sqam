@@ -22,7 +22,6 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: csc499
-      POSTGRES_DB: c499
       POSTGRES_USER: automarkercsc499
     ports:
       - "5432:5432"

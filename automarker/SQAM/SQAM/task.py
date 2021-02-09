@@ -1,6 +1,6 @@
 from SQAM.assignment import Assignment
 from SQAM.queriers.MySQL import MySQLQuerier
-# from SQAM.queriers.PostGreSQL import PostGreSQLQuerier
+from SQAM.queriers.PostGreSQL import PostGreSQLQuerier
 from SQAM.graders.partial_marking_grader import Partial_Marking_Grader
 from SQAM.graders.binary_grader import Binary_Marking_Grader
 import SQAM.settings
@@ -35,9 +35,14 @@ class Task:
                                             config["create_trigger"])
             self.log("Setup MYSQL Database")
         elif(config["db_type"] == "postgresql"):
-            # Need to add postgres requirements to requirements.txt before uncommenting
-            
-            pass
+            login_details = SQAM.settings.POSTGRESQL_LOGIN_DETAILS
+            query_language = PostGreSQLQuerier(*login_details,
+                                            db_name,
+                                            config["create_tables"], 
+                                            config["load_data"],
+                                            config["create_function"],
+                                            config["create_trigger"])
+            self.log("Setup PostgreSQL Database")
         else:
             exit(1)
 

@@ -67,3 +67,24 @@ body_example:
   - Results files should show up in the submission folders
 - `400 Bad Request` if missing information in body.
   - Response Body: {'Status' : "Missing Argument {Name of Missing Argument}"}
+
+
+## Demo Post Request Body to test with Postgresql
+```json
+{
+    "tid": 0,
+    "assignment_name": "A2",
+    "create_tables":"/automarker/SQAM/Demo_Postgres/createTables.sql",
+    "create_trigger":"/automarker/SQAM/Demo_Postgres/createTrigger.sql",
+    "create_function":"/automarker/SQAM/Demo_Postgres/createFunction.sql",
+    "load_data":"/automarker/SQAM/Demo_Postgres/loadData.sql",
+    "solutions":"/automarker/SQAM/Demo_Postgres/solutions.sql",
+    "submissions": "/automarker/SQAM/Demo_Postgres/Submissions",
+    "submission_file_name": "a2.sql",
+    "max_marks": 50,
+    "max_marks_per_question": [5,5,5,5,5,5,5,5,5,5],
+    "question_names": ["Query 1","Query 2","Query 3","Query 4","Query 5","Query 6","Query 7","Query 8","Query 9","Query 10"],
+    "db_type": "postgresql",
+    "marking_type": "binary"
+}
+```

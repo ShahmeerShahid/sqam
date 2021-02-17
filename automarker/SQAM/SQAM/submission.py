@@ -5,10 +5,11 @@ class Submission:
     """
     A representation of a Submission
     """
-    def __init__(self, name, path_to_submission_file, path_to_results_file):
+    def __init__(self, name, path_to_submission_file, path_to_results_file, refresh_level):
         self.name = name
         self.path_to_submission = path_to_submission_file
         self.path_to_results_file = path_to_results_file
+        self.refresh_level = refresh_level
 
         self.total_grade = 0.0
         self.all_grades = {}
@@ -25,6 +26,7 @@ class Submission:
 
     def grade_submission(self, questions, regex_extractor, querier, grader):
         try:
+            if self.refresh_level == "per_submission": querier.refreshDB()
             self.extract_all_queries(questions, regex_extractor)
             self.get_results_for_submission(querier)
             grader.grade_group(self)
@@ -53,11 +55,12 @@ class Submission:
         with open(target_location, 'w') as tgt:
             tgt.write('%s\n' % json.dumps(output))
        
-    def get_results_for_submission(self, query_language):
+    def get_results_for_submission(self, querier):
         for q_num, query in self.queries.items():
             if query:
-                result, error = query_language.run_multi_query(query) if query.count(';') > 1 \
-                        else query_language.run_single_query(query)
+                if self.refresh_level == "per_query": querier.refreshDB()
+                result, error = querier.run_multi_query(query) if query.count(';') > 1 \
+                        else querier.run_single_query(query)
                 if error:
                     self.query_errors[q_num] = error
                 self.query_results[q_num] = result

@@ -53,7 +53,8 @@ class Task:
                                     {q_num:max_grade for q_num,max_grade in zip(config["question_names"],config["max_marks_per_question"])},
                                      SQAM.settings.QUERY_EXTRACTOR_RE,
                                      config["max_marks"],
-                                    query_language)
+                                    query_language,
+                                    config.get("refresh_level", "per_submission"))
         self.log("Created the Assignment")
 
         if config["marking_type"] == "partial":

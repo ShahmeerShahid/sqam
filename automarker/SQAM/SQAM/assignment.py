@@ -6,8 +6,9 @@ import os
 
 class Assignment:
     def __init__(self, name, path_to_submissions, path_to_solutions, file_name,
-                questions, extractor, max_marks, querier):
+                questions, extractor, max_marks, querier, refresh_level):
         self.assignment_name = name
+        self.refresh_level = refresh_level
         self.path_to_solutions = path_to_solutions
         self.file_name = file_name
         self.questions = questions
@@ -28,11 +29,13 @@ class Assignment:
             path_to_result_file = os.path.join(path_to_submission_dir, SQAM.settings.JSON_RESULT_FILENAME)
             submission = Submission(name,
                                     path_to_submission_file,
-                                    path_to_result_file)
+                                    path_to_result_file,
+                                    self.refresh_level)
             submissions.append(submission)
         return submissions
 
     def mark_submissions(self, grader):
+        if self.refresh_level == "per_assignment": self.querier.refreshDB()
         for submission in self.submissions:
             submission.grade_submission(self.questions.keys(), self.extractor, self.querier, grader)
 

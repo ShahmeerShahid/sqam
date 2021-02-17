@@ -40,7 +40,28 @@ You must have the admin_api Running in Docker for tha automarker backend to work
 
 #### request: POST
 #### purpose: Create and Run an Automarker Task
-body_example:
+
+## Feilds:
+### Required:
+  - "tid": Int
+  - "assignment_name": String
+  - "create_tables": String
+  - "create_trigger": String
+  - "create_function": String
+  - "load_data": String
+  - "solutions": String
+  - "submissions": String
+  - "submission_file_name": String
+  - "max_marks": Int
+  - "max_marks_per_question": List of Ints
+  - "question_names": List of Strings
+  - "db_type": "mysql" or "postgresql"
+  - "marking_type": "partial" or "binary"
+
+### Not Required:
+  - "refresh_level": "per_assignment" or  "per_submission" or "per_query" (Default is "per_submission")
+
+## body_example:
 
 ```json
 {
@@ -57,7 +78,8 @@ body_example:
     "max_marks_per_question": [3,4,3,3,4,4,2,2,4,5,3,4,4,4,3,5,6,7],
     "question_names": ["Q1","Q2","Q3.A","Q3.B","Q3.C","Q4.A","Q4.B","Q4.C","Q5.A","Q5.B","Q6.A", "Q6.B","Q6.C","Q7.A","Q7.B","Q8","Q9","Q10"],
     "db_type": "mysql",
-    "marking_type": "partial"
+    "marking_type": "partial",
+    "refresh_level": "per_submission"
 }
 ```
 

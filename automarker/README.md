@@ -45,12 +45,8 @@ You must have the admin_api Running in Docker for tha automarker backend to work
 ### Required:
   - "tid": Int
   - "assignment_name": String
-  - "create_tables": String
-  - "create_trigger": String
-  - "create_function": String
-  - "load_data": String
-  - "solutions": String
-  - "submissions": String
+  - "solutions": File Path
+  - "submissions": File Path
   - "submission_file_name": String
   - "max_marks": Int
   - "max_marks_per_question": List of Ints
@@ -59,6 +55,13 @@ You must have the admin_api Running in Docker for tha automarker backend to work
   - "marking_type": "partial" or "binary"
 
 ### Not Required:
+  - Please note that you need either "init" or ("create_tables" and "load_data")
+  - "init": File Path
+  - "create_tables": File Path
+  - "create_trigger": File Path
+  - "create_function": File Path
+  - "load_data": File Path
+
   - "refresh_level": "per_assignment" or  "per_submission" or "per_query" (Default is "per_submission")
 
 ## body_example:

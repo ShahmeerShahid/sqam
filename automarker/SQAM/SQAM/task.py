@@ -29,19 +29,21 @@ class Task:
             login_details = SQAM.settings.MYSQL_LOGIN_DETAILS
             query_language = MySQLQuerier(*login_details,
                                             db_name,
-                                            config["create_tables"], 
-                                            config["load_data"],
-                                            config["create_function"],
-                                            config["create_trigger"])
+                                            config.get("init", ""),
+                                            config.get("create_tables", ""),
+                                            config.get("load_data", ""),
+                                            config.get("create_function", ""),
+                                            config.get("create_trigger", ""))
             self.log("Setup MYSQL Database")
         elif(config["db_type"] == "postgresql"):
             login_details = SQAM.settings.POSTGRESQL_LOGIN_DETAILS
             query_language = PostGreSQLQuerier(*login_details,
                                             db_name,
-                                            config["create_tables"], 
-                                            config["load_data"],
-                                            config["create_function"],
-                                            config["create_trigger"])
+                                            config.get("init", ""),
+                                            config.get("create_tables", ""),
+                                            config.get("load_data", ""),
+                                            config.get("create_function", ""),
+                                            config.get("create_trigger", ""))
             self.log("Setup PostgreSQL Database")
         else:
             exit(1)

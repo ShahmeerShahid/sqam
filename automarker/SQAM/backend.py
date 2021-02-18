@@ -30,8 +30,7 @@ def runTaskThread(config_json):
 @app.route('/runJob', methods=['POST'])
 def runJob():
     config_json = request.get_json()
-    req_args = ["tid", "assignment_name", "create_tables", "create_trigger",
-                    "create_function", "load_data", "solutions", "submissions", "submission_file_name",
+    req_args = ["tid", "assignment_name", "solutions", "submissions", "submission_file_name",
                     "max_marks", "max_marks_per_question", "question_names", "db_type", "marking_type"]
     for arg in req_args:
         if arg not in config_json:

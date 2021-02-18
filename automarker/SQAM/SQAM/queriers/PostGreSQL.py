@@ -13,10 +13,15 @@ class PostGreSQLQuerier(Querier):
         self.setup()
         cursor, cnx = self.get_cursor()
         cnx.autocommit = True
-        with open(self.create_tables_path, "r") as f:
-            cursor.execute(f.read())
-        with open(self.load_data_path, "r") as f:
-            cursor.execute(f.read())
+        if(self.init_path):
+            with open(self.init_path, "r") as f:
+                cursor.execute(f.read())
+        if(self.create_tables_path):
+            with open(self.create_tables_path, "r") as f:
+                cursor.execute(f.read())
+        if(self.load_data_path):
+            with open(self.load_data_path, "r") as f:
+                cursor.execute(f.read())
         self.close_cursor_connection(cursor, cnx)
         print("Loaded Tables", flush=True)
 

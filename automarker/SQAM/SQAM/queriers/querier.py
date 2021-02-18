@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 class Querier(ABC):
-    def __init__(self, username, password, root_username, root_password, host, port, database_name, create_tables_path,
+    def __init__(self, username, password, root_username, root_password, host, port, database_name, init_path, create_tables_path,
                 load_data_path, create_function_path, create_trigger_path, autocommit=True):
+        self.init_path = init_path
         self.create_tables_path = create_tables_path
         self.load_data_path = load_data_path
         self.create_function_path = create_function_path

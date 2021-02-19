@@ -19,9 +19,11 @@ import { createTask, uploadTaskFiles } from "../../requests/tasks";
 
 const ERROR_MSGS = {
   nameMissing: "Name is required",
+  submissionFileNameMissing: "Submission file is required",
+  markingTypeMissing: "Marking type is required",
+  dbTypeMissing: "Database type is required",
   maxMarksPerQuestionMissing: "Max marks per question is required",
   questionNamesMissing: "Question names are required",
-  submissionFileNameMissing: "Submission file is required",
   extraFieldsMissing: "",
 };
 
@@ -33,6 +35,11 @@ const StageOneSchema = Yup.object().shape({
 
 export const StageTwoSchema = Yup.object().shape({
   name: Yup.string().min(1).required(ERROR_MSGS.nameMissing), // STAGE 2
+  submission_file_name: Yup.string()
+    .min(1)
+    .required(ERROR_MSGS.submissionFileNameMissing),
+  marking_type: Yup.string().required(ERROR_MSGS.markingTypeMissing),
+  db_type: Yup.string().required(ERROR_MSGS.dbTypeMissing),
   max_marks_per_question: Yup.array()
     .of(Yup.number().min(1))
     .min(1)
@@ -40,9 +47,6 @@ export const StageTwoSchema = Yup.object().shape({
   question_names: Yup.array()
     .of(Yup.string())
     .required(ERROR_MSGS.questionNamesMissing),
-  submission_file_name: Yup.string()
-    .min(1)
-    .required(ERROR_MSGS.submissionFileNameMissing),
   extra_fields: Yup.object()
     .shape({
       markus_URL: Yup.string().trim().url().required(),
@@ -67,6 +71,8 @@ function validateStageTwo(values) {
   try {
     StageTwoSchema.validateSync({
       name: values.name,
+      marking_type: values.marking_type,
+      db_type: values.db_type,
       max_marks_per_question: values.max_marks_per_question,
       question_names: values.question_names,
       submission_file_name: values.submission_file_name,
@@ -208,6 +214,8 @@ export const EnhancedMasterForm = withFormik({
     {
       connector,
       name,
+      marking_type,
+      db_type,
       max_marks_per_question,
       question_names,
       submission_file_name,
@@ -229,6 +237,8 @@ export const EnhancedMasterForm = withFormik({
 
     const taskRes = await createTask({
       name,
+      marking_type,
+      db_type,
       connector: connector.url.slice(7),
       max_marks,
       max_marks_per_question,
@@ -252,9 +262,11 @@ export const EnhancedMasterForm = withFormik({
     connectorIndex: NaN,
     connectorInfo: null,
     name: "",
+    submission_file_name: "",
+    marking_type: "",
+    db_type: "",
     max_marks_per_question: [],
     question_names: [],
-    submission_file_name: "",
     extra_fields: null,
     files: [],
     error: null,

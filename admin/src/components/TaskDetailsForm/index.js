@@ -11,7 +11,10 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Radio,
+  RadioGroup,
   Spinner,
+  Stack,
 } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 import AddQuestions from "../AddQuestions";
@@ -32,6 +35,40 @@ const firstStage = [
     info: "",
     required: true,
   },
+  {
+    name: "marking_type",
+    type: "radio",
+    placeholder: "queries.sql",
+    info: "",
+    required: true,
+    options: [
+      {
+        label: "Partial",
+        value: "partial",
+      },
+      {
+        label: "Binary",
+        value: "binary",
+      },
+    ],
+  },
+  {
+    name: "db_type",
+    type: "radio",
+    placeholder: "queries.sql",
+    info: "",
+    required: true,
+    options: [
+      {
+        label: "MySQL",
+        value: "mysql",
+      },
+      {
+        label: "PostgreSQL",
+        value: "postgresql",
+      },
+    ],
+  },
 ];
 
 function InputField({
@@ -45,6 +82,7 @@ function InputField({
   const type = field.type;
   const placeholder = field.placeholder;
   const info = field.info;
+  const options = field.options ? field.options : [];
   let input;
   if (type === "number") {
     input = (
@@ -64,6 +102,32 @@ function InputField({
           <NumberDecrementStepper />
         </NumberInputStepper>
       </NumberInput>
+    );
+  } else if (type === "radio") {
+    const value =
+      isExtraField && values.extra_fields
+        ? values.extra_fields[name]
+        : values[name];
+    input = (
+      <RadioGroup
+        name={name}
+        onChange={(e) => handleChange(e, name, "string", isExtraField)}
+        value={value}
+      >
+        <Stack direction="row">
+          {options.map((option, index) => {
+            return (
+              <Radio
+                key={index}
+                value={option.value}
+                isChecked={value === option.value}
+              >
+                {option.label}
+              </Radio>
+            );
+          })}
+        </Stack>
+      </RadioGroup>
     );
   } else {
     input = (

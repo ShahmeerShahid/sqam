@@ -12,6 +12,8 @@ function validateStageTwo(values) {
   try {
     StageTwoSchema.validateSync({
       name: values.name,
+      marking_type: values.marking_type,
+      db_type: values.db_type,
       max_marks_per_question: values.max_marks_per_question,
       question_names: values.question_names,
       submission_file_name: values.submission_file_name,
@@ -65,6 +67,8 @@ describe("TaskDetailsForm", () => {
   it("Continue button is not disabled when form is complete", () => {
     values = {
       name: "CSC343 A1",
+      marking_type: "partial",
+      db_type: "mysql",
       question_names: ["Q1"],
       max_marks_per_question: [1],
       submission_file_name: "queries.sql",

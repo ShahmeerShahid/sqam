@@ -261,7 +261,7 @@ router
             assignment_name: task.name,
             max_marks: task.max_marks,
             max_marks_per_question: task.max_marks_per_question,
-            marking_type: "partial",
+            marking_type: task.marking_type,
             question_names: task.question_names,
             submission_file_name: task.submission_file_name,
             create_tables: task.create_tables,
@@ -271,7 +271,7 @@ router
             solutions: task.solutions,
             submissions: `/var/downloads/${tid}/`,
             timeout: 100,
-            db_type: "mysql",
+            db_type: task.db_type,
           };
           const response = await axios.post(
             `http://${automarker}/runJob`,

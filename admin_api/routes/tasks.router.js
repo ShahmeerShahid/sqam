@@ -344,4 +344,34 @@ router.route("/upload/").post(async (req, res) => {
   }
 });
 
+/*	GET /tasks/report/:tid
+	  @params: tid 
+    @return: the generated report (aggregated.json)
+    ON SUCCESS: 200
+    ON FAILURE: 404, 500
+*/
+
+router
+  .route("/reports/:tid")
+  .get([param("tid").isInt({ min: 0 })], (req, res) => {
+    const tid = req.params.tid;
+    Task.findOne({ tid })
+      .then((task) => {
+        if (task === null) {
+          return res.sendStatus(404);
+        }
+
+        const file = `/var/downloads/${tid}/aggregated.json`;
+        if (!fs.existsSync(file)) {
+          return res.sendStatus(404);
+        }
+        res.download(file);
+      })
+      .catch((e) => {
+        return res.sendStatus(
+          e.response && e.response.status ? e.response.status : 500
+        );
+      });
+  });
+
 module.exports = router;

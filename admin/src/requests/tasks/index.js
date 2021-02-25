@@ -37,3 +37,17 @@ export async function uploadTaskFiles({ files }) {
   const response = await postRequest("/api/tasks/upload", form);
   return response.data;
 }
+
+export async function downloadReport(tid) {
+  try {
+    const response = await getRequest(`/api/tasks/reports/${tid}`);
+    console.log(response);
+    return response;
+  } catch (e) {
+    return {
+      error: true,
+      status: e.response && e.response.status,
+      message: e.response && e.response.data,
+    };
+  }
+}

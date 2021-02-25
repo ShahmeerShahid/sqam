@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Text, Grid, Flex } from "@chakra-ui/core";
+import { Button, Text, Grid, Flex } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import TaskDetail from "../../components/TaskDetail";
 import TaskLog from "../../components/TaskLog";
 import { useAsync } from "react-async";
-import { fetchTasksInfo } from "../../requests/tasks";
+import { downloadReport, fetchTasksInfo } from "../../requests/tasks";
 
 function TaskView({ enqueueSnackbar }) {
   let { tid } = useParams();
@@ -22,6 +22,23 @@ function TaskView({ enqueueSnackbar }) {
 
   if (taskData) {
     taskLogs = taskData.logs;
+  }
+
+  async function handleDownload() {
+    const response = await downloadReport(tid);
+    if (response.error) {
+      enqueueSnackbar("Failed downloading report", { variant: "error" });
+    } else {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(
+        new Blob([JSON.stringify(response.data)], {
+          type: "application/octet-stream",
+        })
+      );
+      link.value = "download";
+      link.download = `task${tid}-report.json`;
+      link.click();
+    }
   }
 
   return (
@@ -44,6 +61,14 @@ function TaskView({ enqueueSnackbar }) {
           <Text fontSize="3xl" fontWeight="bold">
             Task({tid})
           </Text>
+          <Button
+            onClick={handleDownload}
+            style={{ float: "right" }}
+            m={1}
+            ml={4}
+          >
+            Download Report
+          </Button>
         </Flex>
       </Flex>
       <Grid

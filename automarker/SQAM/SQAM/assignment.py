@@ -53,13 +53,6 @@ class Assignment:
         individual_reports_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
                                 SQAM.settings.TEMPLATES_PATH,
                                 "report")
-
-    def run_aggregator(self):
-        Aggregate_SQAM(self.assignment_name, 
-                        self.path_to_submissions,
-                        SQAM.settings.JSON_RESULT_FILENAME,
-                        os.path.join(self.path_to_submissions,"aggregated.json"))
-        
         results_directory = os.path.join(self.path_to_submissions, "all_results")
         submission_paths = [ item for item in os.listdir(self.path_to_submissions) if os.path.isdir(os.path.join(self.path_to_submissions, item)) ]
         os.mkdir(results_directory)
@@ -69,6 +62,12 @@ class Assignment:
         
         shutil.make_archive(os.path.join(self.path_to_submissions, "aggregated"), "zip", results_directory)
         shutil.rmtree(results_directory) 
+
+    def run_aggregator(self):
+        Aggregate_SQAM(self.assignment_name, 
+                        self.path_to_submissions,
+                        SQAM.settings.JSON_RESULT_FILENAME,
+                        os.path.join(self.path_to_submissions,"aggregated.json"))
 
     def get_solution_results(self, solutions_file, query_names, verbose=0):
         """

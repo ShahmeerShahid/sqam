@@ -40,7 +40,6 @@ function TaskView({ enqueueSnackbar }) {
       link.click();
     }
   }
-
   return (
     <div>
       <Header />
@@ -61,14 +60,16 @@ function TaskView({ enqueueSnackbar }) {
           <Text fontSize="3xl" fontWeight="bold">
             Task({tid})
           </Text>
-          <Button
-            onClick={handleDownload}
-            style={{ float: "right" }}
-            m={1}
-            ml={4}
-          >
-            Download Report
-          </Button>
+          {taskData && taskData.status === "Complete" && (
+            <Button
+              onClick={handleDownload}
+              style={{ float: "right" }}
+              m={1}
+              ml={4}
+            >
+              Download Report
+            </Button>
+          )}
         </Flex>
       </Flex>
       <Grid

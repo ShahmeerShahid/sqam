@@ -1,4 +1,4 @@
-Autotested Results for {{ result.assignment }} submitted by {{ result.students | student_list('%s %s (%s)', ['first', 'last', 'student_id']) | join(', ') }}
+Autotested Results for {{ result.assignment }} submitted by {{ result.name }}
 Generated at {{ result.date }}
 
 Summary of Results: {{ result.results | get_all_counts(0) }} out of {{ result.results | get_all_counts(3) }} tests successfully passed

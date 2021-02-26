@@ -7,6 +7,7 @@ import jinja2
 
 DEFAULT_TEMPLATE_TYPE = 'txt'
 DEFAULT_AGGREGATE_TEMPLATE = 'aggregated.tpl'
+DEFAULT_INDIVIDUAL_TEMPLATE = 'individual.tpl'
 DEFAULT_JINJA_EXTENSIONS = ['jinja2.ext.do']
 
 def student_list(students, format_str, fields):
@@ -336,6 +337,19 @@ def aggregate_report_SQAM(source, template_dir, report_name):
                                        PLUGINS,
                                        DEFAULT_JINJA_EXTENSIONS)
     report.write(OUTPUT)
+
+def individual_reports_SQAM(source, template_dir, report_name):
+    '''Template all individual reports given an aggregate json.'''
+    PLUGINS = [student_list, get_all_counts, get_counts, ljust,
+            to_gf_names, exclude, passed, get_balanced_weight]
+    template_file=os.path.join(DEFAULT_TEMPLATE_TYPE, DEFAULT_INDIVIDUAL_TEMPLATE)
+    OUTPUT = '%s.%s' % (report_name, DEFAULT_TEMPLATE_TYPE)
+    reports = IndividualReports.from_json(source,
+                                          template_file,
+                                          template_dir,
+                                          PLUGINS,
+                                          DEFAULT_JINJA_EXTENSIONS)
+    reports.write(OUTPUT)
 
 def individual_reports(source, plugins, template_file,
                        template_dir, jinja_extns, output):

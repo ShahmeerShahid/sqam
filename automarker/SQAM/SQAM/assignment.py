@@ -1,4 +1,4 @@
-from SQAM.result_formating.templator import aggregate_report_SQAM
+from SQAM.result_formating.templator import aggregate_report_SQAM, individual_reports_SQAM
 from SQAM.result_formating.aggregator import Aggregate_SQAM
 from SQAM.submission import Submission
 import SQAM.settings
@@ -48,7 +48,10 @@ class Assignment:
     def run_templator(self):
         aggregate_report_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
                                 SQAM.settings.TEMPLATES_PATH,
-                                os.path.join(self.path_to_submissions + "report"))
+                                os.path.join(self.path_to_submissions, "report"))
+        individual_reports_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
+                                SQAM.settings.TEMPLATES_PATH,
+                                "report")
 
     def run_aggregator(self):
         Aggregate_SQAM(self.assignment_name, 

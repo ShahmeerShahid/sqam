@@ -92,10 +92,7 @@ router
 
           await axios.post(`http://${connector}/tasks`, body);
           newTask.status = "Downloading";
-          newTask.create_tables = `/var/downloads/${task.tid}/create_tables.sql`;
-          newTask.create_trigger = `/var/downloads/${task.tid}/create_trigger.sql`;
-          newTask.create_function = `/var/downloads/${task.tid}/create_function.sql`;
-          newTask.load_data = `/var/downloads/${task.tid}/load_data.sql`;
+          newTask.initFile = `/var/downloads/${task.tid}/init.sql`;
           newTask.solutions = `/var/downloads/${task.tid}/solutions.sql`;
           newTask.save().then((updatedTask) => {
             return res.status(201).json(updatedTask);
@@ -264,10 +261,7 @@ router
             marking_type: task.marking_type,
             question_names: task.question_names,
             submission_file_name: task.submission_file_name,
-            create_tables: task.create_tables,
-            create_trigger: task.create_trigger,
-            create_function: task.create_function,
-            load_data: task.load_data,
+            init: task.initFile,
             solutions: task.solutions,
             submissions: `/var/downloads/${tid}/`,
             timeout: 100,
@@ -308,10 +302,7 @@ router.route("/upload/").post(async (req, res) => {
   } else if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded");
   }
-  let create_tables = req.files.create_tables;
-  let create_trigger = req.files.create_trigger;
-  let create_function = req.files.create_function;
-  let load_data = req.files.load_data;
+  let initFile = req.files.init
   let solutions = req.files.solutions;
   let tid;
 
@@ -328,10 +319,7 @@ router.route("/upload/").post(async (req, res) => {
       fs.mkdirSync(dir);
     }
 
-    create_tables.mv(`${dir}/create_tables.sql`);
-    create_trigger.mv(`${dir}/create_trigger.sql`);
-    create_function.mv(`${dir}/create_function.sql`);
-    load_data.mv(`${dir}/load_data.sql`);
+    initFile.mv(`${dir}/init.sql`)
     solutions.mv(`${dir}/solutions.sql`);
     return res.status(200).json({
       message: `Files uploaded for task ${tid}`,

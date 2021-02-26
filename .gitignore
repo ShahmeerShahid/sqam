@@ -22,4 +22,5 @@ automarker/SQAM/Demo/report.txt
 automarker/SQAM/Demo_Postgres/Submissions/*/report.txt
 automarker/SQAM/Demo_Postgres/Submissions/*/result.json
 automarker/SQAM/Demo_Postgres/*/aggregated.json
-automarker/SQAM/Demo_Postgres/SUbmissions/report.txt
+automarker/SQAM/Demo_Postgres/Submissions/report.txt
+automarker/SQAM/Demo_Postgres/Submissions/aggregated.zip

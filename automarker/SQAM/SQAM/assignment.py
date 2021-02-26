@@ -3,6 +3,7 @@ from SQAM.result_formating.aggregator import Aggregate_SQAM
 from SQAM.submission import Submission
 import SQAM.settings
 import os
+import shutil
 
 class Assignment:
     def __init__(self, name, path_to_submissions, path_to_solutions, file_name,
@@ -58,6 +59,16 @@ class Assignment:
                         self.path_to_submissions,
                         SQAM.settings.JSON_RESULT_FILENAME,
                         os.path.join(self.path_to_submissions,"aggregated.json"))
+        
+        results_directory = os.path.join(self.path_to_submissions, "all_results")
+        submission_paths = [ item for item in os.listdir(self.path_to_submissions) if os.path.isdir(os.path.join(self.path_to_submissions, item)) ]
+        os.mkdir(results_directory)
+        for name in submission_paths:
+            shutil.copyfile(os.path.join(self.path_to_submissions,name, "report.txt"),
+                            os.path.join(results_directory, f"{name}-report.txt"))
+        
+        shutil.make_archive(os.path.join(self.path_to_submissions, "aggregated"), "zip", results_directory)
+        shutil.rmtree(results_directory) 
 
     def get_solution_results(self, solutions_file, query_names, verbose=0):
         """

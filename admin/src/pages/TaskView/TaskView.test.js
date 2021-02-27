@@ -1,8 +1,8 @@
 import React from "react";
-import { act, render } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import TaskView from ".";
-import { fetchTasksInfo } from "../../requests/tasks";
+import { downloadReport, fetchTasksInfo } from "../../requests/tasks";
 import { wrapInAll } from "../../testing/helpers";
 import { mockTasksDetail } from "../../testing/mockData";
 
@@ -33,5 +33,15 @@ describe("TaskView", () => {
       component = renderTaskView();
     });
     expect(component.getByText(mockTasksDetail[0].name)).toBeInTheDocument();
+  });
+
+  it("Does not render button if status is not complete", async () => {
+    const response = mockTasksDetail[0];
+    fetchTasksInfo.mockImplementation(() => Promise.resolve(response));
+    let component;
+    await act(async () => {
+      component = renderTaskView();
+    });
+    expect(component.queryByText(/download report/i)).toBe(null);
   });
 });

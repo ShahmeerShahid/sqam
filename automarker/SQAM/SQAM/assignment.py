@@ -1,8 +1,9 @@
-from SQAM.result_formating.templator import aggregate_report_SQAM
+from SQAM.result_formating.templator import aggregate_report_SQAM, individual_reports_SQAM
 from SQAM.result_formating.aggregator import Aggregate_SQAM
 from SQAM.submission import Submission
 import SQAM.settings
 import os
+import shutil
 
 class Assignment:
     def __init__(self, name, path_to_submissions, path_to_solutions, file_name,
@@ -48,7 +49,19 @@ class Assignment:
     def run_templator(self):
         aggregate_report_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
                                 SQAM.settings.TEMPLATES_PATH,
-                                os.path.join(self.path_to_submissions + "report"))
+                                os.path.join(self.path_to_submissions, "report"))
+        individual_reports_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
+                                SQAM.settings.TEMPLATES_PATH,
+                                "report")
+        results_directory = os.path.join(self.path_to_submissions, "all_results")
+        submission_paths = [ item for item in os.listdir(self.path_to_submissions) if os.path.isdir(os.path.join(self.path_to_submissions, item)) ]
+        os.mkdir(results_directory)
+        for name in submission_paths:
+            shutil.copyfile(os.path.join(self.path_to_submissions,name, "report.txt"),
+                            os.path.join(results_directory, f"{name}-report.txt"))
+        
+        shutil.make_archive(os.path.join(self.path_to_submissions, "aggregated"), "zip", results_directory)
+        shutil.rmtree(results_directory) 
 
     def run_aggregator(self):
         Aggregate_SQAM(self.assignment_name, 

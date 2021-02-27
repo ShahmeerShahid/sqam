@@ -16,6 +16,8 @@ class TestReport:
         
             test_result['date'] = self.date
             test_result['assignment'] = assignment_name
+            test_result['origin'] = os.path.join(path_to_submissions, name)
+            test_result['name'] = name
             self.results.append(test_result)
 
     def to_json(self):

@@ -9,12 +9,12 @@ export function HomePage() {
     <div>
       <Header />
       <Stack direction="row">
-          <Box w="75%">
-            <Info />
-          </Box>
-          <Box w="25%">
-            <ContributorsList />
-          </Box>
+        <Box w="75%">
+          <Info />
+        </Box>
+        <Box w="25%">
+          <ContributorsList />
+        </Box>
       </Stack>
     </div>
   );

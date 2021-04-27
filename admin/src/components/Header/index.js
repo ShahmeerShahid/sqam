@@ -69,7 +69,6 @@ const Header = () => {
         mt={{ base: 4, md: 0 }}
         alignItems="center"
       >
-        <p className="smaller-text">Logged in as: liutmich</p>
         <FormLabel>
           {colorMode === "light" ? <FaRegMoon /> : <FaMoon />}
         </FormLabel>

@@ -302,7 +302,7 @@ router.route("/upload/").post(async (req, res) => {
   } else if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded");
   }
-  let initFile = req.files.init
+  let initFile = req.files.init;
   let solutions = req.files.solutions;
   let tid;
 
@@ -319,7 +319,7 @@ router.route("/upload/").post(async (req, res) => {
       fs.mkdirSync(dir);
     }
 
-    initFile.mv(`${dir}/init.sql`)
+    initFile.mv(`${dir}/init.sql`);
     solutions.mv(`${dir}/solutions.sql`);
     return res.status(200).json({
       message: `Files uploaded for task ${tid}`,

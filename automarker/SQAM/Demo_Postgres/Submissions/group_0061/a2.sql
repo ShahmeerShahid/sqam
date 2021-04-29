@@ -2,21 +2,23 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 CREATE VIEW join1 AS (SELECT rf.custref AS cuid, rf.custid AS refid, cu.cname AS refname FROM referral rf JOIN customer cu ON cu.cid = custid);
 
 SELECT j1.cuid, cu.cname AS cuname, j1.refid, j1.refname FROM join1 j1 JOIN customer cu ON j1.cuid = cu.cid ORDER BY cu.cname ASC; 
 
 DROP VIEW join1;
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 
 SELECT ord.oid, ord.pid, st.wid, ord.quantity AS ordqty, st.quantity AS stockqty 
 FROM orders ord JOIN stock st ON ord.pid = st.pid and ord.shipwid = st.wid 
 WHERE ord.quantity > st.quantity AND ord.status = 'O';
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 
 SELECT cu.cid AS cuid, cu.cname AS cuname, SUM(quantity*price) AS totalsales 
@@ -25,7 +27,8 @@ WHERE ord.status = 'S'
 GROUP BY cu.cid HAVING SUM(quantity*price) > 0 
 ORDER BY totalsales DESC;
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 
 SELECT pr.pid, pr.pname, SUM(ord.quantity*pr.cost) AS totalcost 
@@ -34,7 +37,8 @@ WHERE ord.status = 'S'
 GROUP BY pr.pid HAVING SUM(ord.quantity*pr.cost) > 0 
 ORDER BY totalcost ASC;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 CREATE VIEW ordered AS (SELECT DISTINCT orders.pid FROM orders);
 CREATE VIEW difference AS ((SELECT product.pid FROM product) EXCEPT (SELECT * FROM ordered));
@@ -43,7 +47,8 @@ SELECT product.pid, product.pname, product.introdate FROM difference JOIN produc
 
 DROP VIEW difference;
 DROP VIEW ordered;
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 CREATE VIEW cusordered AS (SELECT DISTINCT orders.cid FROM orders);
 CREATE VIEW difference AS ((SELECT customer.cid FROM customer) EXCEPT (SELECT * FROM cusordered));
@@ -55,7 +60,8 @@ DROP VIEW difference;
 DROP VIEW cusordered;
 DROP VIEW loctransfer;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 CREATE VIEW costs AS (
 SELECT ord.quantity, ord.price, pr.cost, ord.odate 
@@ -75,7 +81,8 @@ ORDER BY period ASC;
 DROP VIEW periods;
 DROP VIEW costs;
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 CREATE VIEW temp AS (
 SELECT ref.custid AS cid, SUM(ord.price * ord.quantity * ref.commission) AS commission 
@@ -86,7 +93,8 @@ SELECT temp.cid, c.cname, temp.commission FROM customer c JOIN temp ON c.cid = t
 
 DROP VIEW temp; 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 
 CREATE VIEW intro AS (SELECT pro.pid, pro.introdate FROM product pro WHERE pro.introdate <= '2015-12-31');
@@ -100,7 +108,8 @@ ORDER BY intro.introdate ASC;
 
 DROP VIEW intro;
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 CREATE VIEW v AS (
 SELECT w.lid, o.shipwid, COALESCE(SUM(quantity * price), 0) AS totalsales
@@ -119,3 +128,4 @@ DROP VIEW v;
 
 
 
+-- END Query 10

@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 	SELECT cust2.cid AS cuid, cust2.cname AS cuname, cust1.cid AS refid, cust1.cname AS refname
 	FROM customer cust1, customer cust2, referral ref
@@ -10,7 +10,8 @@
 	ORDER BY cuname ASC
 ; 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
  
 	SELECT o.oid as oid, o.pid as pid, s.wid as wid, o.quantity as ordqty, s.quantity as stockqty
 	FROM orders o JOIN stock s 
@@ -19,7 +20,8 @@
 ;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 	SELECT c.cid as cuid, c.cname as cuname, SUM(price * quantity) AS totalsales
 	FROM customer c, orders o
@@ -29,7 +31,8 @@
 ;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 	SELECT pid, p.pname as pname, SUM(p.cost * o.quantity) as totalcost
 	FROM product p NATURAL JOIN orders o
@@ -39,7 +42,8 @@
 ;
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 	SELECT p.pid as pid, p.pname as pname, introdate
 	FROM product p LEFT JOIN orders o
@@ -49,7 +53,8 @@
 ;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 --don’t know yet about duplicates -- add subquery --didn't work
 --SELECT c.cid as cid, c.cname as cname, l.lname as locname
 --FROM customer c JOIN location l ON c.lid = l.lid
@@ -66,7 +71,8 @@
 ;
 
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 	SELECT  CAST(to_char(odate, 'yyyymm') AS INTEGER) AS period, SUM(o.quantity * o.price) AS sales, SUM(o.quantity * p.cost) AS cost
 	FROM orders o, product p
@@ -77,7 +83,8 @@
 ;
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 	SELECT  c.cid as cid, c.cname as cname, SUM(o.quantity * o.price * r.commission) as comission  
 	FROM customer c JOIN referral r ON c.cid = r.custid 
@@ -87,7 +94,8 @@
 ;
 
 
--- Query 9 statements 
+-- END Query 8
+-- START Query 9 
 INSERT INTO Query9
 (
 	--date is a key word --- datee
@@ -100,7 +108,8 @@ INSERT INTO Query9
 
 
 
--- Query 10 statements. 
+-- END Query 9
+-- START Query 10. 
 
 	SELECT l.lid as lid, l.lname as lname, COALESCE(totalsales, 0) as totalsales
     FROM location l FULL OUTER JOIN (
@@ -120,3 +129,4 @@ INSERT INTO Query9
 	--GROUP BY l.lid
 	--ORDER BY lname ASC  
 
+-- END Query 10

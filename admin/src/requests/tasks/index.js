@@ -1,4 +1,4 @@
-import { getRequest, postRequest } from "../../network";
+import { getRequest, getZip, postRequest } from "../../network";
 
 export async function fetchTasks() {
   const response = await getRequest("/api/tasks/");
@@ -40,7 +40,8 @@ export async function uploadTaskFiles({ files }) {
 
 export async function downloadReport(tid) {
   try {
-    const response = await getRequest(`/api/tasks/reports/${tid}`);
+    // const response = await getRequest(`/api/tasks/reports/${tid}`);
+    const response = await getZip(`/api/tasks/reports/${tid}`);
     console.log(response);
     return response;
   } catch (e) {

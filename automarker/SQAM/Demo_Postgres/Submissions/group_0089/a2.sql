@@ -2,18 +2,20 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 SELECT C.cid as "cuid", C.cname as "cuname", C2.cid as "refid", C2.cname as "refname"
 FROM Customer AS C, Customer AS C2, referral AS R
 WHERE C.cid = R.custid AND C2.cid = R.custref
 ORDER BY cuname ASC;
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 SELECT oid, stock.pid AS "pid", wid, orders.quantity AS "ordqty", stock.quantity AS "stockqty"
 FROM stock,orders
 WHERE stock.pid = orders.pid AND stock.quantity<orders.quantity;
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 SELECT orders.cid as cuid, cname, sum(quantity*price) as totalsales
 FROM orders, customer 
 WHERE status = 'S' AND orders.cid = customer.cid
@@ -21,20 +23,23 @@ GROUP BY  orders.cid, cname
 ORDER BY totalsales DESC
 ;
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 SELECT p.pid , pname , SUM(o.quantity * cost) AS totalcost
 FROM product AS p, orders as o
 WHERE p.pid = o.pid AND status = 'S'
 GROUP BY p.pid
 ORDER BY totalcost;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 SELECT pid, pname, introdate
 FROM product 
 WHERE pid NOT IN (select distinct pid from orders)
 ORDER BY pname;
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 SELECT cid, cname, lname
 FROM customer, location
 WHERE customer.lid = location.lid AND
@@ -42,7 +47,8 @@ WHERE customer.lid = location.lid AND
         	SELECT DISTINCT cid
         	FROM orders)
 ORDER BY cname;
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 SELECT to_char(odate, 'YYYYMM')::INTEGER as period, count(status) AS sales,
  SUM(quantity * cost) AS cost
@@ -52,7 +58,8 @@ GROUP BY period
 ORDER BY period
 ;
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 SELECT r.custid AS cid, c.cname AS cname, sum(r.commission * price * o.quantity) AS commission
 FROM  referral AS r, customer AS c, orders AS o
 WHERE r.custid = c.cid AND r.custref = o.cid
@@ -62,7 +69,8 @@ ORDER BY c.cname;
 
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 CREATE VIEW  oldproducts as 
 	(SELECT pid, introdate                                                                            
 		FROM product                           
@@ -76,7 +84,8 @@ GROUP BY p.pid, p.introdate
 ORDER BY p.introdate ASC;
 
 DROP VIEW IF EXISTS oldproducts;
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 Create View fts AS(
 SELECT shipwid, sum(quantity * price) AS totalsales 
 FROM orders WHERE status = 'S' GROUP BY shipwid );
@@ -110,3 +119,4 @@ DROP VIEW IF EXISTS sales;
 DROP VIEW IF EXISTS ZeroSales; 
 DROP VIEW IF EXISTS salesNotZero;
 DROP VIEW IF EXISTS fts;
+-- END Query 10

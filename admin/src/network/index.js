@@ -20,3 +20,13 @@ export function getRequestSpecifyPort(uri, searchParams) {
 export function postRequest(uri, data) {
   return axios.post(enforceTrailingSlash(`${serverUrl}${uri}`), data);
 }
+
+
+export function getZip(uri) {
+return axios.get(enforceTrailingSlash(`${serverUrl}${uri}`), {
+    responseType: "arraybuffer",
+    headers: {
+      "Content-Type": "application/zip",
+    },
+  });
+}

@@ -31,12 +31,14 @@ function TaskView({ enqueueSnackbar }) {
     } else {
       const link = document.createElement("a");
       link.href = URL.createObjectURL(
-        new Blob([JSON.stringify(response.data)], {
-          type: "application/octet-stream",
-        })
+        // new Blob([JSON.stringify(response.data)], {
+        //   type: "application/octet-stream",
+        // })
+        new Blob([response.data], { type: "application/zip" })
       );
       link.value = "download";
-      link.download = `task${tid}-report.json`;
+      // link.download = `task${tid}-report.json`;
+      link.download = `task${tid}-report.zip`;
       link.click();
     }
   }

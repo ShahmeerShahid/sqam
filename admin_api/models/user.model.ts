@@ -1,5 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+
+
+// TODO: Convert to ts-mongoose like in task.model.ts
 let User = new Schema({
   id: {
     type: Number,

@@ -413,3 +413,113 @@ Note: List of supplied logs will be appended to existing list of logs for given 
 ### Connectors
 
 To add/remove connectors, specify the name and url of the connector in `config.json`.
+
+
+# Legacy Endpoints
+
+```js
+
+/*	PATCH /tasks/:tid
+    @params: status, name, submissions, num_submissions, extra_fields
+    @return:
+      ON SUCCESS: 200
+      ON FAILURE: 404
+*/
+
+router
+  .route("/:tid")
+  .patch(
+    [
+      param("tid").isInt({ min: 0 }),
+      body("status").optional().isIn(constants.statuses),
+      body("name").optional().notEmpty(),
+      body("submissions").optional().isArray({ min: 0 }),
+      body("num_submissions").optional().isInt({ min: 0 }),
+      body("extra_fields").optional().notEmpty(),
+    ],
+    (req: Request, res: Response) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const tid = req.params.tid;
+      let update = {};
+      const restrictedKeys = ["tid", "logs", "connector", "_id"];
+
+      Object.keys(TaskSchema.obj).forEach((key) => {
+        if (restrictedKeys.includes(key)) return;
+        //TODO: handle the case where they pass in logs!
+        else if (key === "submissions" && req.body[key]) {
+          const submissions = req.body.submissions.map((name) => {
+            return {
+              name: name,
+            };
+          });
+          update.submissions = submissions;
+        } else if (req.body[key]) update[key] = req.body[key];
+      });
+
+      Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
+        if (doc === null) {
+          return res.sendStatus(404);
+        } else if (err) {
+          return res.sendStatus(500);
+        } else {
+          res.status(200).json({
+            message: `Task ${tid} successfully updated`,
+          });
+        }
+      });
+    }
+  );
+
+/*	PUT /tasks/:tid/logs
+    @params: logs
+    @return:
+      ON SUCCESS: 200
+      ON FAILURE: 404
+*/
+router
+  .route("/:tid/logs")
+  .put(
+    [
+      param("tid").isInt({ min: 0 }),
+      body("logs").isArray(),
+      body("source").optional().isIn(constants.logSources),
+    ],
+    (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const tid = req.params.tid;
+      const logsToAppend = [];
+      for (line in req.body.logs) {
+        logsToAppend.push(
+          new Log({
+            timestamp: new Date(),
+            text: req.body.logs[line],
+            source: req.body.source,
+          })
+        );
+      }
+
+      Task.findOneAndUpdate(
+        { tid: tid },
+        { $push: { logs: { $each: logsToAppend } } },
+        function (err, doc) {
+          if (doc === null) {
+            res.sendStatus(404);
+          } else if (err) {
+            console.log(err);
+            res.sendStatus(500);
+          } else {
+            res.status(200).json({
+              message: `Task ${tid} logs successfully updated`,
+            });
+          }
+        }
+      );
+    }
+  );
+```

@@ -141,7 +141,7 @@ export function UnconnectedMasterForm({
   useEffect(() => {
     async function fetchData() {
       setIsLoadingConnectorInfo(true);
-      const response = await fetchExtraFields(connector.port);
+      const response = await fetchExtraFields(connector.name);
       if (response.status) {
         enqueueSnackbar("Failed fetching connector information", {
           variant: "error",
@@ -239,7 +239,7 @@ export const EnhancedMasterForm = withFormik({
       name,
       marking_type,
       db_type,
-      connector: connector.url.slice(7),
+      connector: connector.name,
       max_marks,
       max_marks_per_question,
       question_names,

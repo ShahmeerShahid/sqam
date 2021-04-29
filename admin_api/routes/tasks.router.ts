@@ -8,7 +8,7 @@ import { Task, TaskSchema, LogSchema } from "../models/task.model"
 import constants, {StatusMessage} from "../constants";
 import { Interface } from "readline";
 import fileUpload, {UploadedFile} from "express-fileupload";
-import {statusService} from "../services/index"
+import {statusService, tasksService} from "../services/index"
 import { BadRequestError } from "../errors";
 
 
@@ -68,43 +68,29 @@ router
   .route("/")
   .post(
     [
-      body("connector").isIn(constants.connectors),
+      body("connector").notEmpty(),
       body("name").notEmpty(),
       body("status").optional().isIn(constants.statuses),
       body("tid").isEmpty(),
       body("_id").isEmpty(),
     ],
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const newTask = new Task(req.body);
-      const connector = req.body.connector;
+      let newTask = undefined
       try {
-        newTask.save().then(async (task) => {
-          const dir = `/var/downloads/${task.tid}`;
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
-          }
-          fs.writeFileSync(`${dir}/aggregated.json`, JSON.stringify({}));
-          const body = {
-            tid: task.tid,
-            download_directory: dir,
-            markus_URL: task.extra_fields.markus_URL,
-            assignment_id: task.extra_fields.assignment_id,
-            api_key: task.extra_fields.api_key,
-          };
+        newTask = await tasksService.createNewTaskFromRequest(req)
+      } catch (err) {
+        return res.status(400).json({message: err.message})
+      }
 
-          await axios.post(`http://${connector}/tasks`, body); // TODO: Change this to sending event to "to_download" queue
-          newTask.status = "Downloading";
-          newTask.initFile = `/var/downloads/${task.tid}/init.sql`;
-          newTask.solutions = `/var/downloads/${task.tid}/solutions.sql`;
-          newTask.save().then((updatedTask) => {
-            return res.status(201).json(updatedTask);
-          });
-        });
+      try {
+        tasksService.createDownloadsFolderForTask(newTask.tid)
+        const channel = await req.rabbitmqChannelPromise
+        await tasksService.downloadTaskSubmissions(newTask, channel)
       } catch (e) {
         newTask.status = "Error";
         newTask.save();
@@ -117,8 +103,8 @@ router
                 : "Internal Server Error",
           });
       }
-    }
-  );
+      return res.status(201).json(newTask)
+    });
 
 /*	PATCH /tasks/status/:tid
 

@@ -9,7 +9,6 @@ const statuses = [
 
 const apps = ["automarker", "connectors", "admin", "admin_api"];
 
-const connectors = ["markus-connector"];
 
 const logSources = ["frontend", "automarker", "connector", "api"];
 
@@ -63,7 +62,6 @@ export interface TaskMessage {
 
 export default {
 	apps,
-	connectors,
 	logSources,
 	requiredFiles,
 	statuses,

@@ -7,7 +7,9 @@ export async function fetchConnectors() {
 
 export async function fetchExtraFields(connector_name) {
   try {
-    const response = await getRequest(`/api/connectors/${connector_name}/extra_fields/`);
+    const response = await getRequest(
+      `/api/connectors/${connector_name}/extra_fields/`
+    );
     return response.data;
   } catch (e) {
     return {

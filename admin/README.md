@@ -35,8 +35,8 @@ Components/pages connect to the backend by calling requests, with either useAsyn
 - React!
 - Chakra-UI
 - Axios
-- React-hook-form
-- useAsyncHook
+- Formik
+- Yup
 - React-Testing-Library
 
 ## DevTools <a name = "dev_tools"></a>
@@ -78,5 +78,6 @@ PROD_ADMIN_URL=admindb
 
 - Shahmeer Shahid
 - Jarrod Servilla
+- Vaishvik Maisuria
 - Terry Zhou
 ````

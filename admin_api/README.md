@@ -414,11 +414,9 @@ Note: List of supplied logs will be appended to existing list of logs for given 
 
 To add/remove connectors, specify the name and url of the connector in `config.json`.
 
-
 # Legacy Endpoints
 
 ```js
-
 /*	PATCH /tasks/:tid
     @params: status, name, submissions, num_submissions, extra_fields
     @return:

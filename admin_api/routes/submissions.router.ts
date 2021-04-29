@@ -39,7 +39,7 @@ router
 	.route("/:tid")
 	.post(
 		[param("tid").isInt(), body("names").notEmpty()],
-		(req: Request, res: Response) => {
+		async (req: Request, res: Response) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return res.status(400).json({ errors: errors.array() });
@@ -54,7 +54,7 @@ router
 			});
 
 			try {
-				Task.findOneAndUpdate(
+				await Task.findOneAndUpdate(
 					{ tid: tid },
 					{ $set: { submissions: submissions } }
 				).orFail();
@@ -82,7 +82,7 @@ router
 	.route("/status/:sid")
 	.patch(
 		[param("sid").notEmpty(), body("status").isIn(constants.statuses)],
-		(req: Request, res: Response) => {
+		async (req: Request, res: Response) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return res.status(400).json({ errors: errors.array() });
@@ -92,20 +92,9 @@ router
 			const status = req.body.status;
 
 			try {
-				Task.findOneAndUpdate(
+				await Task.findOneAndUpdate(
 					{ tid: tid, submissions: { $elemMatch: { _id: sid } } },
 					{ $set: { "submissions.$.status": status } }
-					// function (err, task) {
-					//   if (task === null) {
-					//     res.sendStatus(404);
-					//   } else if (err) {
-					//     res.sendStatus(500);
-					//   } else {
-					//     res.status(200).json({
-					//       message: `Submission ${sid} successfully updated to status ${status}`,
-					//     });
-					//   }
-					// }
 				).orFail();
 			} catch (err) {
 				res.sendStatus(404);

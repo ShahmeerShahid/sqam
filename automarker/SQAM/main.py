@@ -10,7 +10,7 @@ def create_process_task_fn(channel: aio_pika.RobustChannel):
 
     # Return a function that takes in a message with channel curried into it
     async def process_task(message: aio_pika.IncomingMessage):
-        async with message.process():
+        async with message.process(ignore_processed=True):
             config = json.loads(message.body.decode())
             message.ack()
             await grade_task(channel, config)
@@ -39,7 +39,7 @@ async def main(loop, username, password, host):
 
     # Declaring queues
     tasks_queue = await channel.declare_queue("task_to_mark", durable=True)
-    await tasks_queue.consume(create_process_task_fn(channel))
+    await tasks_queue.consume(create_process_task_fn(channel), no_ack=False)
 
     return connection
 

@@ -1,8 +1,10 @@
-const router = require("express").Router();
-const { param, body, validationResult } = require("express-validator");
-let Task = require("../models/task.model");
-const constants = require("../constants");
+import {Router, Request, Response} from "express";
+import { param, body, validationResult } from "express-validator";
+// let Task = require("../models/task.model");
+import {Task} from "../models/task.model"
+import constants from "../constants";
 
+const router = Router()
 /*	GET /submissions/:tid
 	  @params: none 
     @return: a list of all submissions for a task
@@ -10,12 +12,15 @@ const constants = require("../constants");
     ON FAILURE: 500
 */
 
-router.route("/:tid").get([param("tid").isInt()], (req, res) => {
-  Task.findOne({ tid: req.params.tid })
-    .then((task) => {
-      res.status(200).json(task.submissions);
-    })
-    .catch((err) => res.status(500).send("An internal server error occurred."));
+router.route("/:tid").get([param("tid").isInt()], async (req: Request, res: Response) => {
+  const tid = Number(req.params.tid)
+  const task = await Task.findOne({ tid: tid })
+  if (task === null) {res.status(404).send("Could not find task");return}
+  try {
+    res.status(200).json(task.submissions);
+  } catch(err) {
+    res.status(500).send("An internal server error occurred.")
+  }
 });
 
 /*	POST /submissions/:tid
@@ -27,15 +32,15 @@ router.route("/:tid").get([param("tid").isInt()], (req, res) => {
 
 router
   .route("/:tid")
-  .post([param("tid").isInt(), body("names").notEmpty()], (req, res) => {
+  .post([param("tid").isInt(), body("names").notEmpty()], (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const tid = req.params.tid;
+    const tid = Number(req.params.tid);
     const names = req.body.names;
 
-    const submissions = names.map((name) => {
+    const submissions = names.map((name: string) => {
       return {
         name: name,
       };
@@ -71,7 +76,7 @@ router
   .route("/status/:sid")
   .patch(
     [param("sid").notEmpty(), body("status").isIn(constants.statuses)],
-    (req, res) => {
+    (req: Request, res: Response) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -98,4 +103,4 @@ router
     }
   );
 
-module.exports = router;
+export default router;

@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 SELECT r.custref AS cuid, c2.cname AS cuname, r.custid AS refid, c.cname as refname
 	FROM referral r
 	JOIN customer c
@@ -12,7 +12,8 @@ SELECT r.custref AS cuid, c2.cname AS cuname, r.custid AS refid, c.cname as refn
 	ORDER BY cuname ASC
 ;
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 SELECT orders.oid, orders.pid, orders.shipwid AS wid, orders.quantity AS ordqty, stock.quantity AS stockqty
 	FROM orders
 	JOIN stock
@@ -20,7 +21,8 @@ SELECT orders.oid, orders.pid, orders.shipwid AS wid, orders.quantity AS ordqty,
 	WHERE orders.status = 'O' AND orders.quantity > stock.quantity
 ;
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 SELECT t.cuid, customer.cname AS cuname, t.totalsales
 	FROM (SELECT cid AS cuid, SUM(orders.quantity * orders.price) AS totalsales 
 		FROM orders 
@@ -31,7 +33,8 @@ SELECT t.cuid, customer.cname AS cuname, t.totalsales
 	ORDER BY totalsales DESC 
 ;  
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 SELECT t.pid, product.pname, t.totalcost
 	FROM 
 		(SELECT orders.pid, SUM(orders.quantity * product.cost) AS totalcost FROM orders 
@@ -44,7 +47,8 @@ SELECT t.pid, product.pname, t.totalcost
 	ORDER BY totalcost ASC  
 ;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 SELECT product.pid AS pid, product.pname, product.introdate
 	FROM product 
 	LEFT JOIN orders
@@ -53,7 +57,8 @@ SELECT product.pid AS pid, product.pname, product.introdate
 	ORDER BY pname ASC
 ;
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 -- DISTINCT?
 
@@ -73,7 +78,8 @@ SELECT customers.cid, customers.cname, customers.locname
 
 DROP VIEW customers;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 -- Is status supposed to be 'S'?
 SELECT CAST(to_char(odate, 'YYYYMM') AS INTEGER) AS period, 
@@ -87,7 +93,8 @@ SELECT CAST(to_char(odate, 'YYYYMM') AS INTEGER) AS period,
 	ORDER BY period ASC
 ;
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 -- Clarify commission is it the sum of price * qunatity * comission 
 
@@ -101,7 +108,8 @@ SELECT customer.cid AS cid, cname, SUM(referral.commission * price * quantity) A
 	ORDER BY cname ASC;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 SELECT total_sales.pid, product.introdate AS date, total_sales.totalsales
 	FROM (SELECT pid, SUM(quantity * price) AS totalsales FROM orders WHERE orders.status = 'S' GROUP BY pid) AS total_sales 
@@ -111,7 +119,8 @@ SELECT total_sales.pid, product.introdate AS date, total_sales.totalsales
 	ORDER BY date ASC
 ;
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 --CREATE VIEW warehouse_sales AS
 --SELECT location.lid, location.lname, t.totalsales 
@@ -165,3 +174,4 @@ DROP VIEW warehouse_sales;
 
 
 
+-- END Query 10

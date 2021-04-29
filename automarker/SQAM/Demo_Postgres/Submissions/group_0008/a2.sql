@@ -5,7 +5,7 @@
 -- Set search path
 SET search_path TO A2;
 
--- Query 1 statements
+-- START Query 1
 
   SELECT
     ref.custref refid,
@@ -17,7 +17,8 @@ SET search_path TO A2;
   ORDER BY cuname ASC
 ;
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
   SELECT
     o.oid,
@@ -32,7 +33,8 @@ SET search_path TO A2;
         AND o.quantity > s.quantity
 ;
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
   SELECT
     c.cid                     cuid,
@@ -45,7 +47,8 @@ SET search_path TO A2;
   ORDER BY totalsales DESC
 ;
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
   SELECT
     o.pid,
@@ -58,7 +61,8 @@ SET search_path TO A2;
   ORDER BY totalcost ASC
 ;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
   SELECT
     pid,
@@ -73,7 +77,8 @@ SET search_path TO A2;
   ORDER BY pname ASC
 ;
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
   SELECT
     c.cid,
@@ -88,7 +93,8 @@ SET search_path TO A2;
   ORDER BY cname ASC
 ;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
   SELECT
     to_char(o.odate, 'YYYYMM') period,
@@ -101,7 +107,8 @@ SET search_path TO A2;
   ORDER BY period ASC
 ;
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
   SELECT
     c.cid,
@@ -114,7 +121,8 @@ SET search_path TO A2;
   ORDER BY c.cname ASC
 ;
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
   SELECT
     p.pid,
@@ -128,7 +136,8 @@ SET search_path TO A2;
   ORDER BY date ASC
 ;
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
   SELECT
     w.lid,
@@ -143,3 +152,4 @@ SET search_path TO A2;
   ORDER BY lname ASC
 ;
 
+-- END Query 10

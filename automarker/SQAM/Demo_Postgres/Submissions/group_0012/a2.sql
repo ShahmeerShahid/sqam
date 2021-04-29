@@ -2,20 +2,22 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 SELECT R.custid AS cuid, C1.cname AS cuname, R.custref AS refid, C2.cname AS refname
 			FROM customer C1, referral R, customer C2
 			WHERE C1.cid = R.custid AND C2.cid = R.custref
 			ORDER BY cuname;
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 SELECT oid, orders.pid, shipwid AS wid, orders.quantity AS ordqty, stock.quantity AS stockqty
 			FROM orders JOIN stock ON orders.pid = stock.pid AND orders.shipwid = stock.wid
 			WHERE status = 'O' AND orders.quantity > stock.quantity;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 SELECT customer.cid AS cuid, customer.cname AS cuname, SUM(quantity*price) AS totalsales
 			FROM orders, customer
 			WHERE orders.cid = customer.cid AND status = 'S'
@@ -23,7 +25,8 @@ SELECT customer.cid AS cuid, customer.cname AS cuname, SUM(quantity*price) AS to
 			ORDER BY totalsales DESC;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 SELECT product.pid AS pid, pname, SUM(quantity*cost) AS totalcost
 			FROM product, orders
 			WHERE product.pid = orders.pid AND status = 'S'
@@ -31,7 +34,8 @@ SELECT product.pid AS pid, pname, SUM(quantity*cost) AS totalcost
 			ORDER BY totalcost;
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 SELECT pid, pname, introdate
 			FROM product
 			WHERE pid NOT IN
@@ -39,7 +43,8 @@ SELECT pid, pname, introdate
 			ORDER BY pname;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 SELECT cid, cname, lname AS locname
 			FROM customer, location
 			WHERE customer.lid = location.lid AND cid NOT IN
@@ -47,7 +52,8 @@ SELECT cid, cname, lname AS locname
 			ORDER BY cname;
 
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 SELECT CAST(TO_CHAR(odate, 'YYYYMM') AS INTEGER) AS period, SUM(quantity*price) AS sales, SUM(quantity*cost) AS cost
 			FROM orders NATURAL RIGHT JOIN product
 			WHERE orders.pid = product.pid
@@ -55,7 +61,8 @@ SELECT CAST(TO_CHAR(odate, 'YYYYMM') AS INTEGER) AS period, SUM(quantity*price) 
 			ORDER BY period;
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 SELECT referral.custid AS cid, cname, SUM(quantity*price*commission) AS commission
 			FROM customer, referral, orders
 			WHERE customer.cid = custid AND referral.custref = orders.cid
@@ -63,7 +70,8 @@ SELECT referral.custid AS cid, cname, SUM(quantity*price*commission) AS commissi
 			ORDER BY cname;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 SELECT orders.pid AS pid, introdate AS date, SUM(quantity*price) AS totalsales
 			FROM orders NATURAL LEFT JOIN product
 			WHERE orders.pid = product.pid AND introdate <= '2015-12-31' AND status = 'S'
@@ -71,7 +79,8 @@ SELECT orders.pid AS pid, introdate AS date, SUM(quantity*price) AS totalsales
 			ORDER BY date;
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 CREATE VIEW withSales AS
 SELECT location.lid AS lid, location.lname AS lname, SUM(quantity*price) AS totalsales
 FROM location, warehouse, orders 
@@ -91,3 +100,4 @@ SELECT *
 
 DROP VIEW withSales;
 DROP VIEW noSales;
+-- END Query 10

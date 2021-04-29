@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 SELECT ref.custid AS cuid, c1.cname AS cuname, ref.custref AS refid, c2.cname AS refname
 FROM referral AS ref
@@ -11,7 +11,8 @@ JOIN customer c2 ON c2.cid = ref.custref
 ORDER BY cuname ASC;
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 SELECT o.oid AS oid, o.pid AS pid, o.shipwid AS wid, o.quantity AS ordqty, s.quantity AS stockqty
 FROM orders o
@@ -19,7 +20,8 @@ JOIN stock s ON o.pid = s.pid
 WHERE o.status = 'O' AND o.quantity > s.quantity;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 SELECT cuid, c.cname AS cuname, totalsales
 FROM ( 
@@ -32,7 +34,8 @@ JOIN customer c ON sales.cuid = c.cid
 ORDER BY totalsales DESC;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 SELECT t.pid AS pid, p.pname AS pname, t.totalqty * p.cost AS totalcost
 FROM (
@@ -45,7 +48,8 @@ JOIN product p ON t.pid = p.pid
 ORDER BY totalcost ASC;
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 SELECT notordered.pid AS pid, p.pname AS pname, p.introdate AS introdate
 FROM (
@@ -57,7 +61,8 @@ JOIN product p ON notordered.pid = p.pid
 ORDER BY p.pname ASC;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 SELECT notordered.cid AS cid, c.cname AS cname, l.lname AS locname
 FROM (
@@ -69,7 +74,8 @@ JOIN customer c ON notordered.cid = c.cid
 JOIN location l ON c.lid = l.lid
 ORDER BY c.cname ASC;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 SELECT period, sum(sale), sum(qty * p.cost)
 FROM (
@@ -82,7 +88,8 @@ GROUP BY period
 ORDER BY period ASC
 ;
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 SELECT custid, cname, totall
 FROM(
@@ -104,7 +111,8 @@ JOIN customer cc ON sub.custid = cc.cid
 ;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 SELECT u.pid AS pid, v.introdate AS date, u.totalsales AS totalsales
 FROM (
@@ -123,7 +131,8 @@ ORDER BY date ASC
 ;
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 SELECT l.lid AS lid, l.lname AS lname, CASE WHEN totalsales IS NULL THEN 0 ELSE totalsales END AS totalsales
 FROM ((
@@ -140,3 +149,4 @@ RIGHT OUTER JOIN location l ON v.lid = l.lid
 ORDER BY lname ASC
 ;
 
+-- END Query 10

@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 -----Refferer View
 CREATE VIEW referrerview AS SELECT c.cid, c.cname 
@@ -21,13 +21,15 @@ SELECT DISTINCT referredview.cid AS "cuid", referredview.cname AS "cuname", refe
 			ORDER BY referredview.cname;
 DROP VIEW referrerview;
 DROP VIEW referredview;
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 SELECT o.oid, o.pid, s.wid, o.quantity AS "ordqty", s.quantity AS "stockqty"
 		  	 FROM orders o, stock s
 		   	WHERE o.pid = s.pid AND o.quantity > s.quantity AND o.shipwid = s.wid;
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 SELECT c.cid AS "cuid", c.cname AS "cuname", sum(o.quantity*o.price) AS "totalsales" 
 		   	FROM customer c, orders o 
@@ -35,7 +37,8 @@ SELECT c.cid AS "cuid", c.cname AS "cuname", sum(o.quantity*o.price) AS "totalsa
 			GROUP BY cuid 
 			ORDER BY totalsales DESC; 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 SELECT p.pid, p.pname, sum(o.quantity*p.cost) AS "totalcost"
 			FROM product p, orders o
@@ -43,28 +46,32 @@ SELECT p.pid, p.pname, sum(o.quantity*p.cost) AS "totalcost"
 			GROUP BY p.pid
 			ORDER BY totalcost;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 SELECT pid, pname, introdate
 			FROM product
 			WHERE pid NOT IN (SELECT DISTINCT pid FROM orders)
 			ORDER BY pname;
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 SELECT c.cid, c.cname, l.lname AS "locname"
 			FROM customer c, location l
 			WHERE c.cid NOT IN (SELECT DISTINCT cid FROM orders) AND c.lid = l.lid
 			ORDER BY c.cname;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 SELECT CAST(TO_CHAR(o.odate, 'YYYYMM') AS NUMERIC(10,2)) AS "period", SUM(o.quantity*o.price) AS "sales", SUM(p.cost * o.quantity) AS "cost"
 			FROM orders o, product p
 			WHERE o.pid = p.pid AND o.status = 'S'
 			GROUP BY period
 			ORDER BY period; 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 ----------------Total price view
 CREATE VIEW totalpriceview AS (SELECT cid, SUM(price*quantity) AS "sales" 
@@ -80,7 +87,8 @@ DROP VIEW totalpriceview;
 
 --------------------------------
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 SELECT p.pid, p.introdate AS "date", SUM(o.quantity*o.price) AS "totalsales"
 			FROM orders o, product p
@@ -88,7 +96,8 @@ SELECT p.pid, p.introdate AS "date", SUM(o.quantity*o.price) AS "totalsales"
 			GROUP BY p.pid 
 			ORDER BY p.introdate; 
 			
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 -------------Total sales view
 CREATE VIEW totalsalesview AS (SELECT orders.shipwid, SUM(orders.quantity*orders.price) AS "totalsales"
@@ -107,3 +116,4 @@ SELECT lid, lname, COALESCE(totalsales,0)
 			FROM Query10View;
 DROP VIEW Query10View;
 DROP VIEW totalsalesview;
+-- END Query 10

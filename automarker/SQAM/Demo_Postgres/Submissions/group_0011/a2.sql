@@ -4,7 +4,7 @@
 
 -- REMEMBER: "Sale" means status = SHIPPED.
 
--- Query 1 statements
+-- START Query 1
 
 	SELECT r.custref AS cuid, c1.cname AS cuname, r.custid AS refid, c2.cname AS refname
 	FROM referral AS r, customer AS c1, customer AS c2
@@ -13,7 +13,8 @@
 	;
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 	SELECT o.oid AS oid, o.pid AS pid, o.shipwid AS wid, o.quantity AS ordqty, s.quantity AS stockqty
 	FROM orders AS o, stock AS s
@@ -21,7 +22,8 @@
 	;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 	SELECT t.cuid AS cuid, c.cname AS cuname, t.totalsales AS totalsales
 	FROM (
@@ -34,7 +36,8 @@
 	;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 	SELECT t.pid AS pid, p.pname AS pname, t.totalcost AS totalcost
 	FROM (
@@ -47,7 +50,8 @@
 	;
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 	SELECT p.pid AS pid, p.pname AS pname, p.introdate AS introdate
 	FROM product AS p, orders as o
@@ -56,7 +60,8 @@
 	;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 	SELECT DISTINCT c.cid AS cid, c.cname AS cname, l.lname AS locname
 	FROM customer AS c, location AS l
@@ -65,7 +70,8 @@
 	;
 
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 	SELECT TO_CHAR(o.odate, 'YYYYMM')::text::int AS period, SUM(o.quantity*o.price) AS sales, SUM(p.cost*o.quantity) AS cost
 	FROM orders AS o, product AS p
@@ -75,7 +81,8 @@
 	;
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 	SELECT q1.refid AS cid, q1.refname AS cname, r.commission/100*(o.quantity*o.price)
 	FROM Query1 AS q1, referral AS r, orders as o
@@ -84,7 +91,8 @@
 	;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 	SELECT p.pid AS pid, p.introdate AS date, o.quantity*o.price AS totalsales
 	FROM product AS p, orders AS o
@@ -94,7 +102,8 @@
 	;
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 	SELECT t.lid AS lid, l.lname AS lname, o.quantity*o.price AS totalsales
 	FROM (
@@ -106,3 +115,4 @@
 	ORDER BY lname ASC
 	;
 
+-- END Query 10

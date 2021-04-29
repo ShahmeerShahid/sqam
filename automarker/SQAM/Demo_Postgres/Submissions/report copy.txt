@@ -1,0 +1,45 @@
+Autotested Results for A2
+Generated at 2021-02-28T00:36:43
+--
+
+Summary of Results: 39 assignments graded
+
+group_0001: 29/50 passed
+group_0002: 20/50 passed
+group_0003: 31/50 passed
+group_0004: 33/50 passed
+group_0005: 31/50 passed
+group_0006: 42/50 passed
+group_0007: 31/50 passed
+group_0008: 29/50 passed
+group_0009: 37/50 passed
+group_0010: 35/50 passed
+group_0011: 35/50 passed
+group_0012: 45/50 passed
+group_0013: 40/50 passed
+group_0061: 15/50 passed
+group_0062: 42/50 passed
+group_0063: 45/50 passed
+group_0064: 47/50 passed
+group_0066: 48/50 passed
+group_0067: 47/50 passed
+group_0069: 50/50 passed
+group_0070: 50/50 passed
+group_0071: 44/50 passed
+group_0072: 50/50 passed
+group_0073: 40/50 passed
+group_0075: 33/50 passed
+group_0077: 27/50 passed
+group_0078: 45/50 passed
+group_0079: 49/50 passed
+group_0080: 47/50 passed
+group_0081: 40/50 passed
+group_0082: 40/50 passed
+group_0086: 47/50 passed
+group_0087: 50/50 passed
+group_0088: 45/50 passed
+group_0089: 36/50 passed
+group_0090: 45/50 passed
+group_0091: 37/50 passed
+group_0095: 40/50 passed
+group_0097: 34/50 passed

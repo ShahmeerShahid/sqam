@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 create view customer_names as 
 select * from referral 
 JOIN customer 
@@ -19,7 +19,8 @@ order by cuname;
 drop view customer_names;
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 select oid, orders.pid as pid,
 orders.shipwid as wid, 
@@ -33,7 +34,8 @@ AND orders.quantity > stock.quantity;
 
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 select customer.cid as cuid,
 customer.cname as cuname, 
@@ -45,7 +47,8 @@ group by customer.cid, customer.cname
 order by totalsales DESC;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 select product.pid as pid,
 product.pname as cuname, 
@@ -56,7 +59,8 @@ where orders.status = 'S'
 group by product.pid, product.pname 
 order by totalcost ASC;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 select product.pid, pname, introdate
 from product join 
@@ -69,7 +73,8 @@ as prod on product.pid = prod.pid
 order by pname ASC; 
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 select cid, cname, lname from
 (select customer.cid, cname, lid 
@@ -86,7 +91,8 @@ order by cname ASC;
 
 
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 select to_char(orders.odate, 'YYYYMM') as period,
 sum(orders.quantity*orders.price) as sales, 
 sum(product.cost*orders.quantity) as cost 
@@ -97,7 +103,8 @@ group by period
 order by period ASC;
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 create view ref_cust_sales as
 select referral.custref as cid,
@@ -123,7 +130,8 @@ order by cname ASC;
 drop view ref_cust_sales;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 select product.pid, introdate,
 sum(orders.quantity*orders.price) as totalsales
@@ -135,7 +143,8 @@ group by product.pid, introdate
 order by introdate ASC;
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 create view warehouse_location as
 select wid, location.lid as lid,  lname from warehouse 
@@ -146,3 +155,4 @@ group by wid, lname, location.lid;
 select warehouse_location.lid, warehouse_location.lname,  sum(orders.quantity*orders.price) as totalsales from orders join warehouse_location on warehouse_location.wid = orders.shipwid where orders.status = 'S' group by warehouse_location.lid, warehouse_location.lname order by warehouse_location.lname; 
 
 drop view warehouse_location;
+-- END Query 10

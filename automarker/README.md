@@ -22,7 +22,25 @@ to start running the automarker.
 
 After the setup you just need to do make build, and you're good to go!
 
-You must have the admin_api Running in Docker for tha automarker backend to work correctly.
+You must have the admin_api Running in Docker for the automarker backend to work correctly.
+
+## Example RabbitMQ Messge:
+
+```json
+{
+"tid": 0,
+"assignment_name": "A2",
+"init":"/automarker/SQAM/Demo_Postgres/init.sql",
+"solutions":"/automarker/SQAM/Demo_Postgres/solutions.sql",
+"submissions": "/automarker/SQAM/Demo_Postgres/Submissions",
+"submission_file_name": "a2.sql",
+"max_marks": 50,
+"max_marks_per_question": [5,5,5,5,5,5,5,5,5,5],
+"question_names": ["Query 1","Query 2","Query 3","Query 4","Query 5","Query 6","Query 7","Query 8","Query 9","Query 10"],
+"db_type": "postgresql",
+"marking_type": "partial"
+}
+```
 
 #
 ## flask server endpoints

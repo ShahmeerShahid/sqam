@@ -6,6 +6,15 @@ x-downloads-volume: &downloads-volume
   target: /var/downloads # downloads folder in container
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
   mysqlam:
     image: mysql:5.7
     restart: always
@@ -20,6 +29,7 @@ services:
       - "3306:3306"
   postgres:
     image: postgres:latest
+    shm_size: 5g
     environment:
       POSTGRES_PASSWORD: csc499
       POSTGRES_USER: automarkercsc499
@@ -81,6 +91,8 @@ services:
 
   automarker:
     build: ./automarker/SQAM
+    shm_size: 97g
+    oom_score_adj: -800
     ports:
       - "9005:80"
     volumes:
@@ -92,6 +104,9 @@ services:
       - MYSQL_PASSWORD=csc499
       - MYPASSWD=csc499 # TODO CHANGE TO ROOT PASSWD
       - PQPASSWD=csc499 # TODO Change to root passwd
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
     expose:
       - "80"
 

@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 SELECT c1.cid AS cuid, c1.cname AS cuname, c2.cid AS refid, c2.cname AS refname
 FROM customer c1, customer c2, referral r
@@ -12,7 +12,8 @@ ORDER BY c1.cname ASC
 
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 SELECT o.oid, o.pid, o.shipwid as wid, o.quantity as ordqty, s.quantity as stockqty 
 FROM Orders o NATURAL JOIN stock s
@@ -20,7 +21,8 @@ WHERE o.quantity > s.quantity AND status = 'O'
 ;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 SELECT cu.cid as cuid, cu.cname as cuname, SUM(price*quantity) as totalsales
 FROM Customer cu NATURAL JOIN Orders o
@@ -32,7 +34,8 @@ ORDER BY totalsales desc
 
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 SELECT p.pid as pid, p.pname as pame, SUM(p.cost*o.quantity) as totalcost
 FROM product p JOIN orders o
@@ -44,7 +47,8 @@ ORDER BY totalcost ASC
 
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 SELECT p.pid as pid, p.pname as pame , introdate
 FROM product p LEFT JOIN orders o
@@ -54,7 +58,8 @@ ORDER BY p.pname ASC
 ;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 SELECT distinct c.cid as cid, c.cname as cname, l.lname as locname --might need distinct
 FROM customer c 
@@ -71,11 +76,13 @@ ORDER BY c.cname ASC
 
 --sub q c X o then X l
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 SELECT c.cid as cid, c.cname as cname, SUM(o.quantity*o.price*r.commission) as comission
 FROM customer c JOIN referral r
@@ -87,7 +94,8 @@ ORDER BY c.cname ASC
 ;
 
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 SELECT p.pid as pid , introdate as date, SUM(price*quantity) as totalsales --date is key word,
 FROM product p JOIN orders o
@@ -99,7 +107,8 @@ ORDER BY introdate ASC
 
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
  
 INSERT INTO Query10(
 SELECT l.lid , lname, SUM(o.price*o.quantity) as totalsales 
@@ -114,3 +123,4 @@ ORDER BY lname ASC;
 
 
 
+-- END Query 10

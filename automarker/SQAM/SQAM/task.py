@@ -1,93 +1,68 @@
 from SQAM.assignment import Assignment
-from SQAM.queriers.MySQL import MySQLQuerier
-from SQAM.queriers.PostGreSQL import PostGreSQLQuerier
-from SQAM.graders.partial_marking_grader import Partial_Marking_Grader
-from SQAM.graders.binary_grader import Binary_Marking_Grader
+from SQAM.queriers.create_querier import create_querier
 import SQAM.settings
-import requests
+from SQAM.publish import log_message
+
 
 class Task:
     """ 
     A Class used to represent an Automarking Job
-    
+
     Attributes:
     assignment : Representation of Assignment that will be marked
-    query_language: SQL Language the Assignment uses
+    querier: SQL Language the Assignment uses
     grader: Either Partial or Binary. Used to convert query results into grades
     """
-    def __init__(self, config):
+
+    def __init__(self, channel, config):
         """
         Creates all required attributes based off the provided 
         configuration information. 
-        
+
         Precondition: Provided configuration information contains all required keys
         """
+        self.channel = channel
         self.tid = config["tid"]
 
         db_name = "t"+str(self.tid)
-        if(config["db_type"] == "mysql"):
-            login_details = SQAM.settings.MYSQL_LOGIN_DETAILS
-            query_language = MySQLQuerier(*login_details,
-                                            db_name,
-                                            config.get("init", ""),
-                                            config.get("create_tables", ""),
-                                            config.get("load_data", ""),
-                                            config.get("create_function", ""),
-                                            config.get("create_trigger", ""))
-            self.log("Setup MYSQL Database")
-        elif(config["db_type"] == "postgresql"):
-            login_details = SQAM.settings.POSTGRESQL_LOGIN_DETAILS
-            query_language = PostGreSQLQuerier(*login_details,
-                                            db_name,
-                                            config.get("init", ""),
-                                            config.get("create_tables", ""),
-                                            config.get("load_data", ""),
-                                            config.get("create_function", ""),
-                                            config.get("create_trigger", ""))
-            self.log("Setup PostgreSQL Database")
-        else:
-            exit(1)
-
+        querier = create_querier(config["db_type"], db_name, config["init"])
         self.assignment = Assignment(config["assignment_name"],
                                      config["submissions"],
                                      config["solutions"],
                                      config["submission_file_name"],
-                                    {q_num:max_grade for q_num,max_grade in zip(config["question_names"],config["max_marks_per_question"])},
-                                     SQAM.settings.QUERY_EXTRACTOR_RE,
+                                     {q_num: max_grade for q_num, max_grade in zip(
+                                         config["question_names"], config["max_marks_per_question"])},
                                      config["max_marks"],
-                                    query_language,
-                                    config.get("refresh_level", "per_submission"))
-        self.log("Created the Assignment")
+                                     querier,
+                                     config.get("refresh_level",
+                                                "per_submission"),
+                                     config["marking_type"])
 
-        if config["marking_type"] == "partial":
-            self.grader = Partial_Marking_Grader(self.assignment, query_language)
-        elif config["marking_type"] == "binary":
-            self.grader = Binary_Marking_Grader(self.assignment, query_language)
-        else:
-            exit(1)
-        self.log("Created the Grader")
-        
-    def run(self):
+    async def run(self):
         """
         Runs an automarking job on an entire assignment
         Creates reports in each submission repo as well as aggregates results into
         one json file. 
         """
-        self.log("Beginning Assignment Marking")
-        self.assignment.mark_submissions(self.grader)
-        self.log("Graded all Submissions")
+        try:
+            await log_message(self.tid, "Beginning Assignment Marking", self.channel)
+        except:
+            print("Beginning Assignment Marking")
+        self.assignment.mark_submissions()
+        try:
+            await log_message(self.tid, "Graded all Submissions", self.channel)
+        except:    
+            print("Graded all Submissions")
+        try:
+            await log_message(self.tid, "Generating all Result Files", self.channel)
+        except:
+            print("Generating all Result Files")
         self.assignment.run_aggregator()
         self.assignment.run_templator()
-        self.log("Generated all Result Files")
-        self.log("Assignment Marking Complete")
-        self.assignment.querier.remove_database()
-
-        print(f'Done Grading Submissions. Class Average: {self.assignment.get_average()*100:.2f}%')
-    
-    def log(self, message): # TODO Make a more robust Logging System
-        print(message, flush=True)
-        send_info = {"source": "automarker", "logs": [message]}
         try:
-            res = requests.put(f"http://admin_api/api/tasks/{self.tid}/logs", json=send_info)
-        except Exception as e:
-            pass
+            await log_message(self.tid, "Assignment Marking Complete", self.channel)
+        except:
+            print("Assignment Marking Complete")
+        self.assignment.querier.remove_database()
+        print(
+            f'Done Grading Submissions. Class Average: {self.assignment.get_average()*100:.2f}%')

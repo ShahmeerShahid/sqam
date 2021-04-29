@@ -1,6 +1,7 @@
 import { LogMessage } from "../constants";
 import { Task, Log } from "../models/task.model";
 import { NotFoundError } from "../errors";
+import { Mongoose } from "mongoose";
 
 async function addLog(log: LogMessage) {
 	let tid = log.tid;
@@ -10,21 +11,13 @@ async function addLog(log: LogMessage) {
 		source: log.source,
 	});
 
-	await new Promise((resolve, reject) => {
-		Task.findOneAndUpdate(
-			{ tid: tid },
-			{ $push: { logs: logToAppend } },
-			function (err, doc) {
-				if (err) {
-					reject(err);
-				} else if (doc === null) {
-					reject(new NotFoundError(`Task with tid ${tid} not found`));
-				} else {
-					resolve(doc);
-				}
-			}
-		);
-	});
+	const filter = { tid };
+	const update = { $push: { logs: logToAppend } };
+	try {
+		Task.findOneAndUpdate(filter, update).orFail();
+	} catch (err) {
+		throw new NotFoundError(`Task with tid ${tid} not found`);
+	}
 }
 
 export default { addLog };

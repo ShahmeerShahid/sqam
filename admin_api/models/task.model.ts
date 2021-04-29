@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment";
 import constants from "../constants";
-import { createSchema, Type, typedModel } from "ts-mongoose";
+import { createSchema, ExtractDoc, Type, typedModel } from "ts-mongoose";
 
 const SubmissionSchema = createSchema({
 	name: Type.string({
@@ -43,8 +43,6 @@ export const TaskSchema = createSchema(
 			default: "Pending",
 		}),
 		connector: Type.string({
-			enum: constants.connectors,
-			default: "markus-connector",
 			required: true,
 		}),
 		submissions: Type.array().of(Type.schema().of(SubmissionSchema)),
@@ -106,3 +104,5 @@ TaskSchema.plugin(autoIncrement.plugin, { model: "Task", field: "tid" });
 
 export const Task = typedModel("Task", TaskSchema);
 export const Log = typedModel("Log", LogSchema);
+
+export type TaskDoc = ExtractDoc<typeof TaskSchema>

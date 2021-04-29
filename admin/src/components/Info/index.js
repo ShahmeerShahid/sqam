@@ -15,6 +15,16 @@ const Info = () => {
         mt="6"
         textAlign="center"
       >
+        The automarker supports partial marking, which leverages machine
+        learning and string similarity comparison to provide students with
+        partial marks.
+      </Text>
+      <Text
+        opacity={0.8}
+        fontSize={{ base: "lg", lg: "xl" }}
+        mt="6"
+        textAlign="center"
+      >
         It was developed under the supervision of Dr. Michael Liut and Dr. Ilir
         Dema.
       </Text>

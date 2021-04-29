@@ -4,12 +4,13 @@ import {
   Flex,
   FormLabel,
   Heading,
+  Link,
   Switch,
   Text,
   useColorMode,
 } from "@chakra-ui/core";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -36,7 +37,7 @@ const Header = () => {
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg">
-          <Link to="/">SQAM</Link>
+          <RouterLink to="/">SQAM</RouterLink>
         </Heading>
       </Flex>
 
@@ -59,7 +60,9 @@ const Header = () => {
         flexGrow={1}
       >
         <MenuItems>
-          <Link to="/tasks">Tasks</Link>
+          <Link as={RouterLink} to="/tasks" style={{ fontSize: "1.25em" }}>
+            Tasks
+          </Link>
         </MenuItems>
       </Box>
 

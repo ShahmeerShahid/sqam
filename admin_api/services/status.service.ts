@@ -15,8 +15,7 @@ async function handleStatusMessage(
 
 	if (task == null) throw new NotFoundError(`Task with tid ${tid} not found`);
 
-	Task.findOneAndUpdate({ tid: tid }, { $set: { status: status } });
-
+	await Task.findOneAndUpdate({ tid: tid }, { $set: { status: status } });
 	if (status === "Downloaded") {
 		// Start marking of assignment
 		if (!task.initFile || !task.solutions) {

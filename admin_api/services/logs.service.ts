@@ -14,7 +14,7 @@ async function addLog(log: LogMessage) {
 	const filter = { tid };
 	const update = { $push: { logs: logToAppend } };
 	try {
-		Task.findOneAndUpdate(filter, update).orFail();
+		await Task.findOneAndUpdate(filter, update).orFail();
 	} catch (err) {
 		throw new NotFoundError(`Task with tid ${tid} not found`);
 	}

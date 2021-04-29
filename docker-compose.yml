@@ -87,6 +87,10 @@ services:
       - /app/node_modules
     environment:
       - PORT=80
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+
     ports:
       - "8001:80"
     restart: on-failure

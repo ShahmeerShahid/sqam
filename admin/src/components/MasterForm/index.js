@@ -239,7 +239,7 @@ export const EnhancedMasterForm = withFormik({
       name,
       marking_type,
       db_type,
-      connector: connector.url.slice(7),
+      connector: connector.name,
       max_marks,
       max_marks_per_question,
       question_names,

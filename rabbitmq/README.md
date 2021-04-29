@@ -51,7 +51,7 @@ Optional:
 }
 ```
 
-### `grades`
+### `grades` (Not currently implemented/used)
 
 Purpose: Publish grades as a result of the automarker running
 

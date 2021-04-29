@@ -1,6 +1,6 @@
 import { StatusMessage, TaskMessage } from "../constants";
+import { logsService, tasksService } from "./index";
 import { Task } from "../models/task.model";
-import tasksService from "./tasks.service";
 import { Channel } from "amqplib";
 import { NotFoundError } from "../errors";
 
@@ -11,26 +11,11 @@ async function handleStatusMessage(
 	let tid = statusMessage.tid;
 	let status = statusMessage.status;
 
-	let task = await Task.findOne({ tid: tid }, function (error, doc) {});
+	let task = await Task.findOne({ tid: tid });
 
 	if (task == null) throw new NotFoundError(`Task with tid ${tid} not found`);
 
-	await new Promise((resolve, reject) => {
-		Task.findOneAndUpdate(
-			{ tid: tid },
-			{ $set: { status: status } },
-			function (err, doc) {
-				if (err) {
-					reject(err);
-				} else if (doc === null) {
-					reject(new NotFoundError(`Task with tid ${tid} not found`));
-				} else {
-					resolve(doc);
-				}
-			}
-		);
-	});
-
+	await Task.findOneAndUpdate({ tid: tid }, { $set: { status: status } });
 	if (status === "Downloaded") {
 		// Start marking of assignment
 		if (!task.initFile || !task.solutions) {

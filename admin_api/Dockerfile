@@ -9,4 +9,4 @@ RUN npm install
 # Copy the current directory contents into the container at /api
 COPY . .
 # Run the app when the container launches
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

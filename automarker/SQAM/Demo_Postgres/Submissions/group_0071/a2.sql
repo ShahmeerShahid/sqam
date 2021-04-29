@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements WORKS!!!
+-- START Query 1
 
 SELECT 
 	custref as cuid, 
@@ -16,7 +16,8 @@ ORDER BY
 ;
 
 
--- Query 2 statements WORKS
+-- END Query 1
+-- START Query 2
 
 SELECT 
 	o.oid as oid,
@@ -33,7 +34,8 @@ WHERE
 ;
 
 
--- Query 3 statements WORKS!!
+-- END Query 2
+-- START Query 3
 
 SELECT 
 	c.cid as cuid,
@@ -46,7 +48,8 @@ ORDER BY totalsales DESC
 ;
 
 
--- Query 4 statements WORKS!!
+-- END Query 3
+-- START Query 4
 
 SELECT
 	p.pid as pid,
@@ -61,7 +64,8 @@ ORDER BY totalcost ASC
 ;
 
 
--- Query 5 statements WORKS!
+-- END Query 4
+-- START Query 5
 
 SELECT
 	p.pid as pid,
@@ -73,7 +77,8 @@ ORDER BY pname ASC
 ;
 
 
--- Query 6 statements WORKS
+-- END Query 5
+-- START Query 6
 
 SELECT
 	c.cid as cid,
@@ -87,7 +92,8 @@ ORDER BY cname ASC
 ;
 
 
--- Query 7 statements  WORKS!
+-- END Query 6
+-- START Query 7
 
 SELECT
 	cast(to_char(o.odate,'YYYYMM') as int) AS period,
@@ -100,7 +106,8 @@ ORDER BY period ASC
 ;
 
 
--- Query 8 statements WORKS - double check commision calculate
+-- END Query 7
+-- START Query 8
 
 SELECT
 	c.cid as cid,
@@ -114,7 +121,8 @@ ORDER BY cname ASC
 ;
 
 
--- Query 9 statements WORKS
+-- END Query 8
+-- START Query 9
 
 SELECT
 	o.pid as pid,
@@ -126,7 +134,8 @@ WHERE o.odate <= '2015-12-31'
 ORDER BY date ASC
 ;
 
--- Query 10 statements  WORKS
+-- END Query 9
+-- START Query 10
 INSERT INTO Query10 (
 (SELECT
             l.lid as lid, l.lname as lname, SUM(o.quantity * o.price) as totalsales
@@ -151,3 +160,4 @@ WHERE lid NOT IN
 ) 
 ORDER BY lname ASC
 );
+-- END Query 10

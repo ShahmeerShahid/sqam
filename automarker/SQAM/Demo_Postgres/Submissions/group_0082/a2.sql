@@ -4,20 +4,22 @@
 
 
 
--- Query 1 statements
+-- START Query 1
 SELECT DISTINCT R1.custref AS cuid, C2.cname AS cuname, R1.custid AS refid, C1.cname AS refname
 		   FROM referral R1, customer C1, customer C2
 		   WHERE R1.custid = C1.cid AND R1.custref = C2.cid
                    ORDER BY C2.cname ASC;
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 SELECT O.oid AS oid, O.pid AS pid, O.shipwid AS wid, O.quantity AS ordqty, S.quantity AS stockqty
 		    FROM orders O, stock S
 		    WHERE S.quantity < O.quantity AND O.status = 'O' AND O.pid = S.pid AND O.shipwid = S.wid;
 
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 SELECT C.cid AS cuid, C.cname AS cuname, SUM(O.quantity * O.price) AS totalsales 
 		    FROM customer C, orders O
 		    WHERE O.status = 'S' AND C.cid = O.cid
@@ -25,7 +27,8 @@ SELECT C.cid AS cuid, C.cname AS cuname, SUM(O.quantity * O.price) AS totalsales
 	            ORDER BY totalsales DESC;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 SELECT P.pid AS pid, P.pname AS pname, SUM(P.cost * O.quantity) AS totalcost
 		    FROM product P, orders O
 		    WHERE O.status = 'S' AND P.pid = O.pid
@@ -33,7 +36,8 @@ SELECT P.pid AS pid, P.pname AS pname, SUM(P.cost * O.quantity) AS totalcost
                     ORDER BY totalcost ASC;
 
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 SELECT P.pid, P.pname, P.introdate 
 		    FROM product P 
 		    WHERE P.pid NOT IN 
@@ -41,7 +45,8 @@ SELECT P.pid, P.pname, P.introdate
 		    ORDER BY P.pname;
 
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 SELECT C.cid AS cid, C.cname AS cname, L.lname AS locname
  		    FROM customer C, location L 
 		    WHERE L.lid = C.lid AND C.cid NOT IN 
@@ -49,7 +54,8 @@ SELECT C.cid AS cid, C.cname AS cname, L.lname AS locname
 		    ORDER BY cname ASC;
 
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 SELECT CAST (to_char(O.odate, 'YYYYMM') AS Integer) AS period, SUM(O.price * O.quantity) AS totalsales, SUM(P.cost * O.quantity) AS totalcost
 		   FROM orders O, product P
 		   WHERE P.pid = O.pid AND O.status = 'S'
@@ -57,7 +63,8 @@ SELECT CAST (to_char(O.odate, 'YYYYMM') AS Integer) AS period, SUM(O.price * O.q
                    ORDER BY period ASC;
       
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 CREATE VIEW purchases as
 SELECT r.custid, SUM(r.commission * o.quantity * o.price) AS commission
 FROM referral r, orders o
@@ -72,7 +79,8 @@ SELECT p.custid, c.cname, SUM(p.commission)
 
 DROP VIEW purchases;
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 SELECT P.pid AS pid, P.introDate as date, SUM(O.quantity * O.price) AS totalsales
 		    FROM product P, orders O
                     WHERE O.status = 'S' AND O.pid = P.pid AND P.introdate <= '31 Dec 2015'
@@ -80,7 +88,8 @@ SELECT P.pid AS pid, P.introDate as date, SUM(O.quantity * O.price) AS totalsale
 		    ORDER BY P.introdate ASC;
 
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 CREATE VIEW ShippedOrder as
 	SELECT L.lid AS lid, L.lname AS lname, SUM(O.quantity * O.price) AS totalsales
 	FROM orders O, warehouse W, location L
@@ -95,11 +104,10 @@ CREATE VIEW NotInOrder as
 				(SELECT lid FROM ShippedOrder)
 	GROUP BY L.lid, L.lname;
 
-INSERT INTO Query10 ((SELECT *
-		     FROM ShippedOrder) UNION 
-		     (SELECT * FROM NotInOrder)
-		      ORDER BY lname
-		     );
+	SELECT *
+	FROM ShippedOrder) UNION 
+	SELECT * FROM NotInOrder
+	ORDER BY lname;
 
 DROP VIEW NotInOrder;
 DROP VIEW ShippedOrder;
@@ -112,3 +120,4 @@ DROP VIEW ShippedOrder;
 
 
 
+-- END Query 10

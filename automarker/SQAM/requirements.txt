@@ -4,7 +4,8 @@ textdistance
 statistics
 mysql-connector-python
 py-postgresql
-psycopg2
+#psycopg2
+psycopg2-binary
 jinja2
-flask
-requests
+aio_pika
+sqlparse

@@ -2,7 +2,7 @@
 -- You can create intermediate views (as needed). Remember to drop these views after you have populated the result tables.
 -- You can use the "\i a2.sql" command in psql to execute the SQL commands in this file.
 
--- Query 1 statements
+-- START Query 1
 
 
 
@@ -17,7 +17,8 @@ ORDER BY refName ASC;
 
 
 
--- Query 2 statements
+-- END Query 1
+-- START Query 2
 
 CREATE TEMP VIEW Table2 AS
 
@@ -47,7 +48,8 @@ SELECT * FROM Table2
 DROP VIEW NotInStock; 
 DROP VIEW Table2;
 
--- Query 3 statements
+-- END Query 2
+-- START Query 3
 
 SELECT cust.cid AS cuid, cust.cname AS cuname, SUM(ord.price * ord.quantity) AS totalsales
 
@@ -60,7 +62,8 @@ SELECT cust.cid AS cuid, cust.cname AS cuname, SUM(ord.price * ord.quantity) AS 
 	ORDER BY totalsales DESC;
 
 
--- Query 4 statements
+-- END Query 3
+-- START Query 4
 
 SELECT prod.pid AS pid, prod.pname AS pname, SUM(prod.cost * ord.quantity) AS totalcost
 
@@ -72,7 +75,8 @@ SELECT prod.pid AS pid, prod.pname AS pname, SUM(prod.cost * ord.quantity) AS to
 
 	ORDER BY totalcost ASC;
 
--- Query 5 statements
+-- END Query 4
+-- START Query 5
 
 SELECT pid, pname, introdate
 
@@ -82,7 +86,8 @@ SELECT pid, pname, introdate
 
 	ORDER BY pname ASC;
 
--- Query 6 statements
+-- END Query 5
+-- START Query 6
 
 SELECT cid, cname, lid AS locname
 
@@ -92,7 +97,8 @@ SELECT cid, cname, lid AS locname
 
 	ORDER BY cname ASC;
 
--- Query 7 statements
+-- END Query 6
+-- START Query 7
 
 
 -- INSERT INTO Query7
@@ -116,7 +122,8 @@ DROP VIEW test7;
 
 
 
--- Query 8 statements
+-- END Query 7
+-- START Query 8
 
 SELECT cust.cid AS cid, cust.cname AS cname, SUM(ord.quantity * ord.price * ref.commission) AS commission
 
@@ -128,7 +135,8 @@ SELECT cust.cid AS cid, cust.cname AS cname, SUM(ord.quantity * ord.price * ref.
 
 	ORDER BY cname ASC;
 
--- Query 9 statements
+-- END Query 8
+-- START Query 9
 
 CREATE TEMP VIEW test9 AS
 
@@ -147,7 +155,8 @@ SELECT * FROM test9;
 
 DROP VIEW test9;
 
--- Query 10 statements
+-- END Query 9
+-- START Query 10
 
 CREATE TEMP VIEW Atleast1 AS
 
@@ -207,3 +216,4 @@ DROP VIEW Atleast1;
 
 
 
+-- END Query 10

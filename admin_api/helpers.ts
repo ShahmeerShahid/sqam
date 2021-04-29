@@ -1,5 +1,5 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const dbAddress = process.env.PROD_DB_URL || "localhost";
 
@@ -23,4 +23,4 @@ function dbClose() {
   return mongoose.disconnect();
 }
 
-module.exports = { dbConnect, dbClose };
+export default { dbConnect, dbClose };

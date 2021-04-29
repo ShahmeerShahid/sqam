@@ -1,4 +1,4 @@
-import { StatusMessage, TaskMessage } from "../constants";
+import { StatusMessage, TaskMessage, LogMessage } from "../constants";
 import { logsService, tasksService } from "./index";
 import { Task } from "../models/task.model";
 import { Channel } from "amqplib";
@@ -17,6 +17,9 @@ async function handleStatusMessage(
 
 	await Task.findOneAndUpdate({ tid: tid }, { $set: { status: status } });
 	if (status === "Downloaded") {
+		let log: LogMessage = {message: "Finished downloading submissions, initiating marking", source: "api", tid}
+		logsService.addLog(log)
+		
 		// Start marking of assignment
 		if (!task.initFile || !task.solutions) {
 			throw new Error("Files were not downloaded");

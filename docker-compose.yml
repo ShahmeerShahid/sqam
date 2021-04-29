@@ -60,6 +60,8 @@ services:
       - AUTOMARKER_URL=automarker
       - DB_USERNAME=api
       - DB_PASSWD=Y^I8s67tF2ur
+      - CHOKIDAR_USEPOLLING=true
+
     volumes:
       - ./admin_api:/admin_api
       - /admin_api/node_modules

@@ -90,6 +90,7 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
+      - CONNECTOR_NAME=Markus
 
     ports:
       - "8001:80"

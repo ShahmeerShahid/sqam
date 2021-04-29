@@ -5,7 +5,8 @@ import {
 import { downloadSubmissions } from "../lib/downloader.js";
 
 export function setupDownloadsConsumer(channel) {
-	const queue_name = "task_to_download_Markus";
+    const connector_name = process.env.CONNECTOR_NAME | "Markus"
+	const queue_name = `task_to_download_${connector_name}`;
 	channel.assertQueue(queue_name);
 	channel.consume(queue_name, async (message) => {
 		if (message == null)

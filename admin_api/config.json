@@ -2,8 +2,6 @@
 	"connectors": [
 		{
 			"name": "Markus",
-			"url": "http://markus-connector",
-			"port": 8001,
 			"info": "Any extra general information to be displayed on the submission page/form e.g. group names must not have whitespace characters. Field specific should be provided as shown below.",
 			"extra_fields": {
 				"markus_URL": {

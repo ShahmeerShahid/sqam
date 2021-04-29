@@ -51,6 +51,37 @@ Optional:
 }
 ```
 
+### `task_to_download_:connector_name`
+Purpose: Trigger download of submissions for a specific task. The connector name is part of the queue name as to not make connectors conflict when consuming from the same queue. Connector name is as configured in `/admin_api/config.json`.
+
+Expected message schema:
+
+
+**Fields**:
+Required:
+  - "tid": Int
+  - "download_directory": String
+  - "extra_fields": JSON Object (see /admin_api/config.json)
+
+
+#### Message example:
+
+Queue: `task_to_download_Markus`
+
+```json
+{
+    "tid": 7,
+    "download_directory": "/var/downloads/7/",
+    "extra_fields": {
+      "markus_URL": "http://www.test-markus.com",
+      "assignment_id": 1,
+      "api_key": "hasf08etJSkf="
+    }
+}
+```
+
+
+
 ### `grades` (Not currently implemented/used)
 
 Purpose: Publish grades as a result of the automarker running

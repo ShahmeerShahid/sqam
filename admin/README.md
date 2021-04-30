@@ -1,4 +1,4 @@
-````
+
 ## 📝 Table of Contents
 - [📝 Table of Contents](#-table-of-contents)
 - [🏁 Getting Started <a name = "getting_started"></a>](#-getting-started-)
@@ -93,4 +93,4 @@ PROD_ADMIN_URL=admindb
 - Jarrod Servilla
 - Vaishvik Maisuria
 - Terry Zhou
-````
+

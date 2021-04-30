@@ -1,523 +1,105 @@
-Node.js API utilizing Mongoose to interface with the Mongo database.
+# Admin API
 
-## Models
+This service acts as the "brain" of the system. It uses MongoDB to manage the state of the system, exposes RESTful endpoints for the frontend to use, and communicates with other services through RabbitMQ.
 
-Defined schemas for User/Tasks
+## Getting Started
 
-## Resources
+This service is written in Typescript. Install Node and Typescript, then run `npm start` or `npm start dev`.
 
-<!-- Endpoints for Users/Tasks -->
+## Directory Structure
 
-### Tasks
-
-**Definition**
-`GET /api/tasks`
-
-**Response**
-
-- `200 OK` on success
-  List of all tasks
-
-```json
-[
-  {
-    "status": "Downloading",
-    "connector": "markus-connector",
-    "num_submissions": 0,
-    "lecture_section": "LEC102",
-    "max_marks": 80,
-    "max_marks_per_question": [
-      3,
-      4,
-      3,
-      3,
-      4,
-      4,
-      2,
-      2,
-      4,
-      5,
-      3,
-      4,
-      4,
-      4,
-      3,
-      5,
-      6,
-      7
-    ],
-    "marking_type": "partial",
-    "question_names": [
-      "Q1",
-      "Q2",
-      "Q3.A",
-      "Q3.B",
-      "Q3.C",
-      "Q4.A",
-      "Q4.B",
-      "Q4.C",
-      "Q5.A",
-      "Q5.B",
-      "Q6.A",
-      "Q6.B",
-      "Q6.C",
-      "Q7.A",
-      "Q7.B",
-      "Q8",
-      "Q9",
-      "Q10"
-    ],
-    "submission_file_name": "queries.sql",
-    "create_tables": "./Demo/Winter_2020/createTable.sql",
-    "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
-    "create_function": "./Demo/Winter_2020/createFunction.sql",
-    "load_data": "./Demo/Winter_2020/loadData.sql",
-    "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
-    "submissions_path": "./Demo/Submissions/",
-    "timeout": 100,
-    "db_type": "mysql",
-    "_id": "5fb741d5ba9512001295d833",
-    "name": "new task",
-    "extra_fields": {
-      "markus_URL": "http://www.test-markus.com",
-      "assignment_id": 1,
-      "api_key": "dfgAHFDFUSF="
-    },
-    "submissions": [],
-    "createdAt": "2020-11-20T04:11:01.148Z",
-    "updatedAt": "2020-11-20T04:11:01.191Z",
-    "tid": 0,
-    "__v": 0,
-    "logs": [
-      {
-        "text": "line 1",
-        "source": "connector",
-        "timestamp": "2021-20-1"
-      }
-    ]
-  }
-]
+```
+├── Dockerfile
+├── README.md
+├── config.json # Configuration file, see Configuration below
+├── constants.ts
+├── errors.ts
+├── helpers.ts
+├── models    # Database models
+│   ├── task.model.ts
+│   └── user.model.ts
+├── package-lock.json
+├── package.json
+├── rabbitmq    # RabbitMQ "routes"
+│   ├── consumers
+│   │   ├── grades.consumer.ts
+│   │   ├── index.ts
+│   │   ├── logs.consumer.ts
+│   │   └── status.consumer.ts
+│   └── init.ts
+├── routes    # HTTP endpoints
+│   ├── connectors.router.ts
+│   ├── submissions.router.ts
+│   └── tasks.router.ts
+├── server.ts  # Main file
+├── services
+│   ├── connectors.service.ts
+│   ├── grades.service.ts
+│   ├── index.ts
+│   ├── logs.service.ts
+│   ├── status.service.ts
+│   └── tasks.service.ts
+├── tests
+│   ├── setup.js
+│   ├── submissionsRouter.test.js
+│   └── tasksRouter.test.js
+└── tsconfig.json
 ```
 
-**Definition**
-`GET /api/tasks/:tid`
+## Configuration
 
-**Response**
+### Environment variables
 
-- `200 OK` on success
-  A task object
+The following environment variables are required to be configured in `docker-compose.yml`
 
-```json
-{
-  "status": "Downloading",
-  "connector": "markus-connector",
-  "num_submissions": 0,
-  "lecture_section": "LEC102",
-  "max_marks": 80,
-  "max_marks_per_question": [
-    3,
-    4,
-    3,
-    3,
-    4,
-    4,
-    2,
-    2,
-    4,
-    5,
-    3,
-    4,
-    4,
-    4,
-    3,
-    5,
-    6,
-    7
-  ],
-  "marking_type": "partial",
-  "question_names": [
-    "Q1",
-    "Q2",
-    "Q3.A",
-    "Q3.B",
-    "Q3.C",
-    "Q4.A",
-    "Q4.B",
-    "Q4.C",
-    "Q5.A",
-    "Q5.B",
-    "Q6.A",
-    "Q6.B",
-    "Q6.C",
-    "Q7.A",
-    "Q7.B",
-    "Q8",
-    "Q9",
-    "Q10"
-  ],
-  "submission_file_name": "queries.sql",
-  "create_tables": "./Demo/Winter_2020/createTable.sql",
-  "create_trigger": "./Demo/Winter_2020/createTrigger.sql",
-  "create_function": "./Demo/Winter_2020/createFunction.sql",
-  "load_data": "./Demo/Winter_2020/loadData.sql",
-  "solutions": "./Demo/Winter_2020/solutions_winter_2020.sql",
-  "submissions_path": "./Demo/Submissions/",
-  "timeout": 100,
-  "db_type": "mysql",
-  "_id": "5fb741d5ba9512001295d833",
-  "name": "new task",
-  "extra_fields": {
-    "markus_URL": "http://www.test-markus.com",
-    "assignment_id": 1,
-    "api_key": "dfgAHFDFUSF="
-  },
-  "submissions": [],
-  "createdAt": "2020-11-20T04:11:01.148Z",
-  "updatedAt": "2020-11-20T04:11:01.191Z",
-  "tid": 0,
-  "__v": 0
-}
-```
+- PORT
+- PROD_DB_URL
+- DB_USERNAME
+- DB_PASSWD
 
-**Definition**
-`POST /api/tasks`
 
-**Parameters**
-
-- name
-- connector (["markus-connector"])
-  optional:
-- status (["Pending", "Downloading", "Downloaded", "Error", "Marking", "Complete"])
-- extra_fields
-- submissions (list of submission objects)
-
-CANNOT PASS IN: tid, \_id
-
-**Response**
-
-- `201 CREATED` on success
-  The task created
-
-```json
-{
-  "status": "Marking",
-  "num_submissions": 0,
-  "extra_fields": [
-    {
-      "markus_URL": "http://www.test-markus.com",
-      "assignment_id": 1,
-      "api_key": "dfgAHFDFUSF="
-    }
-  ],
-  "connector": "markus-connector",
-  "_id": "5fb4722245f940001851ea5e",
-  "name": "CSC343 Final Exam",
-  "submissions": [
-    {
-      "status": "Pending",
-      "_id": "5fb4722245f940001851ea5f",
-      "name": "servilla"
-    }
-  ],
-  "createdAt": "2020-11-18T01:00:18.177Z",
-  "updatedAt": "2020-11-18T01:00:18.177Z",
-  "tid": 0,
-  "__v": ,
-  "logs": []
-}
-```
-
-**Definition**
-`PATCH /api/tasks/status/:tid`
-
-**Parameters**
-
-- tid
-  optional:
-- name
-- status (["Pending", "Downloading", "Downloaded", "Error",
-  "Marking", "Complete"])
-- submissions
-- num_submissions
-- extra_fields
-
-CANNOT PASS IN: tid, logs, connector, \_id
-
-**Response**
-
-- `200 OK` on success
-
-```json
-{
-  "message": "Task 1 successfully updated"
-}
-```
-
-**Definition**
-`PATCH /api/tasks/status/:tid`
-
-This endpoint will be removed in the future!
-
-**Parameters**
-
-- tid
-- status (["Pending", "Downloading", "Downloaded", "Error",
-  "Marking", "Complete"])
-  optional:
-- num_submissions
-
-**Response**
-
-- `200 OK` on success
-
-```json
-{
-  "message": "Task 1 successfully updated to status Marking"
-}
-```
-
-### Submissions
-
-Submissions is subject to change while we shift over
-the Automarker to use the concept of submissions
-so keep that in mind!
-
-**Definition**
-`GET /submissions/:tid`
-A list of submissions associated with task tid
-
-**Parameters**
-
-- tid
-
-**Response**
-
-- `200 OK` on success
-  List of all submissions
-
-```json
-[
-  {
-    "status": "Pending",
-    "_id": "5fb4713645f940001851ea56",
-    "name": "servilla"
-  },
-  {
-    "status": "Pending",
-    "_id": "5fb4713645f940001851ea57",
-    "name": "shahmeer"
-  }
-]
-```
-
-**Definition**
-`POST /api/submissions/:tid`
-
-**Parameters**
-
-- tid
-- names (list of submission names)
-
-  **Response**
-
-- `201 CREATED` on success
-
-```json
-{
-  "message": "Submission(s) successfully added to task 1"
-}
-```
-
-**Definition**
-`PATCH /api/submissions/status/:sid`
-
-**Parameters**
-
-- sid (Mongo generated ObjectId)
-- status (["Pending", "Error", "Marking", "Complete"])
-
-**Response**
-
-- `200 OK` on success
-
-```json
-{
-  "message": "Submission 1 successfully updated to status Marking"
-}
-```
-
-### Logs
-
-**Definition**
-`PUT /api/tasks/:tid/logs`
-
-Note: List of supplied logs will be appended to existing list of logs for given task.
-
-**Parameters**
-
-- logs: a list of strings
-- source: String, must be one of "frontend", "automarker", "connector", or "api"
-
-**Example Request Body**
-
-```json
-{
-  "logs": ["first line", "second line", "third line", "fourth line"],
-  "source": "automarker"
-}
-```
-
-**Response**
-
-- `200 OK` on success
-
-```json
-{
-  "message": "Task :tid logs successfully updated"
-}
-```
-
-- `404 Not found` if no such task with given tid
 
 ### Connectors
-
-**Definition**
-`GET /api/connectors`
-
-**Response**
-
-- `200 OK` on success
-  List of connectors (name and url) that can be used to download submissions
+Available connectors must be configured in `config.json`. Each connector must provide a name, info, and extra fields, as shown below:
 
 ```json
-[
-  {
-    "name": "Markus",
-    "url": "http://markus-connector",
-    "port": 8001
-  },
-  {
-    "name": "Example",
-    "url": "http://example",
-    "port": 3000
-  }
-]
-```
-
----
-
-## `config.json`
-
-`config.json` can be used to configure the system settings.
-
-### Connectors
-
-To add/remove connectors, specify the name and url of the connector in `config.json`.
-
-# Legacy Endpoints
-
-```js
-/*	PATCH /tasks/:tid
-    @params: status, name, submissions, num_submissions, extra_fields
-    @return:
-      ON SUCCESS: 200
-      ON FAILURE: 404
-*/
-
-router
-  .route("/:tid")
-  .patch(
-    [
-      param("tid").isInt({ min: 0 }),
-      body("status").optional().isIn(constants.statuses),
-      body("name").optional().notEmpty(),
-      body("submissions").optional().isArray({ min: 0 }),
-      body("num_submissions").optional().isInt({ min: 0 }),
-      body("extra_fields").optional().notEmpty(),
-    ],
-    (req: Request, res: Response) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      const tid = req.params.tid;
-      let update = {};
-      const restrictedKeys = ["tid", "logs", "connector", "_id"];
-
-      Object.keys(TaskSchema.obj).forEach((key) => {
-        if (restrictedKeys.includes(key)) return;
-        //TODO: handle the case where they pass in logs!
-        else if (key === "submissions" && req.body[key]) {
-          const submissions = req.body.submissions.map((name) => {
-            return {
-              name: name,
-            };
-          });
-          update.submissions = submissions;
-        } else if (req.body[key]) update[key] = req.body[key];
-      });
-
-      Task.findOneAndUpdate({ tid: tid }, update, function (err, doc) {
-        if (doc === null) {
-          return res.sendStatus(404);
-        } else if (err) {
-          return res.sendStatus(500);
-        } else {
-          res.status(200).json({
-            message: `Task ${tid} successfully updated`,
-          });
+{
+  "connectors": [
+    {
+      "name": "Markus",
+      "info": "Any extra general information to be displayed on the submission page/form e.g. group names must not have whitespace characters. Field specific should be provided as shown below.",
+      "extra_fields": {
+        "markus_URL": {
+          "type": "string",
+          "required": true,
+          "info": "Information specific to this field e.g. Example: http://www.test-markus.com, NOT www.test-markus.com or http://www.test-markus.com/en/main",
+          "placeholder": "http://www.test-markus.com"
+        },
+        "assignment_id": {
+          "type": "number",
+          "required": true,
+          "info": "Found in the URL when editing the assignment. E.g. http://www.test-markus.com/en/assignments/1/edit would have ID 1.",
+          "placeholder": "1"
+        },
+        "api_key": {
+          "type": "string",
+          "required": true,
+          "info": "Found on the homepage of your Markus instance.",
+          "placeholder": "hasf08etJSkf="
         }
-      });
-    }
-  );
-
-/*	PUT /tasks/:tid/logs
-    @params: logs
-    @return:
-      ON SUCCESS: 200
-      ON FAILURE: 404
-*/
-router
-  .route("/:tid/logs")
-  .put(
-    [
-      param("tid").isInt({ min: 0 }),
-      body("logs").isArray(),
-      body("source").optional().isIn(constants.logSources),
-    ],
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
       }
-      const tid = req.params.tid;
-      const logsToAppend = [];
-      for (line in req.body.logs) {
-        logsToAppend.push(
-          new Log({
-            timestamp: new Date(),
-            text: req.body.logs[line],
-            source: req.body.source,
-          })
-        );
-      }
-
-      Task.findOneAndUpdate(
-        { tid: tid },
-        { $push: { logs: { $each: logsToAppend } } },
-        function (err, doc) {
-          if (doc === null) {
-            res.sendStatus(404);
-          } else if (err) {
-            console.log(err);
-            res.sendStatus(500);
-          } else {
-            res.status(200).json({
-              message: `Task ${tid} logs successfully updated`,
-            });
-          }
-        }
-      );
     }
-  );
+  ]
+}
 ```
+For each field, `type`, `required` and `placeholder` MUST be provided. `info` is optional. JSON types can be found at https://json-schema.org/understanding-json-schema/reference/type.html. The frontend will dynamically render a form based on this configuration.
+
+The connector name must be the same as what was provided in `docker-compose.yml`, see `connectors/README.md` for more information.
+
+## API Documentation
+
+After starting the system, visit http://localhost:9000/docs to view our API documentation using Swagger UI.
+
+## Future Work
+
+- Migrate business logic from `routes/tasks.router.ts` to `services/*.service.ts`

@@ -37,3 +37,38 @@ Week of 2020-09-14:
 
 2020-10-26:
 - Helped Jarrod setup React/Node backend in docker-compose (3 hours)
+
+Month of December:
+
+Had 2 biweekly meetings in order to plan work that will be done over winter break. Begin work on implementing connector specification.
+Help Erik/Vaishvik debug issues in Automarker/Admin respectively.
+Spend significant amount of time reviewing PRs
+Implement logging endpoints in Admin API to allow other services to send logs through PATCH requests
+
+Month of January (2021):
+
+Fix discovered bugs in MarkUs connector (10 hours)
+Implement remaining endpoints in Admin API (10 hours)
+Research alternatives to current sytem architecture (5 hours)
+Discover RabbitMQ, prepare documentation on features (5 hours)
+
+
+Month of February:
+
+2 biweekly meetings, focus on changing to a more "agile" process in which Prof priorities are considered first and foremost.
+Switch over entire Admin API from Javascript to Typescript (20 hours)
+Start planning RabbitMQ integration, build proof of concept to allow other team members to quickly adopt changes (https://github.com/ShahmeerShahid/RabbitMQ-Demo) (10 hours)
+
+Month of March:
+Rewrite architecture docs to account for completely new system architecture (10 hours)
+Present RabbitMQ proof of concept to team members, guide team members through codebase & admin console (4 hours)
+Begin moving Admin API to RabbitMQ (20 hours)
+Help Sandy prepare system for use in CSC343 (3 hours)
+
+
+Month of April:
+Help Sandy fix bugs discovered when using system in CSC343 (5 hours)
+Build outline of final presentation. (2 hours)
+Walk through presentation outline with rest of team and assign parts to individuals (5 hours)
+Work on my part of presentation  (10 hours)
+Rehearse presentation with rest of group multiple times, refine my part of presentation (5 hours)

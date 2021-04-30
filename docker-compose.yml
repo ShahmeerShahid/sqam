@@ -60,6 +60,8 @@ services:
       - AUTOMARKER_URL=automarker
       - DB_USERNAME=api
       - DB_PASSWD=Y^I8s67tF2ur
+      - CHOKIDAR_USEPOLLING=true
+
     volumes:
       - ./admin_api:/admin_api
       - /admin_api/node_modules
@@ -85,6 +87,11 @@ services:
       - /app/node_modules
     environment:
       - PORT=80
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - CONNECTOR_NAME=Markus
+
     ports:
       - "8001:80"
     restart: on-failure

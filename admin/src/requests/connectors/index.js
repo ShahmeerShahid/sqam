@@ -5,9 +5,11 @@ export async function fetchConnectors() {
   return response.data;
 }
 
-export async function fetchExtraFields(port) {
+export async function fetchExtraFields(connector_name) {
   try {
-    const response = await getRequestSpecifyPort(`:${port}/extra_fields/`);
+    const response = await getRequest(
+      `/api/connectors/${connector_name}/extra_fields/`
+    );
     return response.data;
   } catch (e) {
     return {

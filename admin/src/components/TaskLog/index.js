@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Heading, Stack, Icon, Flex, Select } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 
+// function to format a single line of log 
 export function formatLog(logField) {
   return "".concat(
     "> ",
@@ -14,6 +15,7 @@ export function formatLog(logField) {
   );
 }
 
+// return each row of the Log View
 function LogRow({ logField }) {
   return (
     <Box d="flex" justifyContent="space-between" alignItems="center">
@@ -22,6 +24,7 @@ function LogRow({ logField }) {
   );
 }
 
+// The main component of the LogView
 function TaskLog({ taskLogs, tid }) {
   let logSources = ["All", "frontend", "automarker", "connector", "api"];
   const [value, setValue] = useState("All");

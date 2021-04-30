@@ -18,6 +18,7 @@ const MenuItems = ({ children }) => (
   </Text>
 );
 
+// Header bar for all pages of the website 
 const Header = () => {
   const [show, setShow] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,12 +36,14 @@ const Header = () => {
       bg={color[colorMode]}
       color="white"
     >
+      {/* Title of the Automarker */}
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg">
           <RouterLink to="/">SQAM</RouterLink>
         </Heading>
       </Flex>
 
+      
       <Box display={{ sm: "block", md: "none" }} onClick={handleToggle}>
         <svg
           fill="white"
@@ -52,7 +55,7 @@ const Header = () => {
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
       </Box>
-
+      {/* Link to Task page */}
       <Box
         display={{ sm: show ? "block" : "none", md: "flex" }}
         width={{ sm: "full", md: "auto" }}
@@ -65,7 +68,7 @@ const Header = () => {
           </Link>
         </MenuItems>
       </Box>
-
+      {/* Dark - Light mode */}
       <Box
         display={{ sm: show ? "block" : "none", md: "block" }}
         width={{ sm: "full", md: "auto" }}
@@ -77,7 +80,7 @@ const Header = () => {
         </FormLabel>
         <Switch color="gray" onChange={() => toggleColorMode()} />
       </Box>
-
+      {/* Dummy button to login page */}
       <Box
         display={{ sm: show ? "block" : "none", md: "block" }}
         width={{ sm: "full", md: "auto" }}

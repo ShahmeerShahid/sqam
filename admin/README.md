@@ -1,15 +1,17 @@
 ````
 ## 📝 Table of Contents
-- [Getting Started](#getting_started)
-- [Folder Structure](#folder_structure)
-- [Built Using](#built_using)
-- [Dev Tools](#dev_tools)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Environment Variables](#environment_variables)
-- [Current Issues](#issues)
-- [Authors](#authors)
+- [📝 Table of Contents](#-table-of-contents)
+- [🏁 Getting Started <a name = "getting_started"></a>](#-getting-started-)
+- [Folder Structure <a name = "folder_structure"></a>](#folder-structure-)
+- [Built Using <a name = "built_using"></a>](#built-using-)
+- [DevTools <a name = "dev_tools"></a>](#devtools-)
+	- [Prerequisites <a name = "prerequisites"></a>](#prerequisites-)
+	- [Installation <a name = "installation"></a>](#installation-)
+- [🎈 Usage <a name="usage"></a>](#-usage-)
+- [🌲Environment Variables<a name = "environment_variables"></a>](#environment-variables)
+- [Current Issues <a name = "issues"></a>](#current-issues-)
+- [Authors <a name = "authors"></a>](#authors-)
+
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
@@ -59,10 +61,10 @@ A step by step series of examples that tell you how to get a development environ
 3. From the root directory, run make build and then make run.
 
 ## 🎈 Usage <a name="usage"></a>
-- Navigate to localhost:3000 on your favourite browser
+- Navigate to localhost:3000 on your favorite browser
 
 ## 🌲Environment Variables<a name = "environment_variables"></a>
-Your environment file should be set up like the follow below: (or look at .envexample)
+Your environment file should be set up like the follow below: (or look at .env example)
 ​```
 ROOT_USERNAME=root
 ROOT_PWD=#########
@@ -74,7 +76,18 @@ LOCAL_URL=localhost
 PROD_ADMIN_URL=admindb
 ​```
 
-## Authors
+## Current Issues <a name = "issues"></a>
+1. Routes are not protected 
+	-> User should not be able to navigate to task detail page without authentication
+2. Server-side rendering for shibboleth authentication.
+	-> We need to use shibboleth authentication for the application. 
+	-> Figure out how shibboleth authentication deals with protecting API calls. 
+	-> Figure out how only using UserId divide the User, so that UI is dynamic with personal info for each user
+3. UI look can be improved on the TaskView the information of Task can be organized better using cards. 
+4. Log out functionality 
+5. Frontend logs need to be routed to TaskView logs component.
+
+## Authors <a name = "authors"></a>
 
 - Shahmeer Shahid
 - Jarrod Servilla

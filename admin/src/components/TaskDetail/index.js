@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/core";
 import { withSnackbar } from "notistack";
 
+// Individual row containing a single information(fieldName) about task 
 function TaskRow({ fieldName, fieldValue }) {
   const stripped = fieldValue.replace(/,/g, ", ");
   return (
@@ -38,6 +39,7 @@ function TaskRow({ fieldName, fieldValue }) {
   );
 }
 
+// Main component containing all the information about a task with a id of tid
 function TaskDetail({ taskData, tid }) {
   if (taskData) {
     ["_id", "logs", "createdAt", "updatedAt", "__v"].forEach(

@@ -13,7 +13,7 @@ import { CSVReader } from "react-papaparse";
 import template from "./questions.csv";
 
 const fileRef = createRef();
-
+// First form for adding task containing option of connector, preloaded configuration, questions 
 function SelectConnectorForm({
   connectors,
   enqueueSnackbar,

@@ -10,6 +10,7 @@ import { downloadReport, fetchTasksInfo } from "../../requests/tasks";
 
 function TaskView({ enqueueSnackbar }) {
   let { tid } = useParams();
+  // get the task information
   let tasks_info = useAsync({ promiseFn: fetchTasksInfo, tid: tid });
   let taskData = tasks_info.data;
   let taskLogs = [];
@@ -20,10 +21,12 @@ function TaskView({ enqueueSnackbar }) {
     }
   }, [tasks_info, enqueueSnackbar]);
 
+  // Separate the logs from the TaskData
   if (taskData) {
     taskLogs = taskData.logs;
   }
 
+  // function to handle download of report of marked submissions of a task 
   async function handleDownload() {
     const response = await downloadReport(tid);
     if (response.error) {
@@ -31,13 +34,9 @@ function TaskView({ enqueueSnackbar }) {
     } else {
       const link = document.createElement("a");
       link.href = URL.createObjectURL(
-        // new Blob([JSON.stringify(response.data)], {
-        //   type: "application/octet-stream",
-        // })
         new Blob([response.data], { type: "application/zip" })
       );
       link.value = "download";
-      // link.download = `task${tid}-report.json`;
       link.download = `task${tid}-report.zip`;
       link.click();
     }
@@ -79,11 +78,13 @@ function TaskView({ enqueueSnackbar }) {
         gap={6}
         templateColumns="repeat(auto-fit, minmax(350px, 1fr))"
       >
+        {/* Displays information about the task */}
         <TaskDetail
           taskData={taskData}
           tid={tid}
           enqueueSnackbar={enqueueSnackbar}
         />
+        {/* Displays the logs for each services running for the marking job*/}
         <TaskLog
           taskLogs={taskLogs}
           tid={tid}

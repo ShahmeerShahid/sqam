@@ -8,6 +8,7 @@ import vaishvik from "../../assets/img/vaishvik.PNG";
 
 import React from "react";
 
+// Component for individual contributor information
 const Contributor = ({ name, team, duties, img }) => {
   return (
     <Stack paddingBottom={4} textAlign="center" alignItems="center">
@@ -19,6 +20,7 @@ const Contributor = ({ name, team, duties, img }) => {
   );
 };
 
+// All contributor information
 const contributors = [
   {
     name: "Shahmeer Shahid",
@@ -58,6 +60,7 @@ const contributors = [
   },
 ];
 
+// Component of all contributors
 const ContributorsList = () => {
   return (
     <Stack p={5} shadow="md" borderWidth="1px" m={12} textAlign="center">

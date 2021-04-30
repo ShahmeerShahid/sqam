@@ -6,7 +6,7 @@ export async function fetchConnectors() {
   return response.data;
 }
 
-// 
+// Gets fields apart from `tid` and `download_directory` that the connector requires when `POST`ing download tasks.
 export async function fetchExtraFields(connector_name) {
   try {
     const response = await getRequest(

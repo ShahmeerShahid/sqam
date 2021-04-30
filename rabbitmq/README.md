@@ -1,5 +1,7 @@
 # RabbitMQ Documentation
 
+The purpose of this file is to document which queues are used in the system, and the required format of messages in each queue.
+
 ## Standards
 
 - All queues are declared/asserted **only when consumed**

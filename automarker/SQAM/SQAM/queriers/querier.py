@@ -14,10 +14,17 @@ class Querier(ABC):
 
     @abstractmethod
     def setup(self):
+        """
+        Setup is responsible for creating the database and loading the init.sql
+         file into the database. 
+        """
         pass
 
     @abstractmethod
     def remove_database(self):
+        """
+        Is responsible for removing the database from the DBMS
+        """
         pass
 
     @abstractmethod

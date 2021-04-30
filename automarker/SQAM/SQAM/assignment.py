@@ -33,6 +33,9 @@ class Assignment:
         self.group_marks = {}
 
     def create_submissions(self):
+        """
+        Creates Submissions by getting all submission files from the path_to_submissions folder.
+        """
         submissions = []
         submission_paths = [item for item in os.listdir(
             self.path_to_submissions) if os.path.isdir(os.path.join(self.path_to_submissions, item))]
@@ -51,6 +54,9 @@ class Assignment:
         return submissions
 
     def mark_submissions(self):
+        """
+        Mark all Submissions. Grades all submissions for the assignment.
+        """
         if self.refresh_level == "per_assignment":
             self.querier.setup()
         for submission in self.submissions:
@@ -58,12 +64,18 @@ class Assignment:
                 self.questions.keys(), self.querier, self.grader, self.all_questions, self.group_marks)
 
     def get_average(self):
+        """
+        Used to caculate the average mark of the assignment
+        """
         all_totals = []
         for submission in self.submissions:
             all_totals.append(submission.total_grade)
         return (sum(all_totals)/len(all_totals))/self.max_marks if len(all_totals) > 0 else 0
 
     def run_templator(self):
+        """
+        Generates all the result files
+        """
         aggregate_report_SQAM(os.path.join(self.path_to_submissions, "aggregated.json"),
                               SQAM.settings.TEMPLATES_PATH,
                               os.path.join(self.path_to_submissions, "report"))
@@ -99,6 +111,10 @@ class Assignment:
             f.write(json.dumps(self.group_marks))
 
     def run_aggregator(self):
+        """
+        Creates an aggregated json file based off all the result.json created
+        during the grading process
+        """
         Aggregate_SQAM(self.assignment_name,
                        self.path_to_submissions,
                        SQAM.settings.JSON_RESULT_FILENAME,

@@ -3,6 +3,7 @@ import json
 import traceback
 import time
 
+
 class Submission:
     """
     A representation of a Submission. A submission
@@ -28,8 +29,12 @@ class Submission:
         self.results_as_test_cases = {}
         self.queries = {}
         self.question_marks = {}
-        
+
     def refresh_dic(self):
+        """
+        This function resets the submissions attributes. 
+        This should be phased out from refactoring the graders 
+        """
         self.total_grade = 0.0
         self.all_grades = {}
         self.all_similarity_scores = {}
@@ -41,7 +46,11 @@ class Submission:
         self.extra_columns_per_query = {}
         self.results_as_test_cases = {}
         self.queries = {}
-    def grade_submission(self, questions, querier, grader,all_questions,group_marks):
+
+    def grade_submission(self, questions, querier, grader, all_questions, group_marks):
+        """
+        Grades all questions for the given submission. Uses the querier and grader.
+        """
         try:
             if self.refresh_level == "per_submission":
                 querier.setup()
@@ -49,7 +58,7 @@ class Submission:
             print("Getting the queries result")
             self.get_results_for_submission(querier)
             print("Grading started")
-            grader.grade_group(self,all_questions)
+            grader.grade_group(self, all_questions)
             grader.generate_test_results_for_group(self)
             self.dump_json_output_to_submission_folder()
             print(
@@ -57,9 +66,13 @@ class Submission:
             group_marks[self.name] = self.all_grades
             self.refresh_dic()
         except Exception as e:
-            print(f"Grading Failed for {self.name} Exception: {traceback.print_exc()}", flush=True)
+            print(
+                f"Grading Failed for {self.name} Exception: {traceback.print_exc()}", flush=True)
 
     def extract_all_queries(self, query_names):
+        """
+        Extract all queries 
+        """
         with open(self.path_to_submission, "r") as fd:
             file = fd.read()
             for query in query_names:
@@ -70,6 +83,9 @@ class Submission:
                 self.queries[query] = match.group() if match else None
 
     def dump_json_output_to_submission_folder(self):
+        """
+        Dumps the submissions results into a json text file 
+        """
         output = {}
         output["results"] = self.results_as_test_cases
 
@@ -78,6 +94,9 @@ class Submission:
             tgt.write("%s\n" % json.dumps(output))
 
     def get_results_for_submission(self, querier):
+        """
+        Use the querier to run the submission queries 
+        """
         for q_num, query in self.queries.items():
             if query:
                 if self.refresh_level == "per_query":

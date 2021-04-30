@@ -3,7 +3,9 @@ import SQAM.settings
 from SQAM.queriers.querier import Querier
 import sqlparse
 
-
+"""
+Querier for postgresql
+"""
 class PostGreSQLQuerier(Querier):
     def remove_database(self):
         cursor, cnx = self.get_admin_cursor()

@@ -1,7 +1,10 @@
 from SQAM.graders.grader import Grader
 import SQAM.settings as settings
 
-
+"""
+Binary Grader is a grader which marks questions as full marks or no marks.
+Answers must exactly match the solution in order to get full marks. 
+"""
 class Binary_Grader(Grader):
 
     def grade_question_for_group(self, group_results, solution_results, max_marks):

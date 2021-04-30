@@ -6,6 +6,12 @@ from SQAM.publish import log_message, publish_status
 from SQAM.task import Task
 import SQAM.settings
 
+"""
+    main.py is the starting point of all Tasks. It manages
+    the task_to_mark queue. 
+"""
+
+
 def create_process_task_fn(channel: aio_pika.RobustChannel):
 
     # Return a function that takes in a message with channel curried into it
@@ -27,6 +33,7 @@ async def grade_task(channel: aio_pika.RobustChannel, config):
         await log_message(config["tid"], f"Error when marking: {str(e)}", channel)
         await publish_status(config['tid'], "Error", channel)
 
+
 async def main(loop, username, password, host):
     connection = await aio_pika.connect_robust(
         host=host, login=username, password=password, loop=loop
@@ -42,6 +49,7 @@ async def main(loop, username, password, host):
     await tasks_queue.consume(create_process_task_fn(channel), no_ack=False)
 
     return connection
+
 
 def start_loop():
     loop = asyncio.get_event_loop()
@@ -69,6 +77,7 @@ def start_loop():
         loop.run_forever()
     finally:
         loop.run_until_complete(connection.close())
+
 
 if __name__ == "__main__":
     start_loop()

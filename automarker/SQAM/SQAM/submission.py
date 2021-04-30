@@ -5,7 +5,8 @@ import time
 
 class Submission:
     """
-    A representation of a Submission
+    A representation of a Submission. A submission
+    knows how to extract queries and use the querier and grader.
     """
 
     def __init__(self, name, path_to_submission_file, path_to_results_file, refresh_level):

@@ -2,6 +2,10 @@ import aio_pika
 import asyncio
 import json
 
+"""
+This file describes how to communicate with RabbitMQ.
+"""
+
 async def publish_status(tid, status, channel): 
     status_json = json.dumps({"tid": tid, "status": status})
     await channel.default_exchange.publish(

@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class Querier(ABC):
+    """
+    Querier is an abstract class that defines the structure a Querier must follow.
+    """
+
     def __init__(self, database_name, init_path, autocommit=True):
         self.database_name = database_name
         self.init_path = init_path

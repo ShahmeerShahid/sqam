@@ -1,3 +1,5 @@
+// This file contains mock (fake) data which will be used to substitute api calls.
+
 export const createMockTask = ({ tid, name, status }) => ({
   tid,
   name,

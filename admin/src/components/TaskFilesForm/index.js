@@ -27,6 +27,7 @@ const Layout = ({
   );
 };
 
+// The file drop area for file upload of files "init.sql", "solutions.sql"
 const FileDropzone = ({
   enqueueSnackbar,
   requiredFiles,
@@ -83,6 +84,7 @@ const FileDropzone = ({
   );
 };
 
+// Component to handle the upload of files "init.sql", "solutions.sql"
 function TaskFilesForm({
   enqueueSnackbar,
   handleSubmit,
@@ -92,6 +94,7 @@ function TaskFilesForm({
   const requiredFiles = ["init.sql", "solutions.sql"];
   const [isChecked, setIsChecked] = useState([false]);
 
+  // check for the correct files "init.sql", "solutions.sql"
   const hasSubmittedAllFiles = () => {
     let i;
     for (i = 0; i < isChecked.length; i++) {

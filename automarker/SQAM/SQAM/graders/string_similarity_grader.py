@@ -7,6 +7,17 @@ from SQAM.graders.my_utils import sort_list_of_tuples_as_strings
 
 
 class String_Similarity_Grader(Grader):
+    """
+    String Similarity Grader uses the following libraries to caclulate the string similarity of the
+    submission to the solution. This similarity is used to provide partial marks for submissions that
+    are not exactly correct. 
+    ### Python Levenshtein
+    https://rawgit.com/ztane/python-Levenshtein/master/docs/Levenshtein.html#Levenshtein-ratio
+    ### Python FuzzyWuzzy
+    https://rawgit.com/ztane/python-Levenshtein/master/docs/Levenshtein.html#Levenshtein-ratio
+    ### Text Distance
+    https://pypi.org/project/textdistance/
+    """
 
     def __init__(self, questions, solution_results, kind):
         super().__init__(questions, solution_results)

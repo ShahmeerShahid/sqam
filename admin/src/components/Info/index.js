@@ -1,6 +1,7 @@
 import { Stack, Text } from "@chakra-ui/core";
 import React from "react";
 
+//  Information about the Automarker 
 const Info = () => {
   return (
     <Stack p={5} shadow="md" borderWidth="1px" m={12} textAlign="center">

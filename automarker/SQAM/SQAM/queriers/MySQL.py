@@ -3,11 +3,15 @@ from SQAM.queriers.querier import Querier
 import mysql.connector
 import time
 
+"""
+Querier for mysql. Requires testing before using for assignment marking.
+"""
 class MySQLQuerier(Querier):
     def refreshDB(self):
         self.call_procedure('drop_all_tables')
         self.executeScript(self.create_tables_path)
-        self.reloadData(self.load_data_path)
+        sel
+        f.reloadData(self.load_data_path)
         time.sleep(10)
 
     def setup(self):

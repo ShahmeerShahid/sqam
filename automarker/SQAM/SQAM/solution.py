@@ -1,5 +1,10 @@
 import re
 
+"""
+This file is used to extract the results from the soluton File.
+It is similar to submission.py but supports multiple solutions.
+"""
+
 
 def get_solution_results(path_to_solution, query_names, querier):
     queries = extract_all_queries(path_to_solution, query_names)

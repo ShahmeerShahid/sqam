@@ -13,7 +13,6 @@ import Tasks from "./pages/Tasks";
 import TaskView from "./pages/TaskView";
 import AddTask from "./pages/AddTask";
 import LoginForm from "./pages/Login";
-
 import "react-dropzone-uploader/dist/styles.css";
 import "./App.css";
 
@@ -21,6 +20,7 @@ function UnconnectedApp() {
   return (
     <div className="App">
       <Switch>
+        {/* Path to each page components */}
         <Route exact path="/" component={withRouter(Homepage)} />
         <Route exact path="/tasks" component={withRouter(Tasks)} />
         <Route exact path="/tasks/add" component={withRouter(AddTask)} />

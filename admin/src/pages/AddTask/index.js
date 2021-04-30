@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import MasterForm from "../../components/MasterForm";
 import { fetchConnectors } from "../../requests/connectors";
 
+// Main component for the add task form 
 function AddTask({ enqueueSnackbar }) {
   const connectors = useAsync(fetchConnectors, []);
   const [stage, setStage] = useState(1);

@@ -8,6 +8,7 @@ import { fetchTasks } from "../../requests/tasks";
 import Header from "../../components/Header";
 import "./Tasks.css";
 
+// Individual task items tags 
 export function TaskItem({ task }) {
   const taskColor = (status) => {
     switch (status) {
@@ -39,7 +40,7 @@ export function TaskItem({ task }) {
     </Link>
   );
 }
-
+// get all the task 
 export function Tasks({ enqueueSnackbar }) {
   const tasks = useAsync(fetchTasks, []);
   useEffect(() => {
@@ -52,6 +53,7 @@ export function Tasks({ enqueueSnackbar }) {
     <div>
       <Header />
       <Box mt={4}>
+        {/* add task button */}
         <Stack isInline justify="center">
           <h1 className="title">Tasks</h1>
           <Link to="/tasks/add">
@@ -65,6 +67,7 @@ export function Tasks({ enqueueSnackbar }) {
             </Button>
           </Link>
         </Stack>
+        {/* Displays all task ran by user */}
         <Box justify="center" w="50%" m="auto">
           <Skeleton isLoaded={!tasks.loading}>
             <Stack spacing={8}>

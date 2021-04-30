@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/core";
 import { DeleteIcon } from "@chakra-ui/icons";
 
+// Single row of Question input containing question name and max mark and delete symbol 
 function QuestionInput({
   index,
   question,
@@ -70,6 +71,7 @@ function QuestionInput({
   );
 }
 
+// Add Question mechanism for stage 2 of add task form -> to configure number of questions
 function AddQuestions({ values, setFieldValue }) {
   let question_names = values.question_names;
   let max_marks_per_question = values.max_marks_per_question;

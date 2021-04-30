@@ -20,6 +20,7 @@ import { withSnackbar } from "notistack";
 import AddQuestions from "../AddQuestions";
 import { formatFieldToTitle } from "../../helpers";
 
+// Model of form according to information about the task 
 const firstStage = [
   {
     name: "name",
@@ -71,6 +72,7 @@ const firstStage = [
   },
 ];
 
+// set the input fields for the form 
 function InputField({
   name,
   field,
@@ -203,6 +205,7 @@ function TaskDetailsForm({
     <>
       {firstStage.map((field, index) => {
         return (
+          // input fields for the information about the task
           <InputField
             key={index}
             name={field.name}
@@ -214,6 +217,7 @@ function TaskDetailsForm({
           />
         );
       })}
+      {/* add Question part of the form */}
       <AddQuestions
         questions={questions}
         values={values}

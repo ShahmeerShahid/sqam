@@ -17,6 +17,7 @@ import TaskFilesForm from "../TaskFilesForm";
 import { fetchExtraFields } from "../../requests/connectors";
 import { createTask, uploadTaskFiles } from "../../requests/tasks";
 
+// Error message for fields in the form 
 const ERROR_MSGS = {
   nameMissing: "Name is required",
   submissionFileNameMissing: "Submission file is required",
@@ -27,12 +28,14 @@ const ERROR_MSGS = {
   extraFieldsMissing: "",
 };
 
+// Scheme of the connector
 const StageOneSchema = Yup.object().shape({
   connector: Yup.object().required(),
   connectorIndex: Yup.number().required(),
   connectorInfo: Yup.object().required(),
 });
 
+// Scheme of Stage two of the form 
 export const StageTwoSchema = Yup.object().shape({
   name: Yup.string().min(1).required(ERROR_MSGS.nameMissing), // STAGE 2
   submission_file_name: Yup.string()
@@ -67,6 +70,7 @@ const CreateTaskSchema = ExcludeFilesSchema.concat(
   })
 );
 
+// Check input of stage two of add task form using StageTwoSchema
 function validateStageTwo(values) {
   try {
     StageTwoSchema.validateSync({
@@ -83,7 +87,7 @@ function validateStageTwo(values) {
     return true;
   }
 }
-
+// Check input of stage three of add task form using ExcludeFilesSchema 
 function validateStageThree(values) {
   try {
     ExcludeFilesSchema.validateSync({

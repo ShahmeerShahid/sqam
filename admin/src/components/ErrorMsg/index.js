@@ -1,5 +1,7 @@
 import React from "react";
 import { Box, Alert, AlertIcon, AlertDescription } from "@chakra-ui/core";
+
+// Error message alert icon component 
 export default function ErrorMsg({ message }) {
   return (
     <Box my={4}>

@@ -1,3 +1,4 @@
+// formats the field into title format -> convert '_' to space and uppercase first character
 export function formatFieldToTitle(field) {
   if (!field) {
     return "";
@@ -12,6 +13,7 @@ export function formatFieldToTitle(field) {
   return title.trim();
 }
 
+// Markus api key regex to check for '=' at the end of key
 export const validateMarkUsAPIKey = {
   value: /^[a-zA-Z0-9]*=$/,
   message: "Must be a valid MarkUs API key",

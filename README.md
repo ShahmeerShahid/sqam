@@ -2,16 +2,25 @@
 
 The SQL (DDL) Automarker (aka SQAM).
 
-It is a framework for testing SQL assignments,
-collecting the results, and exporting them for easy viewing using
-templates.
+This system provides end to end marking of SQL assignments, including download of submission files, marking of student submissions, and delivery of results to the end user.
 
-We welcome collaboration and contributions!
+
+## 🏗 Project Architecture
+
+SQAM uses an event-driven architecture (using RabbitMQ) with microservices.
+
+![System Architecture](https://i.imgur.com/RNfazIG.png)
+
+The system is split into 3 subsystems, with RabbitMQ for message driven communication between each subsystem.
+
+- Admin System: Responsible for storing state of running tasks, exposing a frontend for end users, triggering download of submission files, and triggering marking of assignment.
+- Connectors: Services used to connect to various platforms and download required submission files. See connector documentation for more info.
+- Automarker: Responsible for marking submission files. See automarker documentation for more info.
+
+All services are containerized and are ran together with `docker-compose`. See usage for more info.
 
 ## 📁 Project Structure
 
-SQAM uses an event-driven architecture (using RabbitMQ) with microservices to decouple logic and allow for further extensibility.
-All applications are dockerized.
 
 ```text
 .
@@ -38,11 +47,28 @@ All applications are dockerized.
 └── README.md                   # You are here! :)
 ```
 
+
+`docker-compose.yml`: This file configures all services, including key environment variables. Use this file to see which ports various services are accessible on.
+
+
+
 ## 🛠️ Usage
 
-> make run
+### Building Docker containers:
+```sh
+docker-compose build
+```
 
-Starts up all services across the automarker and admin sides
+### Starting system
+```sh
+docker-compose up
+```
+Before starting system, all container images must be built. You can combine the above two steps with:
+```sh
+docker-compose up --build
+```
+We also provide a Makefile with these commands. See `Makefile` for more info.
+
 
 ## 💻 Technologies Used
 
